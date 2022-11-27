@@ -1,0 +1,33 @@
+
+============== Creating and accessing a new screen =================
+- Create the screen by either creating a new Widget class within thesame main.dart file, or
+ - in another file (better)
+
+========= Creating screen in a new file ==========
+- Within the lib folder, create a new dart file (ie signup.dart)
+- Within the file, create a new stateless widget (ie Signup)
+
+
+========= Accessing the signup.dart screen within the main.dart file =========
+- if 'package:flutter_test1/signup.dart' does not import automatically, do it manually
+- Modify as seen in home: Signup()...
+
+import 'package:flutter/material.dart';
+import 'package:flutter_test1/signup.dart'
+
+void main() {
+  runApp(const MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Signup(),
+    );
+  }
+}

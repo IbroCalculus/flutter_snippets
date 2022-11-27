@@ -1,0 +1,19 @@
+
+================== Format a single line of text into sections, ie My-Flutter-App, all 3 individual strings modified ===========
+          body: const Center(
+            child: Text.rich(
+                TextSpan(
+                  text: 'My',
+                  children: [
+                    TextSpan(
+                      text: 'Flutter',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    TextSpan(
+                      text: 'App',
+                      style: TextStyle(fontSize: 50.0),
+                    ),
+                  ]
+                )
+            ),
+          ),

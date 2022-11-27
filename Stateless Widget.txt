@@ -1,0 +1,72 @@
+
+=========== STATELESS vs STATEFUL WIDGET =============
+- Stateless Widgets: The state of the widget cannot change over time.
+ In other words, a stateless widget cannot change its state during the runtime of a flutter application.
+
+- Statefull Widgets: The state of the widget can change over time.
+ In other words, stateful widgets are the ones that can change their properties during run time.
+
+
+============ Creating a Stateless Widget =============
+Outside the void main() {}
+
+type 'stless' + Enter key and give a name to the statelss widget, ie Home
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
+
+-------------------------------------------
+
+void main() {
+  runApp(
+    const MaterialApp(
+      home: Home(),
+    ),
+  );    
+}
+
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("First Flutter App"),
+        centerTitle: true,
+        backgroundColor: Colors.green[600],
+      ),
+      body: const Center(
+        child: Text(
+          'Hello Flutter King!',
+          style: TextStyle(
+            fontSize: 30.5,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2.0,
+            color: Colors.black,
+            fontFamily: 'Oswald',
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: null,
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.purple[600],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 50.0,
+        ),
+      ),
+    );
+  }
+}

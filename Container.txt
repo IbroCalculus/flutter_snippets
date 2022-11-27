@@ -1,0 +1,44 @@
+
+        body: Container(
+          color: Colors.red,
+          child: SizedBox(
+            width: double.infinity, //Full width
+            height: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    if (state == 0) {
+                      setState(() {
+                        buttonText = 'Switch ON';
+                        state = 1;
+                      });
+                    } else if (state == 1) {
+                      setState(() {
+                        buttonText = 'Turn OFF';
+                        state = 0;
+                      });
+                    }
+                  },
+                  child: Text(buttonText),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.red,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Fluttertoast.showToast(
+                        msg: "You clicked on Second Button",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                    );
+                  },
+                  child: const Text('Second Button'),
+                ),
+              ],
+            ),
+          ),
+        ),

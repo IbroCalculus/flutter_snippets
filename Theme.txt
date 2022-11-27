@@ -1,0 +1,6 @@
+
+    return MaterialApp(
+        theme: ThemeData(primaryColor: Colors.purple[600]),
+
+        home: Scaffold(
+            appBar: AppBar(title: const Text('Welcome to flutter')

@@ -1,0 +1,87 @@
+
+There are 3 basic type of buttons in flutter, ie:
+- Text button
+- Outlined button
+- Elevated button
+
+=========== Elevated button =============
+-- Handling click event using anonymous function -------
+
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              print('You tapped on this button');
+            },
+            child: Text('Click This Now'),
+          ),
+
+-------------- OR -------------------
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () => print('You tapped on this button'),
+            child: Text('Click This Now'),
+          ),
+
+
+---- Handling click events, using name function ---
+  const MyApp({Key? key}) : super(key: key);
+
+  void btn1Response(){
+    print("This is the response to button 1");
+    Fluttertoast.showToast(
+        msg: "You clicked on button 2",
+        toastLength: Toast.LENGTH_SHORT,
+    );
+  }
+
+                ElevatedButton(
+                  onPressed: btn1Response,
+                  child: Text('Answer 1'),
+                ),
+
+============= ENABLE DYNAMIC CHANGE OF DATA ON BUTTON CLICKED ================
+NB: We work with stateful widget instead of stateless, hover and select convert to stateful widget
+NB: You can check Variables.txt if face any problems working with variable data here.
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  String buttonText = 'Switch ON';
+  int state = 0;
+
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              if (state == 0) {
+                setState(() {
+                  buttonText = 'Switch ON';
+                  state = 1;
+                });
+              } else if (state == 1) {
+                setState(() {
+                  buttonText = 'Turn OFF';
+                  state = 0;
+                });
+              }
+            },
+            child: Text(buttonText),
+          ),
+
+
+================== Button Styling =====================
+
+                  child: Text(buttonText),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.red,
+                  ),

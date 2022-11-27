@@ -1,0 +1,30 @@
+
+NOTE: Press Ctrl + Alt + L to format code
+
+void main() {
+  
+  runApp(Text(
+    'Hello Flutter Bengazi',
+    textDirection: TextDirection.ltr,
+  ));
+  
+}
+
+-----------------------------
+    return MaterialApp(
+      home: Text("Welcome to flutter"),
+    );
+
+------------------------------------
+
+    return MaterialApp(
+      home: Text(
+        "Welcome to flutter",
+            style: TextStyle(
+                fontSize: 30.5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 2.0,
+                color: Colors.grey,
+            ),
+      ),
+    );

@@ -1,0 +1,5 @@
+
+- Remove debug on testing app
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,

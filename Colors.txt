@@ -1,0 +1,14 @@
+
+----------------- Colors -----------------------
+        appBar: AppBar(
+          title: Text("First Flutter App"),
+          centerTitle: true,
+          backgroundColor: Colors.red[600],  //The [600] is the strength of the red
+
+
+        floatingActionButton: FloatingActionButton(
+          onPressed: null,
+          child: Icon(Icons.add),
+          backgroundColor: Colors.red[600],
+
+

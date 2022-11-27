@@ -1,0 +1,15 @@
+
+NB: Difference btw Icon and IconButton is that IconButton can be pressed. 
+    CHECK IconButton.txt
+
+ 2 types of icons, default Material icons, or fontAwesome icons (require dependency)
+
+=================== Material Icons ====================
+      body: const Center(
+        child: Icon(
+          Icons.airport_shuttle,
+          color: Colors.lightBlue,
+          size: 50,
+        ),
+
+================ Font Awesome Icons ================

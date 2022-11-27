@@ -1,0 +1,18 @@
+
+============== CREATING A NEW PROJECT ==============
+ - Clear all text and start with empty main function
+ - Go to folder "test" and delete the "widget_test.dat" file to do away with the error shown
+
+-Go to 'project name' -> 'lib' -> main.dart in folder structure
+
+
+------------------------------------------
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());  
+}
+
+ OR
+
+void main() => runApp(MyApp());

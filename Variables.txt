@@ -1,0 +1,24 @@
+
+========== HOW TO USE VARIABLES ============
+
+NB: runApp(MyApp())   'const' keyword is absent,
+    Also, MyApp({super.key})    'const' keyword is absent.
+    Also, go to the test folder and delete 'const' from const MyApp()
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
+
+  String buttonText = 'Switch ON';
+
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              print('You tapped on this button');
+            },
+            child: Text(buttonText),
+          )
+

@@ -1,0 +1,24 @@
+Official documentation: https://pub.dev/packages/fluttertoast
+
+- Use dependency:     fluttertoast: ^8.0.9
+
+- Go to pubspec.yaml file:
+dependencies:
+  flutter:
+    sdk: flutter
+  fluttertoast: ^8.0.9    //Take note of the indentation
+
+- Click 'Pub get'
+
+- In main.dart file:
+    import 'package:fluttertoast/fluttertoast.dart';
+
+                Fluttertoast.showToast(
+                    msg: "This is Center Short Toast",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                );

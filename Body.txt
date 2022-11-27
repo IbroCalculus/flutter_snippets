@@ -1,0 +1,11 @@
+
+
+    return MaterialApp(
+        theme: ThemeData(primaryColor: Colors.purple[900]),
+        home: Scaffold(
+            backgroundColor: Colors.teal,  // Change the backgroun color of the screen
+            appBar: AppBar(title: const Text('Welcome to flutterY')),
+
+            body: Center(child: Text("Hello Flutter User, I am Ibrahim"))));
+  }
+}

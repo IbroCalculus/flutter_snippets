@@ -1,0 +1,56 @@
+
+  int currentTabIndex = 0;
+
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              label: 'Home',
+                icon: Icon(
+                  Icons.home_filled
+                )
+            ),
+
+            BottomNavigationBarItem(
+              label: 'Access',
+                icon: Icon(
+                    Icons.access_time_outlined
+                )
+            ),
+
+            BottomNavigationBarItem(
+              label: "Account",
+                icon: Icon(
+                    Icons.account_circle_rounded
+                )
+            ),
+          ],
+          currentIndex: currentTabIndex   //The currently selected item. By default it is 0
+        ),
+
+============== SAME AS ABOVE, BUT FORMATTED ======================
+
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+                label: 'Photo', icon: Icon(Icons.add_a_photo_outlined)),
+            BottomNavigationBarItem(
+                label: 'Access', icon: Icon(Icons.access_time_outlined)),
+            BottomNavigationBarItem(
+                label: "Account", icon: Icon(Icons.account_circle_rounded)),
+          ],
+          currentIndex: currentTabIndex   //The currently selected item. By default it is 0
+          onTap: (int index){
+            setState(() {
+              currentTabIndex = index;
+              if(currentTabIndex == 0){
+                print('Photo');
+              }
+              else if(currentTabIndex == 1){
+                print('Access');
+              }
+              else{
+                print('Account');
+              }
+            });
+          },
+        ),

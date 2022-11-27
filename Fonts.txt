@@ -1,0 +1,23 @@
+
+========== To use custom font ===========
+- Right-click on project name and create new folder called 'fonts'
+- Copy and paste the font inside the folder, ie: Oswald-LightItalic.ttf
+- Go to 'pubspec.yaml' file, scroll down to fonts section and uncomment all the codes
+
+-NB: Identation matters, fonts in directly under # example, if fonts is moved 1 space back, others like family must move same
+  # example:
+  fonts:
+    - family: Oswald
+      fonts:
+        - asset: fonts/Oswald-LightItalic.ttf
+
+    - family: Oswald2
+      fonts:
+#        - asset: fonts/Oswald-Stencil.ttf
+        - asset: fonts/Oswald-HeavyItalic.ttf
+
+
+------ in main.dart file -----------
+
+                fontFamily: 'Oswald',
+

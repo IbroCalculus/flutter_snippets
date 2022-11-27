@@ -1,0 +1,4 @@
+
+ ================ Wrapping Widgets inside a row (Stack widgets horizontally) =============
+CHECK FOR SIMILAR USAGE IN Columns.txt
+CHECK ALSO: SizedBox.txt

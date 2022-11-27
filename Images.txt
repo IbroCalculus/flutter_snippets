@@ -1,0 +1,47 @@
+
+We can use either a network image, on an asset image
+
+--- Network Image (from the internet) -----
+Right click and 'copy image address' from the internet.
+ 
+      body: const Center(
+        child: Image(
+            image: NetworkImage('https://images.unsplash.com/photo-1662483694410-78499fe44279?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60')),
+)
+
+
+--- Asset Image (from app's local directory) -------
+
+- Create directory called, 'images' and paste images within it
+- Go to pubspec.yaml, scroll down to assets and uncomment the codes.
+- Also, let 'assets' be aligned directly under '# To add assets to your ...'
+
+  assets:
+    - images/typist.jpg
+    - images/typist1.jpg
+    - images/images.jpg
+
+
+--- Within main.dart file ---
+
+      body: const Center(
+        child: Image(
+            image: AssetImage('images/typist1.jpg')),  //replace 'typist1.jpg' with either of the other 2 when needed
+      ),
+
+
+---- OR, better method for multiple images, instead of typing all images location under 'assets' as done above ------
+- Within 'pubspec.yaml':
+  assets:
+    - images/    //Just the folder name
+
+- Within 'main.dart':
+
+      body: const Center(
+        child: Image(
+            image: AssetImage('images/typist1.jpg'),
+            width: 200,
+            height: 200,
+            fit: BoxFit.fill,
+),  //replace 'typist1.jpg' with either of the other 2 when needed
+      ),
