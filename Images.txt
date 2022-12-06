@@ -12,7 +12,7 @@ Right click and 'copy image address' from the internet.
 
 --- Asset Image (from app's local directory) -------
 
-- Create directory called, 'images' and paste images within it
+- Within the root directory (NOT within any other folder), Create directory called, 'images' and paste images within it
 - Go to pubspec.yaml, scroll down to assets and uncomment the codes.
 - Also, let 'assets' be aligned directly under '# To add assets to your ...'
 
@@ -21,6 +21,7 @@ Right click and 'copy image address' from the internet.
     - images/typist1.jpg
     - images/images.jpg
 
+The select pub.get. After which check on 'Dart Analysis' tab below android studio to make sure no error.
 
 --- Within main.dart file ---
 
@@ -42,6 +43,6 @@ Right click and 'copy image address' from the internet.
             image: AssetImage('images/typist1.jpg'),
             width: 200,
             height: 200,
-            fit: BoxFit.fill,
+            fit: BoxFit.fill,  // ie Boxfit.cover, .fitHeight, .contain etc
 ),  //replace 'typist1.jpg' with either of the other 2 when needed
       ),

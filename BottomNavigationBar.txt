@@ -1,3 +1,5 @@
+CHECK ALSO: BottomNavigationBar2.txt (This uses the bottomAppBar widget)
+
 
   int currentTabIndex = 0;
 

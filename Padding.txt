@@ -1,0 +1,9 @@
+
+Similar to Margin
+
+
+        padding: EdgeInsets.all(20.0),  //All 4 sides will have a padding of 20.0
+
+        padding: EdgeInsets.only(top: 100, bottom: 40, left: 20, right: 20),
+
+        padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 100.0),  // x,y

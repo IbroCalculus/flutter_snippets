@@ -2,7 +2,7 @@
 NB: Difference btw Icon and IconButton is that IconButton can be pressed. 
     CHECK IconButton.txt
 
- 2 types of icons, default Material icons, or fontAwesome icons (require dependency)
+ 2 types of icons, default Material icons, or fontAwesome icons (this require dependency)
 
 =================== Material Icons ====================
       body: const Center(
@@ -13,3 +13,27 @@ NB: Difference btw Icon and IconButton is that IconButton can be pressed.
         ),
 
 ================ Font Awesome Icons ================
+
+
+Use dependency font_awesome_flutter: ^10.2.1
+
+There are 2 ways you can add dependency; ie
+
+--- METHOD 1 ----
+dependencies:
+  flutter:
+    sdk: flutter
+
+  font_awesome_flutter: ^10.2.1   //Take note of the indentation
+
+--- METHOD 2 ---
+Go to terminal in Android studio, type: flutter  pub add font_awesome_flutter
+
+-------
+
+      body: const Center(
+        child: Icon(
+          FontAwesomeIcons.boxes,
+          color: Colors.lightBlue,
+          size: 50,
+        ),

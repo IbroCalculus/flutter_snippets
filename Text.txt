@@ -1,5 +1,9 @@
 
+There are 2 types of text widgets, ie Text and Text.rich.
+To use the Text.rich, check TextSpan.txt
+
 NOTE: Press Ctrl + Alt + L to format code
+
 
 void main() {
   

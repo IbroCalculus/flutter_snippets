@@ -1,3 +1,7 @@
+Container can contain multiple widgets.
+
+- Contents within the widget can be aligned. CHECK: Alignment.txt
+- Some properties it can contain include: decoration(Decoration.txt)
 
         body: Container(
           color: Colors.red,

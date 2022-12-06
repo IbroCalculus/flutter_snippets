@@ -1,16 +1,67 @@
 
-import 'package:flutter/material.dart';
+ORGANIZING MY CODES FOR EASIER READABILITY AND UNDERSTANDING
+
+- have the main.dart to contain only the main run function as will be seen below
+- Within 'lib', create a folder, ie 'screen', within which every screen will be placed.
+- E.g create 2 sample screens, ie MainActivity.dart & DashboardActivity.dart.
+
+=== Code =====
+--- Within main.dart ---
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    title: 'My Flutter App',
+    debugShowCheckedModeBanner: false,
+    home: Main(),   // Replace this with the class name within each screen you want displayed. ie Main(), or Dashboard
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  // This widget is the root of your application.
+--- Within MainActivity.dart (NOte the name of the class, 'Main') ---
+
+import 'package:flutter/material.dart';
+
+class Main extends StatelessWidget {
+  const Main({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Main Activity"),
+      ),
+      body: const Center(
+        child: Text(
+          "Welcome to Main Activity"
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: null,
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+
+
+--- Within DashboartActivity.dart (Note the name of the class, 'Dashboard' ---
+
+import 'package:flutter/material.dart';
+
+class Dashoboard extends StatelessWidget {
+  const Dashoboard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Dashboard Activity"),
+      ),
+      body: Center(
+        child: Text(
+            "Welcome to Dashboard Activity".toUpperCase()),
+      ),
+    );
   }
 }

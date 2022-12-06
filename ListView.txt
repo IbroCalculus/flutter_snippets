@@ -1,0 +1,34 @@
+
+There's static listview, as well as dynamic listview.
+This is for static, check ListView2 for dynamic.
+
+
+========== STATIC LISTVIEW =============
+
+      body: Container(
+
+        child: ListView(
+          itemExtent: 200.0,  //Spacing between ListTiles
+
+          children: [
+            ListTile(
+              leading: Icon(Icons.alarm_on_sharp),
+              leading: CircleAvatar(child: Icon(Icons.alarm_on_sharp)),
+              title: Text("Sales"),
+              subtitle: Text("Sales of the weeek"),
+              trailing: Icon(Icons.add),
+              tileColor: Colors.blueGrey,
+              onTap: (){},
+            ),
+
+            ListTile(
+              leading: Icon(Icons.alarm_on_sharp),
+              title: Text("Sales"),
+              subtitle: Text("Sales of the weeek"),
+              trailing: Text("3,500"),
+              onTap: (){},
+            ),
+
+          ],
+        ),
+      ),

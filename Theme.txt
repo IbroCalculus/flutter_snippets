@@ -2,5 +2,8 @@
     return MaterialApp(
         theme: ThemeData(primaryColor: Colors.purple[600]),
 
+        // There's also themeMode; this uses the phones theme, or night, light as specified.
+        themeMode: ThemeMode.system,    /ThemeMode.dark, .light
+
         home: Scaffold(
             appBar: AppBar(title: const Text('Welcome to flutter')

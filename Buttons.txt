@@ -14,6 +14,23 @@ There are 3 basic type of buttons in flutter, ie:
             },
             child: Text('Click This Now'),
           ),
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.all(20.0),
+            fixedSize: Size(300, 80),
+            textStyle: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            elevation: 15.0,
+            shadowColor: Colors.red,
+            side: BorderSide(color: Colors.black54, width: 5,),
+            
+            shape: CircleBorder(),
+            shape: StadiumBorder(),
+
+          ),
 
 -------------- OR -------------------
         body: Center(

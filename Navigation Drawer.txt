@@ -1,0 +1,68 @@
+You must add an appbar for navigation drawer to work.
+
+NOTE: Within drawer, Drawer header can be of 2 types; using 'DrawerHeader' or 'UserAccountDrawerHeader()'
+
+
+---- DrawerHeader ----
+
+      drawer: Drawer(
+        elevation: 20.0,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              padding: EdgeInsets.all(0.0),
+              child: Container(
+                color: Colors.lightBlue,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Hi",
+                      style: TextStyle(
+                        fontSize: 50.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),),
+                  ],
+                ),
+              ),),
+
+            ListTile(leading: Icon(Icons.home), title: Text("Home"), onTap: (){},),
+            ListTile(leading: Icon(Icons.shopping_cart), title: Text("Shop"), onTap: (){},),
+            ListTile(leading: Icon(Icons.favorite), title: Text("Favorites"), onTap: (){},),
+            Text("Label without padding"),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text("Label with padding"),
+            ),
+            ListTile(leading: Icon(Icons.label), title: Text("Label"), onTap: (){},),
+            ListTile(leading: Icon(Icons.label_off), title: Text("Label off"), onTap: (){},),
+            ListTile(leading: Icon(Icons.cabin), title: Text("Cabin"), onTap: (){},),
+            ListTile(leading: Icon(Icons.tab), title: Text("Tab"), onTap: (){},),
+          ],
+        ),
+      ),
+
+
+
+---- UserAccountDrawerHeader ----
+
+            UserAccountsDrawerHeader(
+                accountName: Text("Ibrahim Suleiman"),
+                accountEmail: Text("mymail@email.com"),
+                currentAccountPicture: CircleAvatar(foregroundImage: AssetImage('images/img1.jpg'),
+              ),
+            ),
+
+            ListTile(leading: Icon(Icons.home), title: Text("Home"), onTap: (){},),
+
+
+  ------ To add other images apart from the currentAccountPicture ----
+
+
+              currentAccountPicture: CircleAvatar(foregroundImage: AssetImage('images/img1.jpg'),),
+
+              otherAccountsPictures: [
+                CircleAvatar(foregroundImage: AssetImage('images/img1.jpg'),),
+                CircleAvatar(foregroundImage: AssetImage('images/img1.jpg'),),
+                CircleAvatar(foregroundImage: AssetImage('images/img1.jpg'),),
+              ],

@@ -2,4 +2,33 @@
         floatingActionButton: FloatingActionButton(
           onPressed: null,
           child: Icon(Icons.add),
+          backgroundColor: Colors.black87,
+          foregroundColor: Colors.yellow,
+          elevation: 10.0,
+          mini: true,  //displays smaller size of FAB if true
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),  //Without this, it will be rectangular
+            side: BorderSide(color: Colors.blue, width: 2.0, style: BorderStyle.solid),
         ),
+        ),
+
+
+-------- TO CHANGE THE FAB LOCATION -----------
+ Above the floatingActionButton widget...
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,  //.centerFloat and other options.
+
+      floatingActionButton: FloatingActionButton(
+
+
+
+
+------- ADD NOTCHED DESIGN TO FAB on BottomNavigation ----
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,  // .centerDocked, .startDocked, .endDocked.
+
+      bottomNavigationBar: BottomAppBar(            //Note that it is BottomAppBar, NOT BottomNavBar
+
+        notchMargin: 5.0,                           // Add this
+        shape: CircularNotchedRectangle(),          // And this
+
