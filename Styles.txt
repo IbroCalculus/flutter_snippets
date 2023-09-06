@@ -1,0 +1,2 @@
+======================= CREATE A COLOR STYLE ======================
+lib -> New folder (styles) -> New dart file (app_colors.dart)

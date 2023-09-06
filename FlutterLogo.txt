@@ -1,0 +1,11 @@
+This widgets adds the flutter logo
+
+      body: Center(
+        child: Container(
+          child: FlutterLogo(
+            size: 100,
+            style: FlutterLogoStyle.stacked,  //.horizontal
+            textColor: Colors.blue,
+          ),
+        ),
+      ),

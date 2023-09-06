@@ -1,7 +1,7 @@
 
         floatingActionButton: FloatingActionButton(
           onPressed: null,
-          child: Icon(Icons.add),
+          child: Icon(Icons.add, color: Colors.purple),
           backgroundColor: Colors.black87,
           foregroundColor: Colors.yellow,
           elevation: 10.0,

@@ -29,3 +29,43 @@
 
     )
     );
+
+
+======================= Custom toolbar file that can be used in different screens =======================
+------ The file, ie toolbars.dart --------
+
+import 'package:flutter/material.dart';
+import 'package:flutter_practice/styles/app_colors.dart';
+
+class Toolbar extends StatelessWidget implements PreferredSizeWidget {
+
+  final String title;				// value of title will be passed
+  final List<Widget>? actions;			// values of actions can be null (actions = clickable icons on the appbar)
+
+  const Toolbar({super.key, required this.title, this.actions});	// title and actions passed in as parameters.
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      backgroundColor: AppColors.background,
+      title: Text(title),
+      centerTitle: false,
+      actions: actions,
+    );
+  }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => throw UnimplementedError();
+}
+
+
+------- Usage in a screen ----
+
+      appBar: Toolbar(
+        title: '5 minute flutter',
+        actions: [
+          IconButton(icon: Icon(Icons.shopping_cart, color: Colors.white, size: 50,), onPressed: (){},),
+          IconButton(icon: Icon(Icons.search, color: Colors.white, size: 50,), onPressed: (){},),
+        ],
+      ),

@@ -1,0 +1,56 @@
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+dependencies:
+  flutter_form_builder: ^9.1.0
+
+---------- In main ----------------
+  TextFieldPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();		// This
+
+
+--- 1. Text field ---
+
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+            children: [
+              FormBuilderTextField(
+                name: 'name',
+                // initialValue: 'This is some initial value',
+                onTap: () {
+                  print('Text field tapped');
+                },
+                textAlign: TextAlign.start,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.person),
+                  iconColor: Colors.red,
+                  label: Text('Username'),
+                  hintText: "Enter your username",
+                  errorText: "Username is required",
+                ),
+              ),
+              FormBuilderTextField(
+                obscureText: true,
+                name: 'name',
+                // initialValue: 'This is some initial value',
+                onTap: () {
+                  print('Password field tapped');
+                },
+                textAlign: TextAlign.start,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.key),
+                  iconColor: Colors.red,
+                  // label: Text('Password'),
+                  labelText: "Hello",
+                  hintText: "Enter your password",
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),

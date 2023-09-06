@@ -42,6 +42,13 @@ NOTE: Within drawer, Drawer header can be of 2 types; using 'DrawerHeader' or 'U
         ),
       ),
 
+----------------------- Similarly -----------------
+
+      drawer: Container(
+        width: 200,
+        height: 100,
+        color: Colors.white,
+      ),
 
 
 ---- UserAccountDrawerHeader ----

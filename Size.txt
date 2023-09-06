@@ -1,0 +1,16 @@
+
+              ElevatedButton(onPressed: (){}, child: const Text('Login'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+
+                  fixedSize: Size(double.maxFinite, 50),  // fill_parent (WIDTH), wrap_content (HEIGHT)
+
+                ),
+
+----------------------- Get device size --------------------------
+
+  Widget build(BuildContext context) {
+
+    print('DEVICE HEIGHT: ${MediaQuery.of(context).size.height}');

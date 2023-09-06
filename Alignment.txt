@@ -2,3 +2,11 @@
         alignment: Alignment.bottomCenter  //This will align contents of the wrapping widget as stated.
 
         alignment: Alignment.center.  //There are other options
+
+
+              Align( alignment: Alignment.centerRight,
+                child: TextButton(
+                    onPressed: (){},
+                    child: Text('Forgot password?')
+                ),
+              )

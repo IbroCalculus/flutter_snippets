@@ -1,4 +1,4 @@
-
+CHECK ALSO: SVG Pictures.txt and Images.txt
 NB: Difference btw Icon and IconButton is that IconButton can be pressed. 
     CHECK IconButton.txt
 

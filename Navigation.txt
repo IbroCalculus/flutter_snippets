@@ -1,0 +1,26 @@
+
+---------------------- 1. Navigation to another screen  -----------------
+The screen Class name is TextStyling
+
+              onTap: (){
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TextStyling())
+                );
+
+              },
+
+  ---------------- OR using Named Navigation --------------------
+ 
+               // Navigator.of(context).pushReplacementNamed('/home');   //Same as 'finish()' in android. Discard from backstack.
+
+ ----------------- In main.dart  --------------------
+
+      routes: {
+        '/': (context) => LoginPage(),
+        '/home': (context) => HomePage(),
+      },
+      // home: LoginPage(),    Replace home with the below
+      initialRoute: '/',
+

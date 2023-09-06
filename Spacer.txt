@@ -1,0 +1,6 @@
+This is a flexible Sizedbox. It takes over to much spacer at the botton of the app, depending on the device size.
+Like CSS Mediaquery.
+
+              Spacer(),
+
+NB: This conflicts with SingleChildScrollView. Both can't be used the same time.

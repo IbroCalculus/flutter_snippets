@@ -1,3 +1,5 @@
+CHECK ALSO; TextButton.txt
+
 
 There are 3 basic type of buttons in flutter, ie:
 - Text button
@@ -12,11 +14,13 @@ There are 3 basic type of buttons in flutter, ie:
             onPressed: () {
               print('You tapped on this button');
             },
-            child: Text('Click This Now'),
+            //child: Text('Click This Now'),
+            child: Image.asset('assets/images/google.png'),	// Adding image to asset
           ),
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.all(20.0),
             fixedSize: Size(300, 80),
+            fixedSize: Size(double.maxFinite, double.minPositive),  // fill_parent (WIDTH), wrap_content (HEIGHT)
             textStyle: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -29,6 +33,9 @@ There are 3 basic type of buttons in flutter, ie:
             
             shape: CircleBorder(),
             shape: StadiumBorder(),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0)
+            ),
 
           ),
 

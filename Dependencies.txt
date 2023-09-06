@@ -1,0 +1,8 @@
+Added with pubspec.yaml file, 'dependencies'. ie:
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+In the above, 'flutter' is added as a dependency, within it there is 'sdk: flutter'.

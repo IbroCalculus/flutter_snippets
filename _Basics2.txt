@@ -6,13 +6,43 @@
 -Go to 'project name' -> 'lib' -> main.dart in folder structure
 
 
-------------------------------------------
+==========================	Basic Template	==========================
+-------------- In main.dart ------------------------
+
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
 
 void main() {
   runApp(const MyApp());  
 }
-
  OR
-
 void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: "Login Page",
+      debugShowCheckedModeBanner: false,
+      home: LoginScreen(),
+    );
+  }
+}
+
+
+------------ In another dart file, ie login_screen.dart ---------------
+
+import 'package:flutter/material.dart';
+
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(					//Remove const before Scaffold if exists.
+      
+    );
+  }
+}

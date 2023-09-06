@@ -1,6 +1,7 @@
 CHECK ALSO: BottomNavigationBar2.txt (This uses the bottomAppBar widget)
 
 
+class _MainPageState extends State<MainPage> {
   int currentTabIndex = 0;
 
         bottomNavigationBar: BottomNavigationBar(
@@ -13,19 +14,14 @@ CHECK ALSO: BottomNavigationBar2.txt (This uses the bottomAppBar widget)
             ),
 
             BottomNavigationBarItem(
-              label: 'Access',
-                icon: Icon(
-                    Icons.access_time_outlined
-                )
-            ),
-
-            BottomNavigationBarItem(
               label: "Account",
                 icon: Icon(
                     Icons.account_circle_rounded
                 )
             ),
           ],
+      	  showSelectedLabels: false,		//These two are optional and true by default.
+      	  showUnselectedLabels: false,
           currentIndex: currentTabIndex   //The currently selected item. By default it is 0
         ),
 
@@ -40,13 +36,19 @@ CHECK ALSO: BottomNavigationBar2.txt (This uses the bottomAppBar widget)
             BottomNavigationBarItem(
                 label: "Account", icon: Icon(Icons.account_circle_rounded)),
           ],
+      	  backgroundColor: Colors.amber,
+      	  type: BottomNavigationBarType.shifting,	// The nav icons will have shift animation when one is clicked. NB: Give icons color.
+      	  showSelectedLabels: false,			// These two are optional and true by default.
+      	  showUnselectedLabels: false,
           currentIndex: currentTabIndex   //The currently selected item. By default it is 0
-          onTap: (int index){
+
+          onTap: (index){
+            print(index);
             setState(() {
-              currentTabIndex = index;
-              if(currentTabIndex == 0){
-                print('Photo');
-              }
+          	currentTabIndex = index;
+              	if(currentTabIndex == 0){
+                  print('Photo');
+              	}
               else if(currentTabIndex == 1){
                 print('Access');
               }

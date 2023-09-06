@@ -1,0 +1,8 @@
+To prevent the soft keyboard overlapping a the screen and causing error when Textfield highlighted; 
+    return Scaffold(
+      resizeToAvoidBottomInset: false,	// But this will also cause keyboard overlay for an entry field under it when typing.
+
+To fix the above, Simply wrap the body widget in a SingleChildScrollView, also eliminating every Spacer widget.
+ 
+    return Scaffold(
+      resizeToAvoidBottomInset: true,	// Or simply do not include.

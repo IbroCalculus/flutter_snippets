@@ -1,0 +1,13 @@
+It wraps all the widgets within the specified color
+
+        child: ColoredBox(
+          color: Colors.red,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Hello, welcome back"),
+              Text("Second line"),
+              // TextField(),
+            ],
+          ),
+        ),

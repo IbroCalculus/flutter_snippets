@@ -1,0 +1,14 @@
+
+              TextButton(
+                  onPressed: (){},
+                  child: Text('Forgot password?'),
+              )
+
+              TextButton(
+                  onPressed: (){
+                    print("Forgot password button clicked");
+                  },
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                      child: Text('Forgot password?')),
+              )

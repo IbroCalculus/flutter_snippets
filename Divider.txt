@@ -1,0 +1,7 @@
+
+          Divider(
+            thickness: 1,
+            indent: 30,
+            endIndent: 30,
+            height: 30.0,	// NOT height of the divider, rather spacing around top-bottom of it
+          ),

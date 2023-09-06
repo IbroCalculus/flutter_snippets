@@ -1,0 +1,3 @@
+wrap parent widget, ie a column widget with SingleChildScrollView
+
+NB: SingleChildScrollView conflicts with Spacer. Both can't be used the same time.

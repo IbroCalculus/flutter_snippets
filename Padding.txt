@@ -6,4 +6,19 @@ Similar to Margin
 
         padding: EdgeInsets.only(top: 100, bottom: 40, left: 20, right: 20),
 
+        padding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),		// from Left, Top, Right, Bottom
+
         padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 100.0),  // x,y
+
+E.g:
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text("this is a sample text for sample \n by Ibrahim Suleiman",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 16.0,
+                  color: Colors.blue
+
+                ),),
+            ),

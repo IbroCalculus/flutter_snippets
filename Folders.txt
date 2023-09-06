@@ -1,0 +1,14 @@
+
+- lib: Contains the .dart files
+- pubspec.yaml: like manifest file / dependency file in android studio.
+
+==== Leave unchanged ====
+- test: Can write codes to test main codes in lib folders.
+- .idea: contains extra configurations for android studio.
+- .dart_tool: Contains extra configurations for dart
+- .gitignore: used by git
+- .metadata: managed automatically by flutter.
+- analysis_options.yaml: Configures some flutter and dart tooling used by the code editor to show warngings and errors.
+- flutter1.iml (where flutter1 is the name of the project): Managed by flutter. Contains metadata
+- pubspec.lock: Don't modify.
+

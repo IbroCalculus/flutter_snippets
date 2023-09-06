@@ -1,0 +1,30 @@
+CHECK ALSO; TextButton.txt
+
+By default, width = match_parent. ie 
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                    obscureText: true,			// Password field.
+                    decoration: InputDecoration(
+                    hintText: 'Enter username',
+                    filled: true,
+                    fillColor: Color(0xFFF6F7F9),		//Field background color.
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide.none
+                    ),
+                    prefixIcon: Icon(Icons.email_outlined),	// Lies inside the field by the left
+                    icon: Icon(Icons.verified_user_outlined),	// Lies outside the field
+                    suffixIcon: Icon(Icons.remove_red_eye_outlined),
+                  ),
+
+                  style: TextStyle(color: Colors.white,),
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next, //This will show the 'NEXT' symbol on the keyboard
+                  autofocus: true,
+                  maxLines: 3,
+                  // maxLength: 5,
+
+                ),
+              ),

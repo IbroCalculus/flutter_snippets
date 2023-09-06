@@ -1,9 +1,10 @@
-Container can contain multiple widgets.
+Container can contain multiple widgets. Similar to DIV in HTML
 
 - Contents within the widget can be aligned. CHECK: Alignment.txt
 - Some properties it can contain include: decoration(Decoration.txt)
 
         body: Container(
+          alignment: Alignment.center,
           color: Colors.red,
           child: SizedBox(
             width: double.infinity, //Full width

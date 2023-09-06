@@ -1,0 +1,17 @@
+Flex is similar to Row or column, depending on direct: Axis.X. it is a flexible row or column.
+
+      body: Flex(
+        direction: Axis.vertical,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(height: 10, color: Colors.red,)
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(height: 10, color: Colors.blue,)),
+          Expanded(
+            flex: 1,
+            child: Container(height: 10, color: Colors.green,)),
+        ],
+      ),

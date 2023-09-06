@@ -1,34 +1,27 @@
 
+            // fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w100,
+
 There are 2 types of text widgets, ie Text and Text.rich.
 To use the Text.rich, check TextSpan.txt
 
-NOTE: Press Ctrl + Alt + L to format code
 
+        child: Text(
+          "Simple Text. Once upon a time in the distance past",
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
 
-void main() {
-  
-  runApp(Text(
-    'Hello Flutter Bengazi',
-    textDirection: TextDirection.ltr,
-  ));
-  
-}
+          style: TextStyle(
+            fontSize: 35,
+            color: Colors.green.shade800,
+            backgroundColor: Colors.yellow.shade100,
+            // fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w100,
+            fontStyle: FontStyle.italic,
+            letterSpacing: 5,
+            wordSpacing: 10
+          ),
 
------------------------------
-    return MaterialApp(
-      home: Text("Welcome to flutter"),
-    );
-
-------------------------------------
-
-    return MaterialApp(
-      home: Text(
-        "Welcome to flutter",
-            style: TextStyle(
-                fontSize: 30.5,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 2.0,
-                color: Colors.grey,
-            ),
-      ),
-    );
+        ),
+      

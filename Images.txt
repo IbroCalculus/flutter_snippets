@@ -1,3 +1,5 @@
+CHECK ALSO: SVG Pictures.txt
+CHECK ALSO: Crop images.txt to crop and make image circular
 
 We can use either a network image, on an asset image
 
@@ -12,7 +14,7 @@ Right click and 'copy image address' from the internet.
 
 --- Asset Image (from app's local directory) -------
 
-- Within the root directory (NOT within any other folder), Create directory called, 'images' and paste images within it
+- Within the root directory (NOT within any other folder), Create directory called, 'assets' and folder 'images' within it (Name and order of directory not compulsory), and paste images within it.
 - Go to pubspec.yaml, scroll down to assets and uncomment the codes.
 - Also, let 'assets' be aligned directly under '# To add assets to your ...'
 
@@ -25,6 +27,12 @@ The select pub.get. After which check on 'Dart Analysis' tab below android studi
 
 --- Within main.dart file ---
 
+      body: Column(
+        children: [
+          Image.asset('images/typist1.jpg'),
+        ],
+      ),
+	----------------------------------------------------
       body: const Center(
         child: Image(
             image: AssetImage('images/typist1.jpg')),  //replace 'typist1.jpg' with either of the other 2 when needed

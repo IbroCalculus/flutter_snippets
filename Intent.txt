@@ -1,0 +1,13 @@
+ALSO IN: Navigation.txt
+
+---------------------- Navigation to another screen  -----------------
+The screen Class name is TextStyling
+
+              onTap: (){
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TextStyling())
+                );
+
+              },

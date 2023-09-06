@@ -1,5 +1,6 @@
 
  This widget allows us to implement a basic layout for our application. ie Set AppBar at the top, floating action button, etc
+ It also has material widget within it.
 
 import 'package:flutter/material.dart';
 
