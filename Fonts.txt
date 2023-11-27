@@ -13,7 +13,7 @@
 
     - family: Oswald2
       fonts:
-#        - asset: fonts/Oswald-Stencil.ttf
+#       - asset: fonts/Oswald-Stencil.ttf
         - asset: fonts/Oswald-HeavyItalic.ttf
 
 

@@ -1,0 +1,24 @@
+Use the Card() widget
+
+      body: Container(
+        child: Center(
+
+          child: Card(
+            elevation: 25.0,
+            color: Colors.blue,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text("Welcome to this text",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+          ),
+
+        ),
+      ),

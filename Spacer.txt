@@ -1,3 +1,5 @@
+CHECK ALSO: SizedBox.txt
+
 This is a flexible Sizedbox. It takes over to much spacer at the botton of the app, depending on the device size.
 Like CSS Mediaquery.
 

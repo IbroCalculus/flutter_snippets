@@ -1,7 +1,23 @@
-CHECK ALSO: SVG Pictures.txt
+CHECK ALSO: SVG Pictures.txt and Background.txt
 CHECK ALSO: Crop images.txt to crop and make image circular
+CHECK ALSO: Save images_videos.txt
+CHECK ALSO: File Downloader.txt
 
 We can use either a network image, on an asset image
+
+Two methods each of adding both
+1. Asset Image:
+Image(
+	image.AssetImage("path")
+)
+Image.asset()
+
+2. Network Image:
+Image(
+	image.NetworkImage("path")
+)
+Image.network()
+
 
 --- Network Image (from the internet) -----
 Right click and 'copy image address' from the internet.
@@ -54,3 +70,15 @@ The select pub.get. After which check on 'Dart Analysis' tab below android studi
             fit: BoxFit.fill,  // ie Boxfit.cover, .fitHeight, .contain etc
 ),  //replace 'typist1.jpg' with either of the other 2 when needed
       ),
+
+
+====================== ALSO, FadeInImage ====================
+This is used to place a placeholder image on the imageView while still loading an image from the internet.
+
+        body: Center(
+          child: FadeInImage.assetNetwork(
+            placeholder: 'assets/placeholder.jpg', // Placeholder image
+            image: 'https://example.com/your_image.jpg', // Network image URL
+            fit: BoxFit.cover,
+          ),
+        ),

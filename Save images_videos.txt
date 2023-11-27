@@ -1,0 +1,13 @@
+----------- Dependency -------------
+  image_gallery_saver: '^2.0.3'
+  permission_handler: ^11.0.1
+  dio: ^5.3.3
+
+----- In AndroidManifest file (Profile) ---------
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+---- Also in AndroidManifest (Main)
+
+    <application
+        android:requestLegacyExternalStorage="true"

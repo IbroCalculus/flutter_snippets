@@ -1,0 +1,55 @@
+
+      body: Container(
+
+        child: GridView.count(
+          crossAxisCount: 2, // Number of columns
+          children: <Widget>[
+            Container(
+              color: Colors.red,
+              child: Center(child: Text('Item 1')),
+            ),
+            Container(
+              color: Colors.green,
+              child: Center(child: Text('Item 2')),
+            ),
+            Container(
+              color: Colors.blue,
+              child: Center(child: Text('Item 3')),
+            ),
+            Container(
+              color: Colors.orange,
+              child: Center(child: Text('Item 4')),
+            ),
+          ],
+        ),
+
+      ),
+
+
+=============== ListView.Builder ======================
+
+  List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4','Item 1', 'Item 2', 'Item 3', 'Item 4'];
+
+
+
+      body: Container(
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Number of columns
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                Fluttertoast.showToast(msg: "Tapped on ${items[index]}");
+              },
+              child: Container(
+                color: Colors.blue,
+                child: Center(
+                  child: Text(items[index]),
+                ),
+              ),
+            );
+          },
+          itemCount: items.length,
+        ),
+      ),

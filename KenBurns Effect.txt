@@ -1,0 +1,6 @@
+
+  kenburns_nullsafety: ^1.0.1
+
+            KenBurns(
+              child: Image.asset(
+                "assets/images/banner1.jpg",

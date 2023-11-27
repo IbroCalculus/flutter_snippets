@@ -1,0 +1,14 @@
+8 stages of Lifecycle in flutter
+
+- createState()
+- initState()
+- didChangeDependencies()
+- build()
+- didUpdateWidget()
+- setState()
+- deactivate()
+- dispose()
+
+1. createState(): This method is called only for creation of Stateful Widget
+2. initState(): Method is called once, and executes before widget tree is built.
+5. didUpdateWidget: is called anytime the app hot reloads

@@ -1,0 +1,37 @@
+
+  form_builder_validators: ^9.1.0
+
+              FormBuilderTextField(
+                name: "username",
+                
+                autovalidateMode: AutovalidateMode.always,
+                // validator: FormBuilderValidators.required(),   //If only one type of validator, else do list below
+                // validator: FormBuilderValidators.required(errorText: "This field is required. Cannot be empty!"),		//OPTIONALLY: To replace default errorText.
+
+                validator: FormBuilderValidators.compose(
+                    [
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.ip(),
+                      FormBuilderValidators.email(),
+                      FormBuilderValidators.min(8)		// FormBuilderValidators.max(8,errorText: "Must be minimum of 8 characters!")
+                    ],
+                ),
+              ),
+
+
+
+--------------------- Validate forms on button clicked ----------------------
+
+            MaterialButton(
+              child: Text("Submit"),
+              color: Colors.red,
+              textColor: Colors.white,
+              onPressed: () {
+                if(_formKey.currentState!.validate()){					// If all checks of each forms a validated. ie minLength, required, etc
+                  Fluttertoast.showToast(msg: "All forms validated!");
+                }else{
+                  Fluttertoast.showToast(msg: "Failed to validate forms!");
+                }
+
+                },
+            ),

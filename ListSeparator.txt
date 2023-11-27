@@ -1,0 +1,10 @@
+You can add something to separate the listItems within the listView, in this case, a Divider widget is used.
+
+      body: ListView.separated(
+          itemBuilder: (context, index) {
+            return ListTile(title: Text("Item Number $index"),);
+          },
+          separatorBuilder: (context, index) {
+            return Divider(color: Colors.amber, thickness: 5.0,);
+          },
+          itemCount: 30),

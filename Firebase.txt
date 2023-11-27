@@ -1,0 +1,68 @@
+======================= SETTING UP ===================
+
+- Create the new flutter app (flutter_firebase)
+- Create the Firebase project to be used for the flutter app (ie flutter-firebase)
+
+
+---------- Link iOS with firebase -------------
+- Within ios directory -> Runner.xcodeproj -> project.pbxproj
+- Locate: PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterFirebase; and copy the value (ie com.example.flutterFirebase)
+- In firebase, select iOS, For Apple bundle ID, paste com.example.flutterFirebase
+- Click on Register app and download GoogleService-info.plist
+- Paste the file within; ios directory -> Runner folder
+- In firebase, click on Next until return to console
+
+
+---------- Link Android with firebase -------------
+- Within firebase, select android
+- Within android (directory) -> app -> build.gradle
+- locate applicationId "com.example.flutter_firebase"; and copy the vlaue (ie com.example.flutter_firebase) 
+- In firebase, For Android package name, paste; com.example.flutter_firebase
+- click on Register app and download google-services.json
+- Paste the file within; android directory -> app folder
+- Click on next and copy: id("com.google.gms.google-services") version "4.4.0" apply false	//Kotlin DSL (build.gradle.kts)
+- Within android (directory) -> build.gradle:
+- Paste the above, and modify as shown:
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        id("com.google.gms.google-services") version "4.4.0" apply false		// FROM this
+        classpath "com.google.gms.google-services4.4.0"					// TO this
+    }
+
+
+- Back in firebase, from Module(app-level) Gradle file ..., within plugins { copy id("com.google.gms.google-services")
+- Within android (directory) -> app -> build.gradle:
+- Paste the above, and modify as shown:
+
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+
+    id("com.google.gms.google-services")	// FROM this
+    id "com.google.gms.google-services"		// TO this
+}
+
+- In Firebase, Click on next, and continue to console
+
+- Within android (directory) -> app -> build.gradle:
+ Change minSdkVersion flutter.minSdkVersion TO minSdkVersion 19
+
+
+========================== Initialize firebase in App ======================================
+
+dependencies:
+  firebase_core: ^2.21.0
+  firebase_messaging: ^14.7.3
+
+---- Within main -----
+Modify the main method as shown;
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}

@@ -1,0 +1,26 @@
+
+  flutter_easyloading: ^3.0.5
+
+
+--------------- Within main.dart ------------------
+      title: "Flutter Lesson2",
+      initialRoute: "/",
+      onGenerateRoute: RouteGenerator.generateRoute,
+
+      builder: EasyLoading.init(),		//Add this.
+
+
+--------------- Within the page it is used ------------------
+
+              onTap: () {
+              Future.delayed(Duration(seconds: 2),() {			// I personally used Future in order to call .dismiss() after a certain period of time.
+                EasyLoading.dismiss();
+              },);
+
+              // EasyLoading.showToast('This is an easy toast message');
+              // EasyLoading.showToast('This is an easy toast message', duration: Duration(seconds: 4));
+                EasyLoading.showToast('This is annnn easy toast message',duration: Duration(seconds: 5),dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom, maskType: EasyLoadingMaskType.black);
+
+              // EasyLoading.show(status: 'loading...');
+              EasyLoading.showProgress(1, status: 'downloading...');
+              },

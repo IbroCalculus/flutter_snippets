@@ -1,5 +1,6 @@
 
       theme: ThemeData(
+        primarySwatch: Colors.deepOrange,
         fontFamily: 'ethnocentric',
         scaffoldBackgroundColor: AppColors.background,
         brightness: Brightness.dark,				//Dark theme. Also; Brightness.light (Default)

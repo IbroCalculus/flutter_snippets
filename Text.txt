@@ -8,9 +8,10 @@ To use the Text.rich, check TextSpan.txt
 
         child: Text(
           "Simple Text. Once upon a time in the distance past",
+
           textAlign: TextAlign.center,
           maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          overflow: TextOverflow.ellipsis,	// E.g This is a sample text with some app...
 
           style: TextStyle(
             fontSize: 35,
@@ -25,3 +26,8 @@ To use the Text.rich, check TextSpan.txt
 
         ),
       
+--------------- Using ternary if statement to display text on the Text widget -----------------
+
+List<PersonModel> people = [];
+
+              Text(people.isNotEmpty ? "people exist" : "No people", style: TextStyle(fontSize: 18, color: Colors.red),),

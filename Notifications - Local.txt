@@ -1,0 +1,283 @@
+
+  flutter_local_notifications: ^16.1.0
+  flutter_timezone: ^1.0.8
+  rxdart: ^0.27.7
+
+
+--- Within: android -> app -> build.gradle ---
+
+android {
+    namespace "com.example.flutter_lesson2"
+    compileSdkVersion flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
+
+//    From here
+
+    defaultConfig {
+        multiDexEnabled true
+    } 
+
+//    To here
+
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true               // This line 
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'        // This line
+}
+
+
+
+---- Within: android -> build.gradle ---
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:7.3.1'                            // This line
+    }
+
+
+
+============================== CREATE A NEW FILE WITHIN lib (ie local_notifications.dart) AND PASTE THIS CODE =================
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+class LocalNotifications{
+
+  static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  static final onClickNotification = BehaviorSubject<String>();
+
+  // onTap on any notification
+  static void onNotificationTap(
+      NotificationResponse notificationResponse
+      ){
+    onClickNotification.add(notificationResponse.payload!);
+  }
+
+  // Initialize the local notification
+  static Future init() async {
+    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
+    final DarwinInitializationSettings initializationSettingsDarwin =
+    DarwinInitializationSettings(
+        onDidReceiveLocalNotification: (id, title, body, payload) => null,);
+    final LinuxInitializationSettings initializationSettingsLinux =
+    LinuxInitializationSettings(
+        defaultActionName: 'Open notification');
+    final InitializationSettings initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsDarwin,
+        linux: initializationSettingsLinux);
+    _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: onNotificationTap,
+      onDidReceiveBackgroundNotificationResponse: onNotificationTap,
+  }
+
+//   1. Show a simple notification
+  static Future showSimpleNotification(
+      {required String title,
+      required String body,
+      required String payload}) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await _flutterLocalNotificationsPlugin
+        .show(0, title, body, notificationDetails, payload: payload);
+  }
+
+
+//   2. Show periodic notification at regular interval
+// NB: This part did not work presently, chatgpt suggested: 
+// "On some devices and Android versions, background execution restrictions might prevent your app from scheduling periodic notifications. You can consider implementing a background execution solution using plugins like 
+// android_alarm_manager or workmanager to ensure that your app can run in the background and trigger notifications at specific intervals.
+
+
+  static Future showPeriodicNotifications(
+      {required String title,
+        required String body,
+        required String payload}) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails('channel 2', 'your channel name',
+        channelDescription: 'your channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker');
+    const NotificationDetails notificationDetails =
+    NotificationDetails(android: androidNotificationDetails);
+    await _flutterLocalNotificationsPlugin
+        .periodicallyShow(1, title, body, RepeatInterval.everyMinute, notificationDetails, payload: payload);
+  }
+
+
+//   3. To close a specific channel notification
+  static Future cancel(int id) async {
+    await _flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+
+//   4. To close all channel notifications available.
+  static Future cancelAll() async {
+    await _flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+
+  // 5. To schedule a local notification
+  static Future showScheduleNotification({
+    required String title,
+    required String body,
+    required String payload,
+  }) async {
+    tz.initializeTimeZones();
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        2,
+        title,
+        body,
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),			// Modify the trigger day/time from here
+        const NotificationDetails(
+            android: AndroidNotificationDetails(
+                'channel 3', 'your channel name',
+                channelDescription: 'your channel description',
+                importance: Importance.max,
+                priority: Priority.high,
+                ticker: 'ticker')),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        payload: payload);
+  }
+
+
+
+}
+
+
+----- in main.dart ----
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotifications.init();
+  
+  runApp(MyApp());
+}
+
+
+---- 1. Simple notification ----
+
+          ElevatedButton.icon(
+            onPressed: () {
+              LocalNotifications.showSimpleNotification(
+                  title: "Local Notification",
+                  body: "This is a simple notifation",
+                  payload: "This is a simple data");
+              Fluttertoast.showToast(msg: "This button has been clicked!");
+            },
+            icon: Icon(Icons.notification_add_outlined),
+            label: Text("Simple notification"),
+          )
+
+NB: You will need to enable permission manually, will work on getting that resolved later.
+
+
+---- 2. Periodic notificaiton ----
+
+          ElevatedButton.icon(
+            onPressed: () {
+              LocalNotifications.showPeriodicNotifications(
+                  title: "Periodic Notification",
+                  body: "This is a periodic notification",
+                  payload: "This is a periodic data");
+              Fluttertoast.showToast(msg: "This button has been clicked!");
+            },
+            icon: Icon(Icons.timer_outlined),
+            label: Text("Periodic notification"),
+          ),
+
+
+----   3. To close a specific channel notification (ie cancel the periodic notification) ----
+
+          TextButton(onPressed: () {
+            LocalNotifications.cancel(1);			// This will close the periodic notification. It has a channel ID of 1.
+          }, child: Text("Close periodic notificaton"),)
+
+
+----   4. To close all notifications ----
+
+          TextButton(
+            onPressed: () {
+              LocalNotifications.cancelAll();
+            },
+            child: Text("Cancel all notifications"),
+          ),
+
+
+----   5. To schedule a local notification ----
+              ElevatedButton.icon(
+                icon: Icon(Icons.timer_outlined),
+                onPressed: () {
+                  LocalNotifications.showScheduleNotification(
+                      title: "Schedule Notification",
+                      body: "This is a Schedule Notification",
+                      payload: "This is schedule data");
+                },
+                label: Text("Schedule Notifications"),
+              ),
+
+
+=========================== To respond to clicking the notification and opening a specific page =======================
+----- Create the page/screen (ie AnotherPage) -----
+
+class AnotherPage extends StatelessWidget {
+  final String payload;							// NB:
+  const AnotherPage({super.key, required this.payload});		// ALSO, NB:
+
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Welcome to this page"),
+            Text(payload),						// This will print the payload from the notification
+          ],
+        ),
+      ),
+
+----- Within HomePage ----
+
+class _LocalNotificationPageState extends State<LocalNotificationPage> {
+
+  @override
+  void initState() {
+    listeningToNotification();
+    super.initState();
+  }
+
+  // To listen to any notification clicked or not.
+  listeningToNotification(){
+    print("Listening to notifications");
+    LocalNotifications.onClickNotification.stream.listen((event) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AnotherPage(payload: event))
+      );
+    });
+  }
+
+
+
+
+
+
+

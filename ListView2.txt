@@ -1,3 +1,4 @@
+CHECK ALSO: ListBuilder.txt
 
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,18 @@ class ListView2Class extends StatelessWidget {
             itemBuilder: (context, index){
               // return Text(index.toString());
               return ListTile(
+	      
+	      // Styling the ListTile	
+              tileColor: Colors.black12,
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: BorderSide(
+                  width: 1.0,
+                  color: Colors.blue
+                )
+              ),
+            ),
+
                 leading: CircleAvatar(child: Text(products[index][0]),),
                 title: Text(products[index]),
                 subtitle: Text(productDetails[index]),

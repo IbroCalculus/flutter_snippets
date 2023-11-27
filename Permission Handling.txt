@@ -1,0 +1,64 @@
+
+  permission_handler: ^11.0.1
+
+======================= Single Permission (ie enable storage ) =======================
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+  Future<void> requestStoragePermission() async {
+    // Request storage permission
+    var status = await Permission.storage.request();
+
+    if (status.isGranted) {
+      // Permission granted, you can proceed with writing to storage
+      print('Storage permission granted');
+    } else {
+      // Permission denied
+      print('Storage permission denied');
+    }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    requestStoragePermission();
+  }
+
+
+======================= Multiple Permissions (ie enable storage ) =======================
+
+------ in Manifest ----
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
+Future<void> requestPermissions(List<Permission> permissions) async {
+  for (var permission in permissions) {
+    var status = await permission.request();
+    if (status.isGranted) {
+      print('${permission.toString().split('.')[1]} permission granted');
+    } else {
+      print('${permission.toString().split('.')[1]} permission denied');
+    }
+  }
+}
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Define the list of permissions to request
+  List<Permission> permissions = [
+    Permission.storage,
+    // Add more permissions as needed
+    Permission.camera,
+    Permission.location,
+  ];
+
+  // Request the permissions
+  await requestPermissions(permissions);
+
+  runApp(MyApp());
+}

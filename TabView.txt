@@ -1,0 +1,32 @@
+Assume want to create two tabs;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+
+        // Within the appBar section
+        appBar: AppBar(
+          title: Text("Friend Requests"),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Sent Requests'),
+              Tab(text: 'Received Requests'),
+            ],
+          ),
+        ),
+
+        // Within the body section
+        body: TabBarView(
+          
+          children: [
+            SentRequests(),			// This is another page created. It navigates to it (You may simply paste widgets, ie a Text("Welcom to Sent Requests") )
+            ReceivedRequests(),
+          ],
+          
+        ),
+      ),
+    );
+  }

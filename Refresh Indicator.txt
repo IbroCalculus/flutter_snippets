@@ -1,0 +1,13 @@
+
+
+      body: RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: Colors.blue,
+        onRefresh: () async {
+          return Future<void>.delayed(const Duration(seconds: 3),(){
+            print("Done refreshing!");
+            Fluttertoast.showToast(msg: "Done refreshing");
+
+          });
+        },
+)

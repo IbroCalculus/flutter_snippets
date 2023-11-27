@@ -1,0 +1,46 @@
+They are 2 type of radio buttons, ie Radio, RadioListTile (Recommended).
+
+NB: Use RadioListTile()
+
+enum genderTypeEnum { Male, Female, NotSpecified }
+genderTypeEnum? _genderTypeEnum;
+
+
+                Radio<genderTypeEnum>(
+                  value: genderTypeEnum.Male,
+                  groupValue: _genderTypeEnum,
+                  onChanged: (value) {
+                    _genderTypeEnum = value;
+                    Fluttertoast.showToast(msg: "Male gender selected");
+                    setState(() {});
+                  },
+                ),
+
+                RadioListTile<genderTypeEnum>(
+                  contentPadding: EdgeInsets.all(0.0),
+                  title: Text("Femalee"),
+                  value: genderTypeEnum.Female,
+                  groupValue: _genderTypeEnum,
+                  onChanged: (value) {
+                    _genderTypeEnum = value;
+                    Fluttertoast.showToast(msg: "Female gender selected");
+                    setState(() {});
+                  },
+                ),
+
+                RadioListTile<genderTypeEnum>(
+                  contentPadding: EdgeInsets.all(0.0),
+                  title: Text("Not specifieddddd"),
+                  value: genderTypeEnum.NotSpecified,
+                  groupValue: _genderTypeEnum,
+                  onChanged: (value) {
+                    _genderTypeEnum = value;
+                    Fluttertoast.showToast(msg: "Gender not specified");
+                    setState(() {});
+                  },
+                ),
+
+------------ Within onPressed of a button ----------------
+      onPressed: () {
+        Fluttertoast.showToast(msg: "Radio selected is: ${_genderTypeEnum.toString()}");
+	}

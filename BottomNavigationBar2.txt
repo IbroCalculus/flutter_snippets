@@ -1,6 +1,12 @@
+CHECK ALSO: PersistentFootButton.txt
+
 
       bottomNavigationBar: BottomAppBar(
         color: Colors.black87,
+
+        notchMargin: 5.0,
+        shape: CircularNotchedRectangle(),		//These 2 lines are responsible for the the curve when you have a FAB. Without FAB, it is of no use.
+
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.max,

@@ -1,0 +1,8 @@
+This is known as PageView in flutter.
+ALSO CHECK: BottomNavigationBar.txt
+
+
+
+======================= PageView With dot indicator =====================
+
+  page_view_dot_indicator: ^2.3.0

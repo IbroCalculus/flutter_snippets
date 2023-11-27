@@ -1,0 +1,41 @@
+---------- Created as a widget -----------
+
+  Widget buildPopupMenuButton() {
+    return PopupMenuButton<String>(
+      onSelected: (String choice) {
+        // Handle the choice selected from the popup menu
+        if (choice == 'Option 1') {
+          // Perform action for Option 1
+          print('Option 1 selected');
+          Fluttertoast.showToast(msg: "Option 1 selected");
+        } else if (choice == 'Option 2') {
+          // Perform action for Option 2
+          print('Option 2 selected');
+          Fluttertoast.showToast(msg: "Option 2 selected");
+        }
+      },
+      itemBuilder: (BuildContext context) {
+        return <PopupMenuEntry<String>>[
+          PopupMenuItem<String>(
+            value: 'Option 1',
+            child: Text('Option 1'),
+          ),
+          PopupMenuItem<String>(
+            value: 'Option 2',
+            child: Text('Option 2'),
+          ),
+        ];
+      },
+    );
+  }
+
+
+------- Use within appBar (It can be used anywhere, not only within appBar) -------
+
+      appBar: AppBar(
+        title: Text("Testing Activity!"),
+        actions: [buildPopupMenuButton()],
+      ),
+
+
+- To Use within the Scaffold body, just call the method buildPopupMenuButton().

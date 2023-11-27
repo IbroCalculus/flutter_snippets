@@ -1,0 +1,121 @@
+-------------------------------------
+Just placed within onPressed(){}
+
+showModalBottomSheet(
+  context: context,
+  builder: (BuildContext context) {
+    return SizedBox(
+      height: 200,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Text('Modal BottomSheet'),
+            ElevatedButton(
+              child: const Text('Close BottomSheet'),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  },
+);
+
+
+---------------------------------
+Same as above, but with container color and listTitle items
+
+
+
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 200,
+                    color: Colors.amber,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const Text('Modal BottomSheet'),
+                          ListTile(
+                            leading: Icon(Icons.remove_red_eye),
+                            title: Text("Preview"),
+                            onTap: () {
+                              Fluttertoast.showToast(msg: "Preview clicked");
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.copy),
+                            title: Text("Copy"),
+                            onTap: () {
+                              Fluttertoast.showToast(msg: "File copied");
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ElevatedButton(
+                            child: const Text('Close BottomSheet'),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+
+
+
+------------------------------------------
+Similarly to above, with little customization of Container margin to look like its floating
+
+  void showFloatingBottomSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          margin: EdgeInsets.all(16.0),
+          height: 200,
+          decoration: BoxDecoration(
+            color: Colors.amber,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Text('Floating BottomSheet'),
+                ListTile(
+                  leading: Icon(Icons.remove_red_eye),
+                  title: Text("Preview"),
+                  onTap: () {
+                    Fluttertoast.showToast(msg: "Preview clicked");
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.copy),
+                  title: Text("Copy"),
+                  onTap: () {
+                    Fluttertoast.showToast(msg: "File copied");
+                    Navigator.pop(context);
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text('Close BottomSheet'),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+              showFloatingBottomSheet(context);

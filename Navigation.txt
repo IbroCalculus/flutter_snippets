@@ -1,3 +1,16 @@
+CHECK ALSO: Navigation2.txt for navigation using routine in a different class
+
+ALTERNATIVELY: Use dependency;
+
+  get: ^4.6.5
+
+            onTap: () {
+              Get.to(() => SplashInstagram());
+            },
+
+
+NB: SystemNavigator.pop();		// This exits/closes the application. Check below to see its usage with onBack pressed
+
 
 ---------------------- 1. Navigation to another screen  -----------------
 The screen Class name is TextStyling
@@ -11,16 +24,161 @@ The screen Class name is TextStyling
 
               },
 
+
+---------------------- To go back in stack  -----------------
+            Navigator.pop(context);
+
+
+
   ---------------- OR using Named Navigation --------------------
  
-               // Navigator.of(context).pushReplacementNamed('/home');   //Same as 'finish()' in android. Discard from backstack.
+                Navigator.pushNamed(context, "/home");
 
- ----------------- In main.dart  --------------------
+                Navigator.pushReplacementNamed(context, '/home');   //Same as 'finish()' in android. Discard from backstack
+               // Navigator.of(context).pushReplacementNamed('/home');.
 
+
+ ----------------- In main.dart  --------------------      
+      initialRoute: '/',	// home: LoginPage(),    Remove home, and add initialRoute instead.
       routes: {
         '/': (context) => LoginPage(),
         '/home': (context) => HomePage(),
       },
-      // home: LoginPage(),    Replace home with the below
-      initialRoute: '/',
 
+--- E.g: ---
+
+                Navigator.pushNamed(context, "/home");
+
+    return MaterialApp(
+      title: "Flutter Lesson2",
+      initialRoute: "/",
+
+      routes: {
+        "/":(context) => Dashboard(),
+        "/home": (context) => HomePage(),
+        "/friend_request":(context) => FriendRequestPage(),
+        "/login":(context) => LoginPage(),
+      },
+    );
+
+
+----------------- Saving routes in a different file (CHECK: Navigation2.txt) ----------------------------
+
+Create folder within lib, ie _routing, create a dart file, ie routes.dart, with a classs  within it, ie AppRoutes
+Cut and paste the values of routes into the file as shown:
+
+class AppRoutes {
+  static Map<String, Widget Function(BuildContext)> routes = {
+    "/": (context) => Dashboard(),
+    "/login": (context) => LoginPage(),
+    "/friend_request": (context) => FriendRequestPage(),
+    "/home_page": (context) => HomePage(),
+  };
+}
+
+
+--- Within main.dart ---
+      title: "Flutter Lesson2",
+
+      initialRoute: "/",
+      routes: AppRoutes.routes,
+
+
+
+----------------- Saving routes in a different file (Using RouterGenerator) ----------------------------
+
+
+
+================================= To Pass value from one activity to another  =================================
+ --- On First Activity:
+
+  String productName = "";
+  String password = "Abcd1234";
+
+                TextFormField(
+                  onChanged: (value) {
+                    productName = value;
+                    setState(() {});
+                  },
+                  decoration: InputDecoration(
+                    labelText: "Product Name",
+                    // icon: Icon(Icons.verified_user_outlined),
+                    prefixIcon: Icon(Icons.verified_user_outlined),
+                    // This icon will be within
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                Text("Product Name is: $productName"),
+                SizedBox(
+                  height: 20.0,
+                ),
+                myButton(context),
+
+  OutlinedButton myButton(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Details(productName: productName, password: password)));		// This will take in the values to be sent to Details() Page
+      },
+      style: OutlinedButton.styleFrom(
+        minimumSize: Size(200, 50),
+      ),
+      child: Text(
+        "Submit Form".toUpperCase(),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+
+ --- On Details Activity:
+
+  Details({super.key, required this.productName, required this.password});		// Note here
+
+  String productName;
+  String password;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+
+        title: Text("Details"),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: GestureDetector(
+          child: Text("Product Name: $productName,\nPassword: $password"),		// The values are used here
+          onTap: () {
+            Navigator.pop(context);
+            Fluttertoast.showToast(msg: "Pop method called!");
+          },
+        ),
+      ),
+    );
+  }
+--------------------------------------------------------
+
+
+================= Handle onBackButton pressed =======================
+
+      body: WillPopScope(
+        onWillPop: () async {
+          print("Back button pressed");
+          Fluttertoast.showToast(msg: "Back button pressed");
+          return true;						    Return false to prevent further back navigation (not necessary in this case), hence return true is the opposite.
+        },
+        child: Container(
+
+ ---- Using same as above to exit the application ----
+
+      body: WillPopScope(
+        onWillPop: () async {
+          print("Back button pressed");
+          Fluttertoast.showToast(msg: "Back button pressed");
+          SystemNavigator.pop();
+          return false;							//NB: return false. Return false to prevent further back navigation (not necessary in this case)
+        },
+        child: Container(

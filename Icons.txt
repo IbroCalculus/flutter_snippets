@@ -2,6 +2,8 @@ CHECK ALSO: SVG Pictures.txt and Images.txt
 NB: Difference btw Icon and IconButton is that IconButton can be pressed. 
     CHECK IconButton.txt
 
+ALSO NB: Icons can be made clickeable by surrounding with the GestureDetector widget. CHECK EventListener.txt
+
  2 types of icons, default Material icons, or fontAwesome icons (this require dependency)
 
 =================== Material Icons ====================
@@ -15,7 +17,7 @@ NB: Difference btw Icon and IconButton is that IconButton can be pressed.
 ================ Font Awesome Icons ================
 
 
-Use dependency font_awesome_flutter: ^10.2.1
+Use dependency font_awesome_flutter: ^10.6.0
 
 There are 2 ways you can add dependency; ie
 

@@ -1,0 +1,17 @@
+
+      persistentFooterButtons: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+                onPressed: (){},
+                icon: Icon(Icons.home),),
+            IconButton(
+              onPressed: (){},
+              icon: Icon(Icons.settings),),
+            IconButton(
+              onPressed: (){},
+              icon: Icon(Icons.contact_phone),),
+          ],
+        ),
+      ],

@@ -1,0 +1,40 @@
+They are 2 types of checkboxes.
+1. The normal CheckBox, and
+2. CheckBoxListTile.
+
+1. ========= CheckBox (It does not accept a label (or title) to the checkbox. An alternative will be wrapping with a Row widget) =================
+
+bool checkState = false;
+
+                Checkbox(
+                  value: checkState,
+                  onChanged: (value) {
+                    if(value == true){
+                      Fluttertoast.showToast(msg: "Checked is true");
+                    }else{
+                      Fluttertoast.showToast(msg: "Unchecked is false");
+                    }
+                    checkState = !checkState;
+                    setState(() {});
+                  },
+                ),
+
+
+2. ======== CheckBoxListTile ===============
+
+bool checkState = false;
+
+                CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,		// Position's the Checkbox in relation to the text.	Trailing by default.
+                  title: Text("Proceed to save?",),
+                  value: checkState,
+                  onChanged: (value) {
+                    checkState = !checkState;
+                    setState(() {});
+                    if (value == true) {
+                      Fluttertoast.showToast(msg: "CheckboxListTile is checked");
+                    } else {
+                      Fluttertoast.showToast(msg: "Not checked");
+                    }
+                  },
+                ),

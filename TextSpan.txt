@@ -6,14 +6,27 @@
                   text: 'My',
                   children: [
                     TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = (){
+                      print("Flutter was clicked!");
+                      },
                       text: 'Flutter',
                       style: TextStyle(fontSize: 20.0),
                     ),
                     TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = (){
+                      print("App was clicked!");
+                      },
                       text: 'App',
                       style: TextStyle(fontSize: 50.0),
                     ),
+                      WidgetSpan(
+                        child: Icon(Icons.person)
+                      ),
                   ]
                 )
             ),
           ),
+
+NB: To add another widget ie an icon to a TextSpan, use WidgetSpan as shown above.

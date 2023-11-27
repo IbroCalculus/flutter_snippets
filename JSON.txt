@@ -1,0 +1,35 @@
+================== READING LOCAL JSON DATA ======================
+Within directory; assets -> data -> infodata.json
+
+--- Within pubspec.yaml ---
+  assets:
+    - assets/data/receivedrequest.json
+
+
+=================== In the page (In a Stateful widget) =============
+import 'dart:convert';
+
+          ElevatedButton(
+              onPressed: () {
+                readReceveivedRequestJson();
+              },
+              child: Text("Read Json")
+          )
+
+
+// The function for reading the json
+
+  readReceveivedRequestJson() async{
+    String receivedRequests = await DefaultAssetBundle.of(context).loadString('assets/data/receivedrequest.json');	//This gets all the json data as a string
+    debugPrint(receivedRequests);
+
+    var jsonValueofReceivedRequests = jsonDecode(receivedRequests); //This converts the String to Json object.
+    debugPrint(jsonValueofReceivedRequests.toString());
+
+  }
+}
+
+
+
+=================== CREATE A MODEL FOR THE JSON DATA =====================
+

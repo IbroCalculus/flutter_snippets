@@ -1,0 +1,56 @@
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+dependencies:
+  flutter_form_builder: ^9.1.1
+
+---------- In main ----------------
+  TextFieldPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();		// This
+
+
+--- 1. Text field ---
+
+class TextFieldPage extends StatelessWidget {
+  TextFieldPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();	// This. Declare a key for each form
+
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+            children: [
+
+ ------------------------ DateRangerPicker --------------------------
+
+                FormBuilderDateRangePicker(
+                  name: "date_picker1",
+                  helpText: "Pick a date range for this event",
+                  firstDate: DateTime(2019),
+                  lastDate: DateTime.now(),
+                  currentDate: DateTime.now(),
+                  decoration: InputDecoration(
+                    labelText: "Select Date Range"
+                  ),
+                  onChanged: (value) {
+                    Fluttertoast.showToast(msg: "Rangeee: $value");
+                  },
+                )
+
+
+ ------------------------ Date and Time Picker --------------------------
+
+                FormBuilderDateTimePicker(
+                  name: "datetimepicker1",
+                  // inputType: InputType.date,    	// For Date
+                  // inputType: InputType.time,  	// For time
+                  inputType: InputType.both,  		// For both
+                  // initialDate: DateTime.now(),    // For Date
+                  // initialTime: TimeOfDay.now(),  //For time
+                  decoration: InputDecoration(labelText: "Select Date and time"),
+                  onChanged: (value) {
+                    // Fluttertoast.showToast(msg: "Date selected: $value");
+                    // Fluttertoast.showToast(msg: "Time selected: $value");
+                    Fluttertoast.showToast(msg: "DateTime selected: $value");
+                  },
+                ),

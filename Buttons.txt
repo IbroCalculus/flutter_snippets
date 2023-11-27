@@ -5,6 +5,11 @@ There are 3 basic type of buttons in flutter, ie:
 - Text button
 - Outlined button
 - Elevated button
+- Check also below: MaterialButton (Seem nice, use it)
+
+
+NB: To disable button, use:
+              onPressed: null,
 
 =========== Elevated button =============
 -- Handling click event using anonymous function -------
@@ -109,3 +114,49 @@ class _MyAppState extends State<MyApp> {
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.red,
                   ),
+
+
+================= MATERIAL BUTTON =====================
+
+            MaterialButton(
+              child: Text("Submit"),
+              color: Colors.red,
+              textColor: Colors.white,
+              onPressed: () {
+                if(_formKey.currentState!.validate()){
+                  Fluttertoast.showToast(msg: "All forms validated!");
+                }else{
+                  Fluttertoast.showToast(msg: "Failed to validate forms!");
+                }
+
+                },
+            ),
+
+
+========================== Switching icons on button clicked (NB: Stateful widget) ===============
+
+class _StatefulWidget2State extends State<StatefulWidget2> {
+
+  bool isTapped = true;
+
+            IconButton(
+              icon: isTapped? Icon(Icons.account_box,) : Icon(Icons.circle,),
+              onPressed: () {
+                setState(() {
+                  isTapped =! isTapped;
+                });
+              },
+              iconSize: 100,
+            )
+
+   ----- For better readability ----
+IconButton(
+  icon: isTapped
+      ? Icon(Icons.account_box, size: 100, color: Colors.green)
+      : Icon(Icons.account_box_outlined, size: 100, color: Colors.blue),
+  onPressed: () {
+    setState(() {
+      isTapped = !isTapped;
+    });
+  },
+)

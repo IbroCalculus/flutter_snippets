@@ -1,0 +1,91 @@
+Create the model class; ie this includes; name, country and age
+
+- From root, create a separate folder for the models, ie 'models'
+- Create the model dart file (ie PersonModel.dart), and create a class (ie with similar name, PersonModel)
+
+---------------------- Model Class ----------------
+class PersonModel{
+  String name = "";
+  String country = "";
+  String age = "";
+
+  PersonModel(this.name, this.country, this.age);
+}
+
+---------------------- In UI ----------------
+
+  final _formKey = GlobalKey<FormBuilderState>();
+
+  List<PersonModel> people = [];
+  late String inputedName;
+  late String inputedCountry;
+  late String inputedAge;
+
+
+          child: Column(
+            children: [
+              FormBuilder(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    FormBuilderTextField(
+                      name: "name",
+                      decoration: InputDecoration(hintText: "Enter name"),
+                      style: TextStyle(),
+                      onChanged: (value) {
+                        inputedName = value.toString();
+                      },
+                    ),
+                    FormBuilderTextField(
+                      name: "country",
+                      decoration: InputDecoration(hintText: "Enter country"),
+                      style: TextStyle(),
+                      onChanged: (value) {
+                        inputedCountry = value.toString();
+                      },
+                    ),
+                    FormBuilderTextField(
+                      name: "age",
+                      decoration: InputDecoration(hintText: "Enter age"),
+                      style: TextStyle(),
+                      onChanged: (value) {
+                        inputedAge = value.toString();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                child: MaterialButton(
+                  onPressed: () {
+                    PersonModel personModel = PersonModel(inputedName,inputedCountry,inputedAge);
+                    people.add(personModel);
+                    setState(() {});
+                    _formKey.currentState!.reset();
+                    },
+                  child: Text("Submit"),
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                    itemBuilder: (context, index){
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "$index - ${people[index].name}: ${people[index].age}: ${people[index].country}",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Icon(Icons.delete),
+                        ],
+                      );
+                }, itemCount: people.length,
+                ),
+              )
+
+
+========================= USING A REUSABLE WIDGET (The content of Row(... is the widget to be made custom for reusability))=========================

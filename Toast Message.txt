@@ -1,17 +1,40 @@
+NB: An alternative is using the EasyLoading dependency.
+
 Official documentation: https://pub.dev/packages/fluttertoast
 
-- Use dependency:     fluttertoast: ^8.0.9
+- Use dependency:     fluttertoast: ^8.2.2
 
 - Go to pubspec.yaml file:
 dependencies:
   flutter:
     sdk: flutter
-  fluttertoast: ^8.0.9    //Take note of the indentation
+  fluttertoast: ^8.2.2    //Take note of the indentation
 
 - Click 'Pub get'
 
-- In main.dart file:
+------ In main.dart file: ------
     import 'package:fluttertoast/fluttertoast.dart';
+
+class MyApp extends StatelessWidget {
+    MyApp({super.key});
+
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();   // Add this
+
+
+  @override
+  Widget build(BuildContext context) {
+    return  MaterialApp(
+
+       builder: FToastBuilder(),			// And this
+
+      home: HomePage(),
+      navigatorKey: navigatorKey,			// And this
+
+
+---- In android -> app -> build.gradle -----
+	SET: minSdkVersion 21
+
+---- Then you can use the toast within any screen ---
 
               onTap: (){
                 Fluttertoast.showToast(

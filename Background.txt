@@ -4,3 +4,29 @@
 
     return Scaffold(
       backgroundColor: Colors.blueAccent,
+
+========================== Add Background Image ==========================
+
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/image3.jpg"),
+            fit: BoxFit.cover,
+          )
+        ),
+      ),
+
+
+======================== Add Gradient Over background =================
+
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomRight,
+                    colors: [
+                      Colors.black.withOpacity(1),
+                      Colors.black.withOpacity(0),
+                    ]
+                  )
+                ),
+              ),

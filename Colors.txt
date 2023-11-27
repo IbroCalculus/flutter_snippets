@@ -22,5 +22,19 @@ E.g:
           backgroundColor: Colors.red[600],
 
 
+------------------ Gradient -----------------------
+
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomRight,
+                    colors: [
+                      Colors.black.withOpacity(1),
+                      Colors.black.withOpacity(0),
+                    ],
+                  ),
+                ),
+	      ),
+
 
 

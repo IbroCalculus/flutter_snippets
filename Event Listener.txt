@@ -12,3 +12,47 @@
                     alignment: Alignment.centerRight,
                       child: Text('Forgot password?')),
               )
+
+========================== The better and most appropriate option is Using the GestureDetector widget ===============
+
+          GestureDetector(
+            child: Text(
+              "Welcome to Dynamic List Page",
+            ),
+            onTap: () {
+              Fluttertoast.showToast(msg: "You clicked on this widget");
+            },
+            onLongPress: () => Fluttertoast.showToast(msg: "You long pressed on this widget"),
+            onDoubleTap: () {
+              Fluttertoast.showToast(msg: "You double tapped on this widget");
+            },
+          ),
+
+
+========================== Switching icons on button clicked (NB: Stateful widget) ===============
+
+class _StatefulWidget2State extends State<StatefulWidget2> {
+
+  bool isTapped = true;
+
+            IconButton(
+              icon: isTapped? Icon(Icons.account_box,) : Icon(Icons.circle,),
+              onPressed: () {
+                setState(() {
+                  isTapped =! isTapped;
+                });
+              },
+              iconSize: 100,
+            )
+
+   ----- For better readability ----
+IconButton(
+  icon: isTapped
+      ? Icon(Icons.account_box, size: 100, color: Colors.green)
+      : Icon(Icons.account_box_outlined, size: 100, color: Colors.blue),
+  onPressed: () {
+    setState(() {
+      isTapped = !isTapped;
+    });
+  },
+)

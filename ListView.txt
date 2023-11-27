@@ -1,3 +1,5 @@
+CHECK ALSO: ListBuilder.txt
+
 
 There's static listview, as well as dynamic listview.
 This is for static, check ListView2 for dynamic.
@@ -8,7 +10,9 @@ This is for static, check ListView2 for dynamic.
       body: Container(
 
         child: ListView(
-          itemExtent: 200.0,  //Spacing between ListTiles
+          itemExtent: 200.0,  // Spacing between ListTiles
+          shrinkWrap: true,  // if truem ListView will wrapcontent in height, else it match-parent.
+
 
           children: [
             ListTile(
@@ -19,6 +23,16 @@ This is for static, check ListView2 for dynamic.
               trailing: Icon(Icons.add),
               tileColor: Colors.blueGrey,
               onTap: (){},
+	      
+	      // Styling the ListTile	
+              tileColor: Colors.black12,
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: BorderSide(
+                  width: 1.0,
+                  color: Colors.blue
+                )
+              ),
             ),
 
             ListTile(

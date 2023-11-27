@@ -1,6 +1,8 @@
 
       body: Stack(
-        alignment: AlignmentDirectional.center,
+        alignment: AlignmentDirectional.center,		// alignment: Alignment.center,
+        // textDirection: TextDirection.rtl,	(ltr by default)
+
         children: [
           Container(height: 200, width: 200, color: Colors.black,),
           Container(height: 100, width: 100, color: Colors.red,),
@@ -9,3 +11,19 @@
       ),
 
 NB: Yellow will be topmost.
+
+NB: You can wrap each items within the stack (ie Container in this case) with Positioned widget and give it any desired position. ie;
+        children: [
+          Container(height: 200, width: 200, color: Colors.black,),
+	Positioned(
+		bottom: 0,
+		bottom: 20,
+		child: Container(height: 100, width: 100, color: Colors.red,),
+	)          
+          Container(height: 50, width: 50, color: Colors.yellow,),
+        ],
+
+	Positioned(
+		child: Container(
+		)
+	)

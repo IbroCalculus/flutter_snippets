@@ -1,0 +1,44 @@
+=============== Using Shimmer Effect on a content while it is being loaded from the internet ==================
+
+  shimmer: ^3.0.0
+
+class _HomePageState extends State<HomePage> {
+
+  bool _loading = true;		// Track whether the image is still loading
+
+  var path = "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg";
+
+
+
+// Use Shimmer effect for the image while loading
+_loading
+    ? Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          width: double.maxFinite,
+          height: 200,
+          color: Colors.white,
+        ),
+      )
+    : Image(
+        width: double.maxFinite,
+        height: 200,
+        image: NetworkImage(path),
+        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) {
+            _loading = false;
+            return child;
+          } else {
+            return Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: double.maxFinite,
+                height: 200,
+                color: Colors.white,
+              ),
+            );
+          }
+        },
+      ),

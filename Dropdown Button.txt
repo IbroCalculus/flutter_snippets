@@ -1,0 +1,44 @@
+It is similar to Popup Menu Button.
+
+
+class _MyFormState extends State<MyForm> {
+
+  String? selectedValue;
+  List<String> items = ["Item 1", "Item 2", "Item 3"];
+
+
+                DropdownButton<String>(
+                  value: selectedValue, // The selected value
+                  items: items.map((String item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(item),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    // When an item is selected, update the state to re-render the widget
+                    setState(() {
+                      selectedValue = newValue;
+                      Fluttertoast.showToast(msg: "You selected! $selectedValue");
+                    });
+                  },
+                ),
+
+--------------------- DropdownButtonFormField is better ---------------------------
+
+                DropdownButtonFormField<String>(
+                  value: selectedValue, // The selected value
+                  items: items.map((String item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(item),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    // When an item is selected, update the state to re-render the widget
+                    setState(() {
+                      selectedValue = newValue;
+                      Fluttertoast.showToast(msg: "Selected Item is: $selectedValue");
+                    });
+                  },
+                ),

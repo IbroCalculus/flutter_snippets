@@ -1,4 +1,4 @@
-Flex is similar to Row or column, depending on direct: Axis.X. it is a flexible row or column.
+Flex is similar to Row or column, depending on direction: Axis.X. it is a flexible row or column.
 
       body: Flex(
         direction: Axis.vertical,

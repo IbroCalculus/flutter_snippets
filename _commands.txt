@@ -1,0 +1,15 @@
+flutter clean -> This cleans the project and do a fresh run incase of some errors, like due to caches.
+
+dart fix
+
+
+flutter doctor
+flutter clean
+flutter pub get
+flutter run
+dart pub cache repair
+dart pub cache clean
+
+flutter pub outdated
+
+flutter pub upgrade --major-versions

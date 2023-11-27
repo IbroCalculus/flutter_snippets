@@ -1,0 +1,126 @@
+This is similar to creating a custom layout and reusing, ie a custom layout to be populated in a recyclerView
+
+NB: You can create with Widget class either within same dart file, before last }, OR
+    As a separate file to be accessible by other classes, by creating a directory (ie widgets) within lib (same directory pages folders are located.
+    Create a dart file for this Custom Widget, ie person2_widget.dart and create the widget within. CHECK BELOW For more explanation. There's some little difference.
+
+
+---- 1. This is a simple widget consisting of only a Text ----
+
+  List<String> people = [];
+
+
+  Widget PersonUI(){
+    return Text("This is a sample custom widget");
+  }
+
+--- Example Usage ---
+
+                child: ListView.builder(
+                    itemBuilder: (context, index){
+                      return PersonUI();
+                }, itemCount: 20,
+                ),
+
+
+---- 2. Similarly ----
+
+  List<String> people = [];
+
+  Widget PersonUI(List<String> people, int index){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("${people[index]}",
+          style: TextStyle(fontSize: 18),
+        ),
+        GestureDetector(
+            child: Icon(Icons.account_circle_outlined, color: Colors.blue),
+          onTap: () {
+            people.removeAt(index);
+            setState(() {});
+          },
+        ),
+      ],
+    );
+  }
+
+--- Example Usage ---
+
+                child: ListView.builder(
+                    itemBuilder: (context, index){
+                      return PersonUI(people, index);
+                }, itemCount: people.length,
+                ),
+
+---- 3. Similarly ----
+
+  List<PersonModel> people2 = [];	//PersonModel is a class consisting of 3 variables; name, country and age.
+
+
+  Widget PersonUI2(List<PersonModel> people2, int index){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("${people2[index].name} | ${people2[index].country} : ${people2[index].age}",
+          style: TextStyle(fontSize: 18),
+        ),
+        GestureDetector(
+            child: Icon(Icons.account_circle_outlined, color: Colors.blue),
+          onTap: () {
+            people2.removeAt(index);
+            setState(() {});
+          },
+        ),
+      ],
+    );
+  }
+
+--- Example Usage ---
+
+                child: ListView.builder(
+                    itemBuilder: (context, index){
+                      return PersonUI2(people2, index);
+                }, itemCount: people2.length,
+                ),
+
+
+============================== CREATING A CUSTOM WIDGET IN A SEPARATE DART FILE ==========================================================================
+Still using example 3 above, adding it to a separate dart file (ie person2.dart), notice a callback function was introducted to handle state change, and the setState(() {}); removed
+
+typedef VoidCallback = void Function();
+
+Widget PersonUI2(List<PersonModel> people2, int index, VoidCallback onDelete) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text("${people2[index].name} | ${people2[index].country} : ${people2[index].age}",
+        style: TextStyle(fontSize: 18),
+      ),
+      GestureDetector(
+        child: Icon(Icons.account_circle_outlined, color: Colors.blue),
+        onTap: onDelete, // Call the onDelete callback
+      ),
+    ],
+  );
+}
+
+--- Example Usage ---
+
+  List<PersonModel> people2 = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: people2.length,
+      itemBuilder: (context, index) {
+        return PersonUI2(people2, index, () {
+          // Delete the item from the list and update the state
+          setState(() {
+            people2.removeAt(index);
+          });
+        });
+      },
+    );
+  }
+}

@@ -3,10 +3,12 @@ ORGANIZING MY CODES FOR EASIER READABILITY AND UNDERSTANDING
 
 - have the main.dart to contain only the main run function as will be seen below
 - Within 'lib', create a folder, ie 'screen', within which every screen will be placed.
-- E.g create 2 sample screens, ie MainActivity.dart & DashboardActivity.dart.
+- E.g create 2 sample screens, ie mainActivity.dart & dashboardActivity.dart.
 
 === Code =====
 --- Within main.dart ---
+
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -17,7 +19,7 @@ void main() {
 }
 
 
---- Within MainActivity.dart (NOte the name of the class, 'Main') ---
+--- Within MainActivity.dart (Note the name of the class, 'Main') ---
 
 import 'package:flutter/material.dart';
 
@@ -45,7 +47,7 @@ class Main extends StatelessWidget {
 
 
 
---- Within DashboartActivity.dart (Note the name of the class, 'Dashboard' ---
+--- Within dashboartActivity.dart (Note the name of the class, 'Dashboard' ---
 
 import 'package:flutter/material.dart';
 

@@ -13,10 +13,9 @@ import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
 void main() {
-  runApp(const MyApp());  
+  runApp(const MyApp());  					OR	void main() => runApp(MyApp());
 }
- OR
-void main() => runApp(MyApp());
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -46,3 +45,30 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
+
+--------- More within Scaffold -----------
+
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Login Activity"),
+      ),
+      body: const Center(
+        child: Text(
+          "Welcome to Login Activity"
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: null,
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+

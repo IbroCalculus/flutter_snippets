@@ -1,6 +1,7 @@
 
  ================ Wrapping Widgets inside a column (Stack widgets vertically) =============
 CHECK ALSO: SizedBox.txt
+CHECK ALSO: Flex.txt
 
         body: Center(
           child: Column(

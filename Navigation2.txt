@@ -1,0 +1,38 @@
+Within lib, create a folder 'routes' -> dart file 'route_generator'
+
+--- Within: route_generator.dart:
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_lesson2/pages/home_page.dart';
+import 'package:flutter_lesson2/pages/login_page.dart';
+import 'package:flutter_lesson2/pages/practice_page.dart';
+
+class RouteGenerator{
+  static Route<dynamic> generateRoute(RouteSettings settings){
+    switch(settings.name){
+      case "/":
+        return MaterialPageRoute(builder: (context) => HomePage());
+      case "/practicePage":
+        return MaterialPageRoute(builder: (context) => PracticePage());
+      case "/loginPage":
+        return MaterialPageRoute(builder: (context) => LoginPage());
+      default:
+      // If the route is not defined, return a MaterialPageRoute to the HomePage (you can change this to any default page).
+        return MaterialPageRoute(builder: (context) => HomePage());
+    }
+  }
+}
+
+NB: If error, delete: import 'dart.js' that may import at the top.
+
+
+--- Within: main.dart:
+
+      initialRoute: "/",
+      onGenerateRoute: RouteGenerator.generateRoute,
+
+
+--- For other activities, as known, use;
+
+                Navigator.pushNamed(context, "/practicePage");

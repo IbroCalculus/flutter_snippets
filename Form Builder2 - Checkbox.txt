@@ -1,0 +1,56 @@
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+dependencies:
+  flutter_form_builder: ^9.1.1
+
+---------- In main ----------------
+  TextFieldPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();		// This
+
+
+--- 1. Text field ---
+
+class TextFieldPage extends StatelessWidget {
+  TextFieldPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();	// This. Declare a key for each form
+
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+            children: [
+
+ ------------------------ CheckBoxGroup --------------------------
+
+              FormBuilderCheckboxGroup(
+                  name: "chk_prog_languages",
+                  orientation: OptionsOrientation.vertical,
+                  options: [
+                    FormBuilderFieldOption(value: "Dart"),
+                    FormBuilderFieldOption(value: "Kotlin"),
+                    FormBuilderFieldOption(value: "Java"),
+                    FormBuilderFieldOption(value: "Python"),
+                  ],
+                decoration: InputDecoration(
+                  labelText: "Which of these programming languages do you know?"
+                ),
+                onChanged: (value) {								// value = List datatype
+                  String response = "No. of items = ${value?.length}.\nItems are: $value";
+                  Fluttertoast.showToast(msg: response);
+                },
+              ),
+
+ ------------------------ CheckBox --------------------------
+
+              FormBuilderCheckbox(
+                name: "chk_remember",
+                title: Text("Remember me?"),
+                onChanged: (value) {					// value = boolean datatype
+                  if(value == true){
+                    Fluttertoast.showToast(msg: "Checked");
+                  }else{
+                    Fluttertoast.showToast(msg: "Unchecked");                    
+                  }
+                },
+              ),

@@ -11,3 +11,79 @@ The screen Class name is TextStyling
                 );
 
               },
+
+
+---------------------- To go back in stack  -----------------
+            Navigator.pop(context);
+
+
+---------------------- To Pass value from one activity to another  -----------------
+ --- On First Activity:
+
+  String productName = "";
+  String password = "Abcd1234";
+
+                TextFormField(
+                  onChanged: (value) {
+                    productName = value;
+                    setState(() {});
+                  },
+                  decoration: InputDecoration(
+                    labelText: "Product Name",
+                    // icon: Icon(Icons.verified_user_outlined),
+                    prefixIcon: Icon(Icons.verified_user_outlined),
+                    // This icon will be within
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                Text("Product Name is: $productName"),
+                SizedBox(
+                  height: 20.0,
+                ),
+                myButton(context),
+
+  OutlinedButton myButton(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Details(productName: productName, password: password)));		// This will take in the values to be sent to Details() Page
+      },
+      style: OutlinedButton.styleFrom(
+        minimumSize: Size(200, 50),
+      ),
+      child: Text(
+        "Submit Form".toUpperCase(),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+
+ --- On Details Activity:
+
+  Details({super.key, required this.productName, required this.password});		// Note here
+
+  String productName;
+  String password;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+
+        title: Text("Details"),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: GestureDetector(
+          child: Text("Product Name: $productName,\nPassword: $password"),		// The values are used here
+          onTap: () {
+            Navigator.pop(context);
+            Fluttertoast.showToast(msg: "Pop method called!");
+          },
+        ),
+      ),
+    );
+  }

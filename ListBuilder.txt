@@ -1,0 +1,106 @@
+Similarly, LisView.separator (CHECK: ListSeparator.txt)
+
+Used for creating dynamic listviews of any widget.
+CHECK BELOW: To see how to use the GestureDetector to handle onTap and more.
+
+------------------- Dynamic ListView of TextView ------------------------
+
+NB: Surround with Expanded.
+
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,			// vertical by default. 
+              itemBuilder: (context, index){
+                return Text("Item number $index");
+            }, itemCount: 50,
+          ),
+
+------------------- Dynamic ListView of ListTile ------------------------
+            child: ListView.builder(
+              itemBuilder: (context, index){
+                return ListTile(
+                  title: Text("Title number $index"),
+                  subtitle: Text("Subtitle number $index"),
+                  leading: Icon(Icons.abc_sharp),
+                  trailing: Icon(Icons.forward),
+                  onTap: () {
+                    Fluttertoast.showToast(msg: "You clicked on item: $index");
+                  },
+                );
+            }, itemCount: 100,
+          ),
+
+----------------- Similarly -------------------------
+
+=================================== GESTUREDETECTOR =====================================================
+
+            child: ListView.builder(
+              itemBuilder: (context, index){
+                return GestureDetector(
+                  onTap: () {
+                    print("You clicked on item: $index");
+                    Fluttertoast.showToast(msg: "You clicked on item: $index");
+                  },
+                  child: ListTile(
+                    title: Text("Title number $index"),
+                    subtitle: Text("Subtitle number $index"),
+                    leading: Icon(Icons.abc_sharp),
+                    trailing: Icon(Icons.forward),
+                    // onTap: () {},					//NB: Do not include the onTap within the widget anymore, since the GestureDetector is now being used.
+                  ),
+                );
+            }, itemCount: 100,
+          ),
+
+
+================================== POPULATE THE LISTVIEW FROM A DATA SOURCE ====================================
+
+class _DynamicListPageState extends State<DynamicListPage> {
+
+  List<String> listViewItems = ["Item 0", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];		// Data source
+
+            child: ListView.builder(
+              // scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index){
+                return GestureDetector(
+                  child: Text(names[index],),								// Note here
+                  onTap: () => Fluttertoast.showToast(msg: "Clicked item: $index"),
+                  onLongPress: () => Fluttertoast.showToast(msg: "You long clicked on this item"),
+                );
+            }, itemCount: names.length,									// Note here as well
+          ),
+
+
+
+================================== POPULATE THE LISTVIEW FROM A DATA SOURCE BY DYNAMIC ARRAY ====================================
+The data is received from a textfield.
+
+  List<String> names = ["Item 0", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];	//Initial values
+  String titleValue = "";
+
+---- The textfield to input data ------------
+          FormBuilderTextField(
+            name: "tv_title",
+            onChanged: (value) {
+              titleValue = value.toString();
+              print("title value = $titleValue");
+            },
+          ),
+
+----- The button to add to the names list ----
+          MaterialButton(
+            child: Text("Click Here"),
+            color: Colors.blue,
+            textColor: Colors.white,
+            onPressed: () {
+              names.add(titleValue);
+              Fluttertoast.showToast(msg: "Title text: $titleValue, and list items: $names");
+              setState(() {
+              });
+            },
+          ),
+
+----- The daynamic listview -----------
+            child: ListView.builder(itemBuilder: (context, index){
+              return Text(names[index]);
+            }, itemCount: names.length,
+            ),

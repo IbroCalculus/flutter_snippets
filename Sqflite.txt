@@ -1,0 +1,5 @@
+NB: An alternative to local database storage is using flutter's hive dependency (It's NoSQL).
+
+
+  sqflite: ^2.3.0
+

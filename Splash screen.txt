@@ -1,0 +1,57 @@
+========================= Splash Screen UI =========================
+NB: Ignore some classes like MyText, these are custom, just get the idea of the ui for splash screen, especially the appBar and use of Stack in body container
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+
+// --- AppBar ---
+
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        toolbarHeight: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark,
+          statusBarColor: Colors.black,
+        ),
+      ),
+
+// --- Body ---
+
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        alignment: Alignment.center,
+        child: Stack(
+          children: [
+            Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    Img.get("ic_social_tiktok.png"),
+                    color: Colors.white,
+                    width: 70,
+                    height: 70,
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    "Tik tok",
+                    style:
+                        MyText.headline(context)!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+
+ 

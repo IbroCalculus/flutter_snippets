@@ -1,0 +1,173 @@
+========= 1. CHECK IF CONNECTED TO THE INTERNET ON OPENING THE ACTIVITY =========
+
+NB: A statefult widget
+
+  connectivity_plus: ^5.0.1
+
+
+class _HomePageState extends State<HomePage> {
+
+--- FROM ---
+
+  var connectivityResult = ConnectivityResult.none;
+
+  @override
+  void initState() {
+    super.initState();
+    checkConnectivity(); 			// Check connectivity when the page is loaded. Add this line
+  }
+
+
+  // Function to check connectivity
+  Future<void> checkConnectivity() async {
+    final result = await Connectivity().checkConnectivity();
+    setState(() {
+      connectivityResult = result;
+    });
+
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      Fluttertoast.showToast(msg: "Connected to a network");
+    } else {
+      Fluttertoast.showToast(msg: "Not connected to a network");
+    }
+  }
+
+--- End ---
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+
+
+========= 2. TO CONTINOULSLY MONITOR WHEN THE INTERNET GOES ON OR OFF =========
+
+  var connectivityResult = ConnectivityResult.none;
+
+  @override
+  void initState() {
+    super.initState();
+    checkConnectivity(); 				// Check connectivity when the page is loaded
+    startMonitoringConnectivityChanges(); 		// Start monitoring connectivity changes.	ADDED THIS.
+  }
+
+
+
+  // Function to check connectivity
+
+  Future<void> checkConnectivity() async {
+    final result = await Connectivity().checkConnectivity();
+    setState(() {
+      connectivityResult = result;
+    });
+
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      Fluttertoast.showToast(msg: "Connected to a network");
+    } else {
+      Fluttertoast.showToast(msg: "Not connected to a network");
+    }
+  }
+
+
+
+  // Function to start monitoring connectivity changes
+
+  void startMonitoringConnectivityChanges() {
+    Connectivity().onConnectivityChanged.listen((result) {
+      setState(() {
+        connectivityResult = result;
+      });
+
+      if (connectivityResult == ConnectivityResult.mobile ||
+          connectivityResult == ConnectivityResult.wifi) {
+        Fluttertoast.showToast(msg: "Back online");
+      } else {
+        // Fluttertoast.showToast(msg: "Disconnected from the network");
+        showNotificationAlert(context,"Network Connectivity","Your device is not connected to a network, or having poor network converage, kindly reconnect and swipe down the screen to refresh");
+      }
+    });
+  }
+
+
+
+========= 3. CREATING A CLASS FOR THE ABOVE FUNCTONALITY AND EASILY USE IT ACCROSS DIFFERENT SCREENS =========
+----- A. The class (connectivity_service.dart) -----
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+class ConnectivityService {
+  static var connectivityResult = ConnectivityResult.none;
+
+  static Future<void> checkConnectivity(BuildContext context) async {
+    final result = await Connectivity().checkConnectivity();
+    connectivityResult = result;
+
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      Fluttertoast.showToast(msg: "Connected to a network");
+    } else {
+      Fluttertoast.showToast(msg: "Not connected to a network");
+      showNotificationAlert(
+        context,
+        "Network Connectivity",
+        "Your device is not connected to a network, or having poor network coverage, kindly reconnect and swipe down the screen to refresh",
+      );
+    }
+  }
+
+  static void startMonitoringConnectivityChanges(BuildContext context) {
+    Connectivity().onConnectivityChanged.listen((result) {
+      connectivityResult = result;
+
+      if (connectivityResult == ConnectivityResult.mobile ||
+          connectivityResult == ConnectivityResult.wifi) {
+        Fluttertoast.showToast(msg: "Back online");
+      } else {
+        showNotificationAlert(
+          context,
+          "Network Connectivity",
+          "Your device is not connected to a network, or having poor network coverage, kindly reconnect and swipe down the screen to refresh",
+        );
+      }
+    });
+  }
+
+  static void showNotificationAlert(BuildContext context, String title, String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
+}
+
+
+
+
+------- B. Usage -------
+
+class _ApiPageState extends State<ApiPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    ConnectivityService.checkConnectivity(context); // Check connectivity when the page is loaded
+    ConnectivityService.startMonitoringConnectivityChanges(context); // Start monitoring connectivity changes
+  }

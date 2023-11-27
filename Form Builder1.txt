@@ -1,0 +1,96 @@
+CHECK ALSO: Form BuilderValidator.txt
+
+
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+dependencies:
+  flutter_form_builder: ^9.1.1
+
+---------- In main ----------------
+  TextFieldPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();		// This
+
+
+--- 1. Text field ---
+
+class TextFieldPage extends StatelessWidget {
+  TextFieldPage({super.key});
+
+  final _formKey = GlobalKey<FormBuilderState>();	// This. Declare a key for each form
+
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+            children: [
+              FormBuilderTextField(
+                name: 'tv_name',
+                keyboardType: TextInputType.text,
+                initialValue: 'This is some initial value',
+                onTap: () {
+                  print('Text field tapped');
+                },
+                textAlign: TextAlign.start,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.person),
+                  iconColor: Colors.red,
+                  suffixIcon: Icon(Icons.book),
+                  prefixIcon: Icon(Icons.book),
+                  label: Text('Username'), 	// ALTERNATIVELY label: Icon(Icons.account_box). Any widget
+                  labelText: 'Username', 	// Difference with label is that this accepts only text, while above any widget. 
+                  hintText: "Enter your username",	//You don't need hintText if this label is already used.
+                  errorText: "Username is required",
+                  labelStyle: TextStyle(fontSize: 18, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: Colors.blue.shade800),
+                  prefixText: "Mr. ",
+                  counter: Text("0/100"),
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10),),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+
+              FormBuilderTextField(
+                obscureText: true,
+                name: 'tv_password',
+                initialValue: 'This is some initial value',	//Initial text in the textfield
+                onTap: () {
+                  print('Password field tapped');
+                },
+                textAlign: TextAlign.start,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.key),
+                  iconColor: Colors.red,
+                  // label: Text('Password'),
+                  labelText: "Hello",
+                  hintText: "Enter your password",
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+
+--------------------- Validate forms on button clicked ----------------------
+
+            MaterialButton(
+              child: Text("Submit"),
+              color: Colors.red,
+              textColor: Colors.white,
+              onPressed: () {
+                if(_formKey.currentState!.validate()){			// If all checks of each forms a validated. ie minLength, required, etc
+                  Fluttertoast.showToast(msg: "All forms validated!");
+                }else{
+                  Fluttertoast.showToast(msg: "Failed to validate forms!");
+                }
+                _formKey.currentState!.reset();		// This will clear the form fields, reseting the entire form to its initial state.
+                setState(() {});
+
+                },
+            ),

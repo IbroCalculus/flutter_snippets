@@ -1,5 +1,8 @@
 CHECK ALSO: Spacer.txt
 
+
+            SizedBox(height: 20),
+
         body: Center(
           child: SizedBox(
             width: double.infinity, //Full width

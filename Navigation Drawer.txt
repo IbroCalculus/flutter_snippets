@@ -3,11 +3,17 @@ You must add an appbar for navigation drawer to work.
 NOTE: Within drawer, Drawer header can be of 2 types; using 'DrawerHeader' or 'UserAccountDrawerHeader()'
 
 
+
+NB: Similar to drawer is endDrawer. It comes from the right, just replace drawer with endDrawer. ie endDrawer: Drawer(...) 
+
 ---- DrawerHeader ----
+
+    return Scaffold(
 
       drawer: Drawer(
         elevation: 20.0,
         child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               padding: EdgeInsets.all(0.0),
