@@ -1,0 +1,44 @@
+
+  flutter_image_slider: ^0.0.1
+
+      body: Container(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(40.0),
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                
+                child: Carousel(
+                  initialPage: 3,
+                  indicatorBarColor: Colors.black.withOpacity(0.3),
+                  autoScrollDuration: const Duration(seconds: 2),
+                  animationPageDuration: const Duration(milliseconds: 800),
+                  activateIndicatorColor: Colors.black,
+                  animationPageCurve: Curves.easeIn,
+                  indicatorBarHeight: 30.0,
+                  indicatorHeight: 10.0,
+                  indicatorWidth: 10.0,
+                  unActivatedIndicatorColor: Colors.grey,
+                  stopAtEnd: false,
+                  autoScroll: true,
+                  isCircle: false,
+                  scrollAxis: Axis.horizontal,
+                  items: [
+                    Image.asset("assets/images/photo1.jpg", fit: BoxFit.cover),
+                    Image.asset("assets/images/photo2.jpg", fit: BoxFit.cover),
+                    Image.asset("assets/images/photo3.jpg", fit: BoxFit.cover),
+                    Image.asset("assets/images/photo4.jpg", fit: BoxFit.cover),
+                    Image.asset("assets/images/photo5.jpg", fit: BoxFit.cover),
+                    Image.asset("assets/images/photo6.jpg", fit: BoxFit.cover),
+                  ],
+                ),
+                
+
+              ),
+            ),
+          ],
+        ),
+      ),

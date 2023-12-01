@@ -1,0 +1,4 @@
+IN CMD OF THAT PARTICULAR PROJECT (NB: Change isuleiman to you device name)
+keytool -list -v -keystore C:\Users\isuleiman\.android\debug.keystore -alias androiddebugkey -storepass android -keypass android
+
+The press Enter

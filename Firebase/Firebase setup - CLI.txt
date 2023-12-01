@@ -1,0 +1,46 @@
+  firebase_core: ^2.24.0
+
+
+
+CREATE BOTH APP PROJECT (ie flutter_firebase2) AND FIREBASE PROJECT (ie flutter-project2)
+
+--- In firebase console ---
+ - Select flutter (alternative to android, ios, web, Unity)
+ 
+
+======= ONE TIME SETUP ON COMPUTER (You don't have to do this again if already done on you computer, except perhaps; firebase login and firebase logout) ========
+
+- Click on Install the Firebase CLI (This will open another website to install the Firebase CLI)
+	---- Within the website ---
+	- Windows - npm:			(NB: standalone binary is simply the .exe version, better just use npm)
+		1. Install Node.js
+	IN CMD, no specific directory, run the command: npm install -g firebase-tools
+
+- Back to firebase Step 1:
+	- In windows CMD, run command: firebase login (You can logout using firebase logout)
+	- Allow firebase to collect CLI and Emulator ... (Just type n). email selection app will pop up. Choose your firebae email and login.
+
+- IN CMD, anywhere: dart pub global activate flutterfire_cli
+	NB: Warning may show up to set path, if not already set. The path is thus: C:\Users\isuleiman\AppData\Local\Pub\Cache\bin. ( I did in both Environment and System variables)
+
+- IN PROJECT'S FIREBASE, ADD SHA1 AND SHA256 within Project Setting (CHECK: SHA Keys.txt)
+  NB: IF perhaps forgot to add SHA, and later do it, you can always rerun the flutterfire configure to reconfigure/update.
+
+===================== FOR EVERY PROJECT (NOT one time) ============================
+- IN PARTICULAR PROJECT'S CMD: flutterfire configure. 	(If this does not work in android studio, open the project's root directory and run in CMD shell) 
+- Select the project from the list of firebase projects + Enter, then select the apps using Ctrl for check and uncheck + Enter. 
+
+
+==== In main.dart =====
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(MyApp());
+}

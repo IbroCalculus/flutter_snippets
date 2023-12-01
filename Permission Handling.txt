@@ -1,5 +1,5 @@
 
-  permission_handler: ^11.0.1
+  permission_handler: ^11.1.0
 
 ======================= Single Permission (ie enable storage ) =======================
 
@@ -26,13 +26,15 @@
   }
 
 
-======================= Multiple Permissions (ie enable storage ) =======================
+======================= Multiple Permissions (ie enable storage, camera and location ) =======================
 
 ------ in Manifest ----
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+
+----- in main.dart ----------
 
 Future<void> requestPermissions(List<Permission> permissions) async {
   for (var permission in permissions) {

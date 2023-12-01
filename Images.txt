@@ -39,7 +39,7 @@ Right click and 'copy image address' from the internet.
     - images/typist1.jpg
     - images/images.jpg
 
-The select pub.get. After which check on 'Dart Analysis' tab below android studio to make sure no error.
+Then select pub.get. After which check on 'Dart Analysis' tab below android studio to make sure no error.
 
 --- Within main.dart file ---
 

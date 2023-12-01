@@ -1,0 +1,96 @@
+NB: This did not seem to work on my emulator, only on real device.
+
+Begin with Firebase setup, before proceeding here:
+
+------------------------------------------------------
+
+  firebase_messaging: ^14.7.6
+
+        android:usesCleartextTraffic="true"
+
+WITHIN android -> app -> build.gradle;	minSdkVersion 19
+
+
+- Within lib, create a new folder (firebase) -> firebase_pushnotification.dart (A file containing a dart class responsible for all notification logic)
+
+
+------------------------ In firebase_pushnotification.dart:   ----------------------------
+
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+Future<void> handleBackgroundMessage(RemoteMessage remoteMessage) async {
+  print("Notification received from Firebase");
+  print("Title: ${remoteMessage.notification?.title}");
+  print("body: ${remoteMessage.notification?.body}");
+  print("Payload: ${remoteMessage.data}");
+}
+
+Future<void> handleForegroundMessage(RemoteMessage remoteMessage) async {
+  print("Notification received from Firebase");
+  print("Title: ${remoteMessage.notification?.title}");
+  print("body: ${remoteMessage.notification?.body}");
+  print("Payload: ${remoteMessage.data}");
+}
+
+Future<void> handleOnMessageOpened(RemoteMessage remoteMessage) async {
+  if(remoteMessage.notification != null){
+    print("Background Notification Tapped");
+    print("Title: ${remoteMessage.notification?.title}");
+    print("body: ${remoteMessage.notification?.body}");
+    print("Payload: ${remoteMessage.data}");
+
+    // Navigate to a particular page when notificaition is clicked!
+    navigatorKey.currentState?.push(
+      MaterialPageRoute(builder: (context) => MessagePage()),
+    );
+  }
+}
+
+
+
+class PushNotification{
+  static final _firebaseMessaging = FirebaseMessaging.instance;
+
+//   Request notification permission
+  static Future initNotification() async {
+    await _firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true
+    );
+
+  //   Get the device FCM token
+    final token = await _firebaseMessaging.getToken();
+    print("Device token: $token");
+
+  //  Function to listen to background changes
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+
+  // Function to handle message when app is in foreground
+    FirebaseMessaging.onMessage.listen(handleForegroundMessage);
+
+  // Function to handle when the user clicks on the notification and the app is in the background
+    FirebaseMessaging.onMessageOpenedApp.listen(handleOnMessageOpened);
+
+  }
+
+}
+
+-------------------------------In main.dart------------------------------------
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  PushNotification.initNotification();
+  // Listen to background notification
+
+  runApp(MyApp());
+}
