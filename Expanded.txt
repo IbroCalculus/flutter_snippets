@@ -1,0 +1,4 @@
+CHECK: Flex.txt
+
+Expanded works by auto-resizing the widget, if space is not enough to contain its size.
+It works better with flex. Check Flex.txt

@@ -35,9 +35,9 @@ Right click and 'copy image address' from the internet.
 - Also, let 'assets' be aligned directly under '# To add assets to your ...'
 
   assets:
-    - images/typist.jpg
-    - images/typist1.jpg
-    - images/images.jpg
+    - assets/images/typist.jpg
+    - assets/images/typist1.jpg
+    - assets/images/images.jpg
 
 Then select pub.get. After which check on 'Dart Analysis' tab below android studio to make sure no error.
 
@@ -58,13 +58,13 @@ Then select pub.get. After which check on 'Dart Analysis' tab below android stud
 ---- OR, better method for multiple images, instead of typing all images location under 'assets' as done above ------
 - Within 'pubspec.yaml':
   assets:
-    - images/    //Just the folder name
+    - assets/images/.    //Just the folder name
 
 - Within 'main.dart':
 
       body: const Center(
         child: Image(
-            image: AssetImage('images/typist1.jpg'),
+            image: AssetImage('assets/images/typist1.jpg'),
             width: 200,
             height: 200,
             fit: BoxFit.fill,  // ie Boxfit.cover, .fitHeight, .contain etc

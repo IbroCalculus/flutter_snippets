@@ -13,6 +13,7 @@
 NB: Yellow will be topmost.
 
 NB: You can wrap each items within the stack (ie Container in this case) with Positioned widget and give it any desired position. ie;
+
         children: [
           Container(height: 200, width: 200, color: Colors.black,),
 	Positioned(

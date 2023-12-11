@@ -11,7 +11,7 @@ NB: Surround with Expanded.
               scrollDirection: Axis.horizontal,			// vertical by default. 
               itemBuilder: (context, index){
                 return Text("Item number $index");
-            }, itemCount: 50,
+            }, itemCount: 50,					// Removing the itemCount will give an infinite listview items.
           ),
 
 ------------------- Dynamic ListView of ListTile ------------------------

@@ -1,0 +1,78 @@
+It is ViewPager
+NB: Also below is; PageView With dot indicator, using a library.
+
+
+      body: Column(
+        children: [
+          Container(
+            height: 200,
+
+            child: PageView(
+              scrollDirection: Axis.vertical,
+              onPageChanged: (value) {
+                Fluttertoast.showToast(msg: "Switched to page index $value",toastLength: Toast.LENGTH_SHORT);
+              },
+
+              children: [
+                Container(
+                  color: Colors.red,
+                  child: Center(child: Text('Item 1')),
+                ),
+                Container(
+                  color: Colors.green,
+                  child: Center(child: Text('Item 2')),
+                ),
+                Container(
+                  color: Colors.blue,
+                  child: Center(child: Text('Item 3')),
+                ),
+                Container(
+                  color: Colors.orange,
+                  child: Center(child: Text('Item 4')),
+                ),
+              ],
+            ),
+
+          ),
+        ],
+      ),
+
+============================TO USE THE PAGE CONTROLLER (Must be a Stateful widget )===================================
+ie Set the initial page on the PageView, and control the page on clicking icon buttons on appBar.
+
+
+  PageController _pageController = PageController(initialPage: 1);		// This
+
+  @override
+  Widget build(BuildContext context) {
+
+            child: PageView(
+              controller: _pageController,		// This
+
+
+------------ See How to control PageView change on clicking icons on appBar ---------
+
+      appBar: AppBar(
+        title: Text("Dashboard"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // _pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+              _pageController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+            },
+            icon: Icon( Icons.arrow_back_ios,),
+          ),
+          IconButton(
+            onPressed: () {
+              // _pageController.animateToPage(2, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+              _pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+            },
+            icon: Icon(Icons.arrow_forward_ios,),
+          ),
+        ],
+      ),
+
+
+======================= PageView With dot indicator =====================
+
+  page_view_dot_indicator: ^2.3.0
