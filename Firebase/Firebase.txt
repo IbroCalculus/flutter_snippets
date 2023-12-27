@@ -20,7 +20,7 @@
 - In firebase, For Android package name, paste; com.example.flutter_firebase
 - click on Register app and download google-services.json
 - Paste the file within; android directory -> app folder
-- Click on next and copy: id("com.google.gms.google-services") version "4.4.0" apply false	//Kotlin DSL (build.gradle.kts)
+- Click on next and copy: id("com.google.gms.google-services") version "4.4.0" apply false	//Groovy (build.gradle.kts)
 - Within android (directory) -> build.gradle:
 - Paste the above, and modify as shown:
 
@@ -28,12 +28,12 @@
         classpath 'com.android.tools.build:gradle:7.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-        id("com.google.gms.google-services") version "4.4.0" apply false		// FROM this
-        classpath "com.google.gms.google-services4.4.0"					// TO this
+        id 'com.google.gms.google-services' version '4.4.0' apply false		// FROM this
+	classpath 'com.google.gms:google-services:4.4.0'			// TO this.	NB: Changed gms.google- TO gms:google-
     }
 
 
-- Back in firebase, from Module(app-level) Gradle file ..., within plugins { copy id("com.google.gms.google-services")
+- Back in firebase, from Module(app-level) Gradle file ..., within plugins { copy id 'com.google.gms.google-services'
 - Within android (directory) -> app -> build.gradle:
 - Paste the above, and modify as shown:
 
@@ -42,27 +42,61 @@ plugins {
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 
-    id("com.google.gms.google-services")	// FROM this
-    id "com.google.gms.google-services"		// TO this
+    id 'com.google.gms.google-services'		// TO this
+    
+}
+
+
+- Still within firebase, from Module(app-level) Gradle file... within dependencies { Copy the 2 dependencies as used below
+- Within android (directory) -> app -> build.gradle:
+- Paste the above, and modify as shown:
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation 'com.google.firebase:firebase-analytics'		// If Firebase analytics is selected for the firebase project, then add this, else not
 }
 
 - In Firebase, Click on next, and continue to console
 
 - Within android (directory) -> app -> build.gradle:
- Change minSdkVersion flutter.minSdkVersion TO minSdkVersion 19
+ 	Change minSdkVersion flutter.minSdkVersion TO minSdkVersion 19
+ 	Just below mindSdkVersion 19, add this; multiDexEnabled true
 
+NB: If experience problem of kotlin plugin not up-to-date, within android\build.gradle, update version. For now it's 1.9.21
+    ext.kotlin_version = '1.9.21'
 
 ========================== Initialize firebase in App ======================================
 
 dependencies:
-  firebase_core: ^2.21.0
-  firebase_messaging: ^14.7.3
+  firebase_core: ^2.21.0			// The main
+  firebase_messaging: ^14.7.3			// If you want to use cloud messaging
+  cloud_firestore: ^4.13.6			// If you want to use cloud firestore database
+
 
 ---- Within main -----
 Modify the main method as shown;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+ 
+  Platform.isAndroid ?              // Platform from dart.io package
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyAKpEtSt0mNpJdCezH11MPhSqgv_ITZAD4",
+        appId: "1:1047215921555:android:c2607f9925ecf813173066",
+        messagingSenderId: "1047215921555",
+        projectId: "flutter-firebaseproj",
+    ),
+  ):
   await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
+
+
+NB: You get the values of the FirebaseOptions from within the google-services.json;
+apiKey	=  current_key
+appId   =  mobilesdk_app_id
+messagingSenderId  = project_number
+projectId  = project_id
+

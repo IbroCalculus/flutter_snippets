@@ -1,0 +1,39 @@
+
+  bool _switchValue = false;
+
+      body: Container(
+        width: double.maxFinite,
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Light"),
+
+                Switch(
+                  value: _switchValue,
+                  onChanged: (value) {
+                    setState(() {
+                      _switchValue = value;
+                      switch(_switchValue){
+                        case true:
+                          print("Switched on");
+                        case false:
+                          print("Switched off");
+                        default:
+                          print("Nothing selected!");
+                      }
+                    });
+                  },
+                ),
+                
+              ],
+            ),
+            
+            
+          ],
+        ),
+      ),

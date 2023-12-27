@@ -1,4 +1,5 @@
 It is ViewPager
+CHECK ALS0: PageViewBuilder.txt
 NB: Also below is; PageView With dot indicator, using a library.
 
 

@@ -62,9 +62,9 @@ The screen Class name is TextStyling
     );
 
 
------------------ Saving routes in a different file (CHECK: Navigation2.txt) ----------------------------
+----------------- Saving routes in a different file  ----------------------------
 
-Create folder within lib, ie _routing, create a dart file, ie routes.dart, with a classs  within it, ie AppRoutes
+Create folder within lib, ie _routing, create a dart file, ie routes.dart, with a class  within it, ie AppRoutes
 Cut and paste the values of routes into the file as shown:
 
 class AppRoutes {
@@ -85,7 +85,7 @@ class AppRoutes {
 
 
 
------------------ Saving routes in a different file (Using RouterGenerator) ----------------------------
+----------------- Saving routes in a different file (Using RouterGenerator) (CHECK: Navigation2.txt) ----------------------------
 
 
 

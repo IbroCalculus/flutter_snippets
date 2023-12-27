@@ -1,0 +1,53 @@
+Collections: Tables
+Documents: Rows
+fields inside each of the document: Columns
+
+
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.13.6
+
+
+===== Creating/Accessing a collection (if already exixts), document and pass fields ========
+
+            ElevatedButton(
+              onPressed: () async {
+
+                final databaseReference = FirebaseFirestore.instance;
+                await databaseReference.collection("users").doc("1").set({
+                  "username" : "John",
+                  "age" : 45,
+                  "address" : "New York"
+                });
+
+              },
+
+            child: Text("Create Data"),
+
+            ),
+
+---------- Enhanced of the above, include checking if the data was successfully uploaded or not -------------
+
+ElevatedButton(
+  onPressed: () async {
+    final databaseReference = FirebaseFirestore.instance;
+    final userReference = databaseReference.collection("users").doc("1");
+
+    // Create a Map with the data you want to set
+    final userData = {
+      "username": "John",
+      "age": 45,
+      "address": "New York",
+    };
+
+    // Use the set method and handle the response
+    userReference.set(userData).then((_) {
+      // If the set operation completes successfully
+      print("Data created successfully!");
+    }).catchError((error) {
+      // If an error occurs during the set operation
+      print("Error creating data: $error");
+    });
+  },
+  child: Text("Create Data"),
+),
+

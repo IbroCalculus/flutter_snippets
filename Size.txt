@@ -11,6 +11,19 @@
 
 ----------------------- Get device size --------------------------
 
+
+  @override
   Widget build(BuildContext context) {
 
-    print('DEVICE HEIGHT: ${MediaQuery.of(context).size.height}');
+    var height = (MediaQuery.of(context).size.height);
+    var width = (MediaQuery.of(context).size.width);
+    print("DEVICE HEIGHT: $height \nDEVICE WIDTH: $width");
+
+    return Scaffold(
+
+
+      body: Container(
+        color: Colors.red,
+        height: (MediaQuery.of(context).size.height)/2,
+        width: (MediaQuery.of(context).size.width)/2,
+

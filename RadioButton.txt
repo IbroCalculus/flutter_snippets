@@ -44,3 +44,124 @@ genderTypeEnum? _genderTypeEnum;
       onPressed: () {
         Fluttertoast.showToast(msg: "Radio selected is: ${_genderTypeEnum.toString()}");
 	}
+
+
+=============================== SIMILARLY (For Better Understanding, Using Radio) =========================================
+
+  int _selectedRadio = 0;		// For first group of radio buttons
+  int _selectedRadio2 = 20;		// For second group of radio buttons
+
+      body: Container(
+        child: ListView(
+          children: [
+
+// First group of 3 radio buttons
+
+            Radio(
+              value: 0,
+              groupValue: _selectedRadio,
+              onChanged: (value) {
+                setState(() {
+                  _selectedRadio = value!;
+                });
+              },
+
+            ),
+            Radio(
+              value: 1,
+              groupValue: _selectedRadio,
+              onChanged: (value) {
+                setState(() {
+                  _selectedRadio = value!;
+                });
+              },
+
+            ),
+            Radio(
+              value: 2,
+              groupValue: _selectedRadio,
+              onChanged: (value) {
+                setState(() {
+                  _selectedRadio = value!;
+                });
+              },
+
+            ),
+
+// Second group of 3 radio buttons 
+
+            Radio(
+              value: 20,
+              groupValue: _selectedRadio2,
+              onChanged: (value) {
+                setState(() {
+                  _selectedRadio2 = value!;
+                });
+              },
+
+            ),
+            Radio(
+              value: 21,
+              groupValue: _selectedRadio2,
+              onChanged: (value) {
+                setState(() {
+                  _selectedRadio2 = value!;
+                });
+              },
+
+            ),
+            Radio(
+              value: 22,
+              groupValue: _selectedRadio2,
+              onChanged: (value) {
+                setState(() {
+                  _selectedRadio2 = value!;
+                });
+              },
+
+            ),
+          ],
+        ),
+      ),
+
+----------------- Make It look Better by Placing each Radio widget withing leading property of a ListTile, and introducting title for the text --------------
+
+            ListTile(
+              leading: Radio(
+                value: 0,
+                groupValue: _selectedRadio,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedRadio = value!;
+                  });
+                },
+
+              ),
+              title: Text("Flutter App Development"),
+            ),
+            ListTile(
+              leading: Radio(
+                value: 1,
+                groupValue: _selectedRadio,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedRadio = value!;
+                  });
+                },
+
+              ),
+              title: Text("Android App Development"),
+            ),
+            ListTile(
+              leading: Radio(
+                value: 2,
+                groupValue: _selectedRadio,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedRadio = value!;
+                  });
+                },
+
+              ),
+              title: Text("iOS App Development"),
+            ),

@@ -8,6 +8,7 @@ class _MyFormState extends State<MyForm> {
 
 
                 DropdownButton<String>(
+              	  hint: Text("Select from the dropdown"),
                   value: selectedValue, // The selected value
                   items: items.map((String item) {
                     return DropdownMenuItem<String>(

@@ -1,3 +1,5 @@
+===================== USING DefaultTabController ===========================
+
 Assume want to create two tabs;
 
   @override
@@ -5,15 +7,16 @@ Assume want to create two tabs;
 
     return DefaultTabController(
       length: 2,
+      initialIndex: 1,
       child: Scaffold(
 
         // Within the appBar section
         appBar: AppBar(
-          title: Text("Friend Requests"),
+          title: Text("Friend Requests",),
           bottom: TabBar(
             tabs: [
-              Tab(text: 'Sent Requests'),
-              Tab(text: 'Received Requests'),
+              Tab(text: 'Sent Requests',icon: Icon(Icons.cloud),),
+              Tab(text: 'Received Requests',icon: Icon(Icons.wifi),),
             ],
           ),
         ),
@@ -27,6 +30,48 @@ Assume want to create two tabs;
           ],
           
         ),
+      ),
+    );
+  }
+
+========= CREATING OUR OWN CONTROLLER (to be able to control this tabbar programmatically). A stateful widget ==========
+
+
+class _DashboardPageState extends State<DashboardPage> with TickerProviderStateMixin {  // NOTE THIS
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 1);
+    super.initState();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Dasboard!"),
+        bottom: TabBar(
+          controller: _tabController,           // NOTE THIS
+          tabs: [
+            Tab(text: "Tab 1",icon: Icon(Icons.cloud),),
+            Tab(text: "Tab 2",icon: Icon(Icons.wifi),),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,             // NOTE THIS
+        children: [
+          Center(child: Text("Tab 1 View")),
+          Center(child: Text("Tab 2 View")),
+        ],),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _tabController.animateTo(1);
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

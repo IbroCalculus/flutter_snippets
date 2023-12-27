@@ -1,2 +1,2 @@
 This is known as PageView in flutter. CHECK: PageView.txt
-ALSO CHECK: BottomNavigationBar.txt
+ALSO CHECK: BottomNavigationBar.txt to see some usage of it.
