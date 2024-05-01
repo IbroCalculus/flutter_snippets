@@ -6,6 +6,9 @@
 -Go to 'project name' -> 'lib' -> main.dart in folder structure
 
 
+
+NOTE: It will be flutter screenutil for better UI adaptability across devices. Check documentation and usage from pub.dev
+
 ==========================	Basic Template	==========================
 -------------- In main.dart ------------------------
 

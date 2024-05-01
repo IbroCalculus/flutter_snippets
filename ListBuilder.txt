@@ -8,6 +8,7 @@ CHECK BELOW: To see how to use the GestureDetector to handle onTap and more.
 NB: Surround with Expanded.
 
             child: ListView.builder(
+	      shrinkWrap: true,
               scrollDirection: Axis.horizontal,			// vertical by default. 
               itemBuilder: (context, index){
                 return Text("Item number $index");

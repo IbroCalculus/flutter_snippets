@@ -16,6 +16,7 @@ class ListView2Class extends StatelessWidget {
 
       body: Container(
         child: ListView.builder(
+	  shrinkWrap: true,
           itemCount: products.length,
             itemBuilder: (context, index){
               // return Text(index.toString());

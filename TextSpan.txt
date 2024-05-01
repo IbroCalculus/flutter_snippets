@@ -30,3 +30,13 @@
           ),
 
 NB: To add another widget ie an icon to a TextSpan, use WidgetSpan as shown above.
+
+
+        child: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: "This is the "),
+              TextSpan(text: "HOME", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),),
+            ],
+          ),
+        ),

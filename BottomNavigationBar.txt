@@ -6,6 +6,7 @@ class _MainPageState extends State<MainPage> {
   int currentTabIndex = 0;
 
         bottomNavigationBar: BottomNavigationBar(
+
           items: const [
             BottomNavigationBarItem(
               label: 'Home',
