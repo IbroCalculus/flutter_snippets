@@ -8,7 +8,12 @@ We can use either a network image, on an asset image
 Two methods each of adding both
 1. Asset Image:
 Image(
-	image.AssetImage("path")
+	//image.AssetImage("path")
+	image: const AssetImage("assets/images/lambo1.jpeg"),
+
+        width: MediaQuery.of(context).size.width,
+        // height: 200,
+        fit: BoxFit.cover,
 )
 Image.asset()
 

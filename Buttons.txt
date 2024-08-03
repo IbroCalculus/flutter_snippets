@@ -1,10 +1,11 @@
 CHECK ALSO; TextButton.txt
 
 
-There are 3 basic type of buttons in flutter, ie:
 - Text button
 - Outlined button
 - Elevated button
+- Filled button
+- Filled tonal button
 - Check also below: MaterialButton (Seem nice, use it)
 
 
@@ -68,7 +69,9 @@ NB: To disable button, use:
                   child: Text('Answer 1'),
                 ),
 
+
 ============= ENABLE DYNAMIC CHANGE OF DATA ON BUTTON CLICKED ================
+
 NB: We work with stateful widget instead of stateless, hover and select convert to stateful widget
 NB: You can check Variables.txt if face any problems working with variable data here.
 

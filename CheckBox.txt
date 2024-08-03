@@ -38,3 +38,14 @@ bool checkState = false;
                     }
                   },
                 ),
+
+
+
+3. =========== Get Status of Checkbox when a button is clicked ===============
+
+            ElevatedButton(
+                onPressed: () {
+                  print("Status: $checkState");
+                },
+                child: const Text("Submit"),
+            )

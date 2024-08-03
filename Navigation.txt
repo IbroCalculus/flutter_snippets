@@ -10,6 +10,9 @@ ALTERNATIVELY: Use dependency;
 
 
 NB: SystemNavigator.pop();		// This exits/closes the application. Check below to see its usage with onBack pressed
+NB:
+        appBar: AppBar(
+          automaticallyImplyLeading: false,	// This do away with the <- in the next page's app bar that allows backward navigation when clicked.
 
 
 ---------------------- 1. Navigation to another screen  -----------------
@@ -22,15 +25,50 @@ The screen Class name is TextStyling
                     MaterialPageRoute(builder: (context) => TextStyling())
                 );
 
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => TextStyling())
+                );
+			 //Same as 'finish()' in android. Discard from backstack 
+
               },
+
+		// OR
+		
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const SecondPage()));
 
 
 ---------------------- To go back in stack  -----------------
             Navigator.pop(context);
 
 
+---------------------- To go back while returning an information -----------
 
-  ---------------- OR using Named Navigation --------------------
+	--- The first page ---
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SecondPage(),
+                    ),
+                  ).then(
+                    (result) {
+                      if (result is String) {
+                        print('RETURNED RESULT: $result');		// OUTPUT: 'RETURNED RESULT: return message to first page
+                        showAlert(context, "Sample title", result);	// where showAlert is a custom defined function for showing alert message
+                      }
+                    },
+                  );
+
+	--- The second page ---
+
+                  String theMsg = "return message to first page";
+                  Navigator.pop(context, theMsg);	// Navigator.of(context).pop("Pop message");
+
+
+
+
+  ---------------- using Named Navigation --------------------
  
                 Navigator.pushNamed(context, "/home");
 
@@ -43,6 +81,15 @@ The screen Class name is TextStyling
       routes: {
         '/': (context) => LoginPage(),
         '/home': (context) => HomePage(),
+      },
+      onUnknownRoute: (settings) {
+        MaterialPageRoute(builder: (context) =>
+        Scaffold(
+          appBar: AppBar(title: const Text('Unknown Route')),
+          // body: Center(child: Text('Unknown route: ${settings.path}')),
+          body: const Center(child: Text('Unknown route: 404'),),
+        ));
+        return null;
       },
 
 --- E.g: ---
@@ -58,6 +105,15 @@ The screen Class name is TextStyling
         "/home": (context) => HomePage(),
         "/friend_request":(context) => FriendRequestPage(),
         "/login":(context) => LoginPage(),
+      },
+      onUnknownRoute: (settings) {
+        MaterialPageRoute(builder: (context) =>
+        Scaffold(
+          appBar: AppBar(title: const Text('Unknown Route')),
+          // body: Center(child: Text('Unknown route: ${settings.path}')),
+          body: const Center(child: Text('Unknown route: 404'),),
+        ));
+        return null;
       },
     );
 
@@ -182,3 +238,20 @@ class AppRoutes {
           return false;							//NB: return false. Return false to prevent further back navigation (not necessary in this case)
         },
         child: Container(
+
+
+----- maybe pop (If there's a previous page) -------
+
+        body: WillPopScope(
+          onWillPop: () async {
+            print("Back button pressed");
+            Navigator.pop(context);
+            return false; // returning false prevents the pop operation
+          },
+
+
+          child: Center(
+                ElevatedButton(onPressed: (){
+                  Navigator.of(context).maybePop();		// HERE 
+                }, child: const Text("Using Maybe Pop"),),
+

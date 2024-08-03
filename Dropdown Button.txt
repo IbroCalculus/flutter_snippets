@@ -43,3 +43,43 @@ class _MyFormState extends State<MyForm> {
                     });
                   },
                 ),
+
+
+============================= MORE EXAMPLE ====================
+
+class _HomeState extends State<Home> {
+
+  String _selectedValue = 'One';
+  List<String> dropdownValues = ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
+
+            DropdownButton<String>(
+              value: _selectedValue,
+              items: dropdownValues.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedValue = value!;
+                });
+              },
+            ),
+
+            ElevatedButton(
+                onPressed: () {
+                  print("The selected value is: $_selectedValue");
+                },
+                child: const Text("Submit"),
+            ),
+
+
+
+
+
+
+
+
+
+

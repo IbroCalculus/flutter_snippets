@@ -1,4 +1,7 @@
 
+CHECK ALS0: Custom theme.txt
+
+
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
         fontFamily: 'ethnocentric',
@@ -8,3 +11,11 @@
 
 	OR:
       themeMode: ThemeMode.system,    /ThemeMode.dark, .light
+
+-----------------------------
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+
+

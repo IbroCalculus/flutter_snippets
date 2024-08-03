@@ -1,5 +1,5 @@
 
-========== To use custom font ===========
+========== 1. To use custom font ===========
 - Right-click on project name and create new folder called 'fonts'
 - Copy and paste the font inside the folder, ie: Oswald-LightItalic.ttf
 - Go to 'pubspec.yaml' file, scroll down to fonts section and uncomment all the codes
@@ -21,3 +21,20 @@
 
                 fontFamily: 'Oswald',
 
+
+
+
+
+
+========== 2. To use google font ===========
+dependencies:
+  google_fonts: ^6.2.1
+
+Text(
+  'This is Google Fonts',
+  style: GoogleFonts.lato(),
+),
+
+      style: GoogleFonts.orbitron(
+        textStyle: Theme.of(context).textTheme.headlineMedium,
+      ),

@@ -1,0 +1,30 @@
+
+============ CUSTOM WIDGET AS A CLASS ===============
+
+
+class CustomFilledButton extends StatelessWidget {
+  const CustomFilledButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
+
+  final String text;
+  final void Function() onPressed; 
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton(
+            onPressed: () => onPressed(),
+            child: Text(text),
+          );
+  }
+}
+
+----------- Usage -------------
+
+            CustomFilledButton(text: 'Say Something Now', onPressed: () => print("Say Something Now"),),
+            CustomFilledButton(text: 'Say You like', onPressed: () => print("Say you like"),),
+            CustomFilledButton(text: 'Say He said', onPressed: () => print("Say He said"),),
+

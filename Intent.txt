@@ -1,4 +1,9 @@
-ALSO IN: Navigation.txt
+JUST CHECK: Navigation.txt
+
+
+
+
+
 
 ---------------------- Navigation to another screen  -----------------
 The screen Class name is TextStyling
@@ -12,6 +17,16 @@ The screen Class name is TextStyling
 
               },
 
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => TextStyling())
+                );
+			 //Same as 'finish()' in android. Discard from backstack 
+
+
+		// OR
+		
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const SecondPage()));
 
 ---------------------- To go back in stack  -----------------
             Navigator.pop(context);

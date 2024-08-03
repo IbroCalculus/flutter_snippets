@@ -1,3 +1,5 @@
+NB: There is also floatingActionButton: FloatingActionButton.extended(...	// This is with a name constructor and enables customization of the FAB
+
 
         floatingActionButton: FloatingActionButton(
           onPressed: null,

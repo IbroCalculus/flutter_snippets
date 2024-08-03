@@ -1,3 +1,6 @@
+
+==================== USING ONGENERATED ROUTE =============================
+
 Within lib, create a folder 'routes' -> dart file 'route_generator'
 
 --- Within: route_generator.dart:
@@ -17,12 +20,37 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (context) => PracticePage());
       case "/loginPage":
         return MaterialPageRoute(builder: (context) => LoginPage());
+      case '/verify_email':
+        if (settings.arguments is String) {
+          final userEmail = settings.arguments as String;
+          return MaterialPageRoute(
+            builder: (context) => VerifyEmailScreen(userEmail: userEmail),
+          );
+        }
+        return _errorRoute();
       default:
-      // If the route is not defined, return a MaterialPageRoute to the HomePage (you can change this to any default page).
-        return MaterialPageRoute(builder: (context) => HomePage());
+        return _errorRoute();
     }
   }
-}
+
+
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute(
+      builder: (_) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Error'),
+          ),
+          body: Center(
+            child: Text('ERROR: Route not found'),
+          ),
+        );
+      },
+    );
+  }
+
+
+}	// End
 
 NB: If error, delete: import 'dart.js' that may import at the top.
 

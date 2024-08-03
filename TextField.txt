@@ -10,6 +10,15 @@ NB: To pass value from a texfield in one activity to another, check: Intent.txt 
 By default, width = match_parent. ie 
 
               TextField(
+                        controller: _nameController,
+                        validator: (value) {
+                          if(value == null || value == ""){
+                            return "Please enter your name";
+                          }else{
+                            return null;
+                          }
+                        },
+
                 decoration: InputDecoration(
                   hintText: "Product Name",
                   // icon: Icon(Icons.verified_user_outlined),
