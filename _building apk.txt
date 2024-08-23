@@ -1,0 +1,4 @@
+==== To build in debug mode =====
+- run the command;
+
+	flutter build apk --debug
