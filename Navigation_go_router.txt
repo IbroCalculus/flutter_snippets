@@ -1,0 +1,115 @@
+
+  go_router: ^14.2.7
+
+------------------------------------------------------------
+
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: _router,      //  ============= HERE ============= 
+    );
+  }
+  
+  final _router = GoRouter(
+    initialLocation: '/',
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: '/counter',
+        builder: (context, state) => const CounterApp(),
+      ),
+    ],
+  );
+
+
+}
+
+
+----------------------------- NAVIGATING -----------------------------
+1. context.go('/route'): Replaces the current page with the new page. REMOVED FROM STACK
+2. context.push('/route'): Pushes a new page onto the navigation stack (similar to Navigator.push).
+3. context.pop(): Goes back to the previous screen.
+
+          onPressed: () {
+            context.go('/counter');
+          },
+
+
+
+===================== 2. USING NAMED ROUTES ==========================
+
+
+  final _router = GoRouter(
+    initialLocation: '/',
+    routes: [
+      GoRoute(
+        path: '/',
+        name: 'home',  // Name this route as 'home'
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: '/home',
+        name: 'home',  // Same name for both the default and '/home'
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: '/counter',
+        name: 'counter',  // Name this route as 'counter'
+        builder: (context, state) => const CounterApp(),
+      ),
+    ],
+  );
+
+----------------------------- NAVIGATING -----------------------------
+// To navigate to the HomePage and clears the stack
+context.goNamed('home');
+
+// To navigate to the CounterApp page and keeps previous page in the stack
+context.pushNamed('counter');
+
+
+
+===================== 3. NAVIGATING WHILE PASSING PATH PARAMETERS (There is also query parameter) ==========================
+
+      GoRoute(
+        path: '/welcome/:firstName', 	// The path parameter is now 'firstName'
+        name: 'welcome',
+        builder: (context, state) {
+          final firstName = state.pathParameters['firstName'];	// Retrieve 'firstName' from pathParameters
+          return WelcomePage(firstName: firstName!);		// Pass it to WelcomePage
+        },
+      ),
+
+	-------------
+                context.pushNamed('welcome', pathParameters: {'firstName': 'Ibrahim'});		// Navigate with the path parameter 'firstName'
+
+	-------------
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key, required this.firstName});
+  final String firstName;
+
+...
+            Text("Welcome: $firstName"),
+
+
+===================== 4. NAVIGATING WHILE PASSING QUERY PARAMETERS (There is also path parameter as shown above) ==========================
+
+
+
+
+
+
+
+
+

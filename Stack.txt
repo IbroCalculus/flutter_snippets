@@ -28,3 +28,36 @@ NB: You can wrap each items within the stack (ie Container in this case) with Po
 		child: Container(
 		)
 	)
+
+==================== Clip behaviours works with widget that a being cliped out of the stack, ie when using -ve value for position within Positioned widget ================
+
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      clipBehavior: Clip.none,		// THIS. Clip.antiAlias by default.
+
+        Positioned(
+          bottom: -50,			// THIS
+          child: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.headphones,
+              size: 80.0,
+              color: Colors.blue,
+            ),
+          ),
+        )
+
+================== TO CENTER A SINGLE WIDGET within the stack, without using alignment: AlignmentDirectional.center ===============
+
+        const Positioned.fill(		//
+          child: Center(
+            child: Text(
+              "This is testing a stack layout",
+              textAlign: TextAlign.center,		// 
+              style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ),
+        ),

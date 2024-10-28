@@ -3,6 +3,8 @@ Similarly, LisView.separator (CHECK: ListSeparator.txt)
 Used for creating dynamic listviews of any widget.
 CHECK BELOW: To see how to use the GestureDetector to handle onTap and more.
 
+NB: tileColor: (index.isEven) ? Colors.red : Colors.green,	// Use within listyle to alternate the colors within each listile
+
 ------------------- Dynamic ListView of TextView ------------------------
 
 NB: Surround with Expanded.

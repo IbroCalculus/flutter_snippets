@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+
+class PageViewExample extends StatefulWidget {
+  const PageViewExample({super.key});
+
+  @override
+  _PageViewExampleState createState() => _PageViewExampleState();
+}
+
+class _PageViewExampleState extends State<PageViewExample> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  final List<Widget> _pages = List.generate(
+    5,
+    (index) => Center(
+      child: Text(
+        'Page ${index + 1}',
+        style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+      ),
+    ),
+  );
+
+  void _goToPage(int index) {
+    if (index >= 0 && index < _pages.length) {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      setState(() {
+        _currentPage = index;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('PageView Example'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: _pages.length,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentPage = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                return _pages[index];
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (_currentPage > 0) {
+                    _goToPage(_currentPage - 1);
+                  }
+                },
+                child: const Text('Previous'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_currentPage < _pages.length - 1) {
+                    _goToPage(_currentPage + 1);
+                  }
+                },
+                child: const Text('Next'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              _pages.length,
+              (index) => AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                width: _currentPage == index ? 12.0 : 8.0,
+                height: _currentPage == index ? 12.0 : 8.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentPage == index
+                      ? Colors.blue
+                      : Colors.grey,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: PageViewExample(),
+    debugShowCheckedModeBanner: false,
+  ));
+}

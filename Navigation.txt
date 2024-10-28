@@ -1,5 +1,7 @@
 CHECK ALSO: Navigation2.txt for navigation using routine in a different class
 
+NB: Depp Linking: It is when you click on a link and it opens a specific route/page within the app on your phone if you have it installed.
+
 ALTERNATIVELY: Use dependency;
 
   get: ^4.6.5

@@ -1,6 +1,59 @@
 
   permission_handler: ^11.1.0
 
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+
+
+---------- In main.dart --------------
+
+Future<void> requestPermissions(List<Permission> permissions) async {
+  for (var permission in permissions) {
+    // Request permission and get status
+    var status = await permission.request();
+
+    if (status.isGranted) {
+      print('${permission.toString().split('.')[1]} permission granted');
+    } else if (status.isDenied) {
+      print('${permission.toString().split('.')[1]} permission denied');
+    } else if (status.isPermanentlyDenied) {
+      print('${permission.toString().split('.')[1]} permission permanently denied. Please enable it in settings.');
+      await openAppSettings();  // Opens app settings if permanently denied
+    }
+  }
+}
+
+
+Future<void> initializePermissions() async {
+  // Determine platform-specific permissions
+  List<Permission> permissions = [Permission.storage];
+
+  // Add manageExternalStorage permission for Android 11 and above
+  if (Platform.isAndroid && (await getAndroidVersion()) >= 30) {
+    permissions.add(Permission.manageExternalStorage);
+  }
+
+  // Request permissions
+  await requestPermissions(permissions);
+}
+
+
+  @override
+  void initState() {
+    super.initState();
+    initializePermissions();
+  }
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
+
+
+=======================================================================================================================
+
 ======================= Single Permission (ie enable storage ) =======================
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

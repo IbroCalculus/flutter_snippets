@@ -1,5 +1,6 @@
   firebase_core: ^2.24.0
 
+https://firebase.google.com/docs/cli#sign-in-test-cli
 
 
 CREATE BOTH APP PROJECT (ie flutter_firebase2) AND FIREBASE PROJECT (ie flutter-project2)

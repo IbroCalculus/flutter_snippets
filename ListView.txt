@@ -5,12 +5,14 @@ There's static listview, as well as dynamic listview.
 This is for static, check ListView2 for dynamic.
 
 
+NB: To space listiles, wrap within ie a padding widget. Also, check ListSeparator.txt
+
 ========== STATIC LISTVIEW =============
 
       body: Container(
 
         child: ListView(
-          itemExtent: 200.0,  // Spacing between ListTiles
+          itemExtent: 200.0,  // Height of Each listtile within the listview
           shrinkWrap: true,  // if true ListView will wrapcontent in height, else it match-parent.
 
 

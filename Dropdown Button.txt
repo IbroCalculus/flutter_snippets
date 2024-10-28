@@ -53,6 +53,7 @@ class _HomeState extends State<Home> {
   List<String> dropdownValues = ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
 
             DropdownButton<String>(
+              isExpanded: true,		// Width fill parent
               value: _selectedValue,
               items: dropdownValues.map((String value) {
                 return DropdownMenuItem<String>(
@@ -63,6 +64,7 @@ class _HomeState extends State<Home> {
               onChanged: (value) {
                 setState(() {
                   _selectedValue = value!;
+          	  print('Selected value: $value');
                 });
               },
             ),

@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+
+class AutoCompleteScreen extends StatelessWidget {
+  const AutoCompleteScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // List of suggestions for autocomplete
+    final List<String> suggestions = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape',
+      'Honeydew',
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Autocomplete Example'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Autocomplete<String>(
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            // Show suggestions only when input is 2 or more letters
+            if (textEditingValue.text.length < 2) {
+              return const Iterable<String>.empty();
+            }
+            return suggestions.where((String option) {
+              return option.toLowerCase().contains(
+                textEditingValue.text.toLowerCase(),
+              );
+            });
+          },
+          onSelected: (String selection) {
+            // Do something when an option is selected
+            print('Selected: $selection');
+          },
+          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+            return TextField(
+              controller: textEditingController,
+              focusNode: focusNode,
+              decoration: const InputDecoration(
+                labelText: 'Type a fruit',
+                border: OutlineInputBorder(),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
