@@ -1,0 +1,109 @@
+SIMILARLY: Secure Storage.txt
+
+===========================================================
+
+  shared_preferences: ^2.3.3
+
+
+-- Structure --
+ - Have a login page. Once initialized, populate the username and password fields with the data from shared preference, else, empty strings
+
+
+=========== login_page.dart ===================
+
+import 'package:flutter/material.dart';
+import 'package:flutter_sharedpreferences_demo/views/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedCredentials();
+  }
+
+  // Load saved credentials
+  Future<void> _loadSavedCredentials() async {
+    final prefs = await SharedPreferences.getInstance(); // Correct usage
+    setState(() {
+      _usernameController.text = prefs.getString('username') ?? '';
+      _passwordController.text = prefs.getString('password') ?? '';
+      _isLoading = false;
+    });
+  }
+
+  // Save credentials
+  Future<void> _saveCredentials() async {
+    final prefs = await SharedPreferences.getInstance(); // Correct usage
+    await prefs.setString('username', _usernameController.text);
+    await prefs.setString('password', _passwordController.text);
+  }
+
+  // Handle login button press
+  void _onLoginPressed() {
+    if (_usernameController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty) {
+      _saveCredentials().then((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in both fields')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _usernameController,
+              decoration: const InputDecoration(
+                labelText: 'Username',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _onLoginPressed,
+              child: const Text('Login'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

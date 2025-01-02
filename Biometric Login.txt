@@ -1,0 +1,175 @@
+==================== 1. MainActivity.kt must extend FlutterFragmentActivity ====================
+
+package com.ibsuleiman9.biometric_flutter_login
+
+import io.flutter.embedding.android.FlutterFragmentActivity
+import android.os.Bundle
+
+class MainActivity : FlutterFragmentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+}
+
+
+
+=================== 1b. Add android permission ===============
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+
+
+=================== 1c. minSdk ===============
+        minSdk = 23
+
+
+
+==================== 2. Dependency =================================
+  local_auth: ^2.3.0
+
+
+
+==================== 3. Create auth_services.dart ================
+
+import 'package:local_auth/local_auth.dart';
+
+class AuthService {
+  final LocalAuthentication _auth = LocalAuthentication();
+
+  static const String biometricUnavailableMessage =
+      'No biometric authentication is available on this device.';
+
+  /// Checks if any biometric authentication is available
+  Future<bool> isFingerprintAvailable() async {
+    try {
+      final availableBiometrics = await _auth.getAvailableBiometrics();
+      print('Available biometrics: $availableBiometrics'); // Debugging line
+
+      // Check for either strong or fingerprint biometrics
+      return availableBiometrics.contains(BiometricType.strong) ||
+          availableBiometrics.contains(BiometricType.fingerprint);
+    } catch (e) {
+      print('Error checking biometrics: $e');
+      return false;
+    }
+  }
+
+  /// Authenticates using available biometrics
+  Future<bool> authenticateWithFingerprint() async {
+    try {
+      // Perform biometric authentication
+      return await _auth.authenticate(
+        localizedReason: 'Authenticate with biometrics',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+    } catch (e) {
+      print('Error during authentication: $e');
+      return false;
+    }
+  }
+}
+
+
+==================== 4. Create login_page.dart ================
+
+import 'package:flutter/material.dart';
+import '../utils/auth_service.dart';
+import 'main_page.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final AuthService _authService = AuthService();
+
+  /// Handles fingerprint authentication.
+  Future<void> _authenticateUser() async {
+    try {
+      // Check if biometrics are available
+      final isBiometricAvailable = await _authService.isFingerprintAvailable();
+      if (!isBiometricAvailable) {
+        _showErrorDialog('No fingerprints are enrolled on this device.');
+        return;
+      }
+
+      // Perform biometric authentication
+      final isAuthenticated = await _authService.authenticateWithFingerprint();
+
+      if (isAuthenticated) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
+      } else {
+        _showErrorDialog('Authentication failed. Please try again.');
+      }
+    } catch (e) {
+      print('Error during authentication: $e'); // Log the error for debugging
+      _showErrorDialog('An error occurred: ${e.toString()}');
+    }
+  }
+
+  /// Displays an error dialog with the given message.
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login Page'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: _authenticateUser,
+          child: const Text('Login with Fingerprint'),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+============ 5. main_page.dart (Navigate to it after biometric successful) ==================
+
+import 'package:flutter/material.dart';
+
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Main Page'),
+      ),
+      body: const Center(
+        child: Text(
+          'Welcome to the Main Page!',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
+  }
+}

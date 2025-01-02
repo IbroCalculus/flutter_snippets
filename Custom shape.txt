@@ -1,0 +1,179 @@
+. 
+NB: Can use https://fluttershapemaker.com/#/ to design the shape in UI and export code. Use ChatGPT to convert the class to one suitable for working with ClipPath
+
+SIMILARLY:
+ClipRect:  To clip to a rectangle
+ClipOval:  To clip to an oval or circle
+ClipRRect: To clip to a rounded rectangle.
+
+CHECK BELOW FOR EACH OF THE ABOVE EXAMPLES
+
+
+
+import 'package:flutter/material.dart';
+
+class CustomShapePage extends StatelessWidget {
+  const CustomShapePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Custom Shape with ClipPath'),
+      ),
+      body: Center(
+        child: ClipPath(							# SORROUND THE WIDGET WITH ClipPath
+          clipper: TriangleClipper(),						# DEFINE THE SHAPE IN A CUSTOM CLASS (i.e TriangleClipper)
+          child: Container(
+            color: Colors.blue,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class TriangleClipper extends CustomClipper<Path> {				# THE CUSTOM SHAPE (nb: extends CustomClipper<Path>, and consists of two override methods as seen)
+  @override
+  Path getClip(Size size) {
+    final double width = size.width;
+    final double height = size.height;
+
+    Path path = Path();
+    path.moveTo(width / 2, 0); // Start at the top center
+    path.lineTo(0, height); // Draw line to bottom-left
+    path.lineTo(width, height); // Draw line to bottom-right
+    path.close(); // Close the path to form a triangle
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false; // Return true if the clipper needs to reclip
+  }
+}
+
+
+--------------------------------------------
+
+class WavyClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final double width = size.width;
+    final double height = size.height;
+
+    // Define offsets for points
+    final Offset startPoint = Offset(0, 0); // Start at top-left
+    final Offset controlPoint1 = Offset(width / 4, height - 30);
+    final Offset endPoint1 = Offset(width / 2, height - 60);
+
+    final Offset controlPoint2 = Offset(3 * width / 4, height - 30);
+    final Offset endPoint2 = Offset(width, height - 60);
+
+    final Offset bottomRight = Offset(width, height);
+    final Offset bottomLeft = Offset(0, height);
+
+    // Create the path
+    Path path = Path();
+    path.moveTo(startPoint.dx, startPoint.dy); // Start at (0, 0)
+    path.lineTo(startPoint.dx, height - 60); // Vertical line to the bottom-left
+
+    // Wavy bottom path
+    path.quadraticBezierTo(
+      controlPoint1.dx, controlPoint1.dy, // First control point
+      endPoint1.dx, endPoint1.dy, // First end point
+    );
+    path.quadraticBezierTo(
+      controlPoint2.dx, controlPoint2.dy, // Second control point
+      endPoint2.dx, endPoint2.dy, // Second end point
+    );
+
+    path.lineTo(bottomRight.dx, bottomRight.dy); // Bottom-right corner
+    path.lineTo(width, startPoint.dy); // Top-right corner
+    path.close(); // Close the path
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
+  }
+}
+
+
+
+
+
+
+
+============ 1. ClipRect===========
+
+class ClipRectExample extends StatelessWidget {
+  const ClipRectExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('ClipRect Example')),
+      body: Center(
+        child: ClipRect(
+          child: Align(
+            alignment: Alignment.center,
+            widthFactor: 0.5, // Shrinks the width to 50% of the original
+            heightFactor: 0.5, // Shrinks the height to 50% of the original
+            child: Image.network('https://via.placeholder.com/300',),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+============ 2. ClipOval===========
+
+class ClipOvalExample extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('ClipOval Example')),
+      body: Center(
+        child: ClipOval(
+          child: Image.network(
+            'https://via.placeholder.com/300',
+            width: 200,
+            height: 200,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+============ 3. ClipRRect===========
+
+class ClipRRectExample extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('ClipRRect Example')),
+      body: Center(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20), // Rounded corners
+          child: Image.network(
+            'https://via.placeholder.com/300',
+            width: 200,
+            height: 200,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}

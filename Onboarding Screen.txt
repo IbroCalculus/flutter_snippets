@@ -1,0 +1,227 @@
+Two method:
+1. Use PageView
+2. Use package: onboarding: ^4.0.2
+
+
+
+===================== 1. Use PageView =========================
+
+NB: Need to use sharedpreference
+  shared_preferences: ^2.3.3
+
+
+
+-------------- main.dart ---------------
+
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite_flutter_project2/views/home_page.dart';
+import 'package:sqflite_flutter_project2/views/onboarding_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final bool isOnboardingComplete = await getOnboardingStatus();
+  runApp(MyApp(isOnboardingComplete: isOnboardingComplete));
+}
+
+Future<bool> getOnboardingStatus() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getBool('isOnboardingComplete') ?? false;
+}
+
+class MyApp extends StatelessWidget {
+  final bool isOnboardingComplete;
+  const MyApp({super.key, required this.isOnboardingComplete});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'SQFLITE FLUTTER PROJECT 2',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: isOnboardingComplete ? const HomePage() : OnboardingScreen(),
+    );
+  }
+}
+
+
+
+------------------ onboarding_screen.dart --------------------
+
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite_flutter_project2/views/home_page.dart';
+
+class OnboardingScreen extends StatefulWidget {
+  @override
+  _OnboardingScreenState createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  final List<Widget> _pages = [
+    const OnboardingPage(
+      image: 'assets/images/onboarding1.png',
+      title: 'Welcome to the App',
+      description: 'This is the best app to manage your tasks efficiently.',
+    ),
+    const OnboardingPage(
+      image: 'assets/images/onboarding2.png',
+      title: 'Organize Your Work',
+      description: 'Keep track of your tasks and deadlines with ease.',
+    ),
+    const OnboardingPage(
+      image: 'assets/images/onboarding3.png',
+      title: 'Achieve Your Goals',
+      description: 'Stay productive and accomplish more every day.',
+    ),
+  ];
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isOnboardingComplete', true);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          PageView.builder(
+            controller: _pageController,
+            itemCount: _pages.length,
+            onPageChanged: (index) {
+              setState(() {
+                _currentPage = index;
+              });
+            },
+            itemBuilder: (context, index) {
+              return _pages[index];
+            },
+          ),
+          Positioned(
+            bottom: 30,
+            left: 20,
+            right: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Skip Button
+                TextButton(
+                  onPressed: _completeOnboarding,
+                  child: const Text(
+                    'Skip',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+
+                // Page Indicators
+                Row(
+                  children: List.generate(
+                    _pages.length,
+                        (index) => AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      height: 8,
+                      width: _currentPage == index ? 16 : 8,
+                      decoration: BoxDecoration(
+                        color: _currentPage == index
+                            ? Colors.blue
+                            : Colors.grey.shade400,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Next or Done Button
+                TextButton(
+                  onPressed: () {
+                    if (_currentPage == _pages.length - 1) {
+                      _completeOnboarding();
+                    } else {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
+                    }
+                  },
+                  child: Text(
+                    _currentPage == _pages.length - 1 ? 'Done' : 'Next',
+                    style: const TextStyle(color: Colors.blue),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class OnboardingPage extends StatelessWidget {
+  final String image;
+  final String title;
+  final String description;
+
+  const OnboardingPage({
+    required this.image,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          image,
+          height: 300,
+          fit: BoxFit.contain,
+        ),
+        const SizedBox(height: 20),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Text(
+            description,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey.shade600,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+

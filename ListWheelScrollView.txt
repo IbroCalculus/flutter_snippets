@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+
+class ListWheelScrollViewExample extends StatelessWidget {
+  const ListWheelScrollViewExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('ListWheelScrollView Example')),
+      body: ListWheelScrollView(
+        itemExtent: 250,
+        // Height of each container
+        diameterRatio: 2,
+        // Size of the wheel curvature
+        physics: const FixedExtentScrollPhysics(),
+        // Ensures snapping to items
+        offAxisFraction: 0,
+        useMagnifier: true,
+        magnification: 1.5,
+        children: List.generate(
+          40,
+          (index) => Container(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            // Add spacing
+            padding: const EdgeInsets.all(16),
+            // Add internal padding
+            decoration: BoxDecoration(
+              color: index % 2 == 0 ? Colors.blue : Colors.green,
+              // Alternating colors
+              borderRadius: BorderRadius.circular(12),
+              // Rounded corners
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                  offset: const Offset(2, 4), // Slight shadow effect
+                ),
+              ],
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              'Item $index',
+              style: const TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,196 @@
+
+  flutter_secure_storage: ^9.2.2
+
+
+=============================================
+
+The code consists textfields to take in key, values to store and also retrieve via button clicks, and also a button to delete save values.
+Take note of the functions defined to do each of those.
+
+NB: By default, value overrides with no error when saving with same key name. To handle that, we added the check inside the code.
+
+=================================================================
+
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  final TextEditingController _storeKeyController = TextEditingController();
+  final TextEditingController _storeValueController = TextEditingController();
+  final TextEditingController _retrieveKeyController = TextEditingController();
+  final TextEditingController _deleteKeyController = TextEditingController();
+
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();					HERE
+
+  @override
+  void dispose() {
+    _storeKeyController.dispose();
+    _storeValueController.dispose();
+    _retrieveKeyController.dispose();
+    _deleteKeyController.dispose();
+    super.dispose();
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
+ 
+  /// Function to store a key-value pair with existence check							HERE
+  Future<void> _storeKeyValue() async {
+    final key = _storeKeyController.text.trim();
+    final value = _storeValueController.text.trim();
+
+    if (key.isNotEmpty && value.isNotEmpty) {
+      final existingValue = await secureStorage.read(key: key);
+      if (existingValue != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Key already exists. Use a different key or update the value.')),
+        );
+        return;
+      }
+
+      await secureStorage.write(key: key, value: value);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Value stored successfully')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Key and Value cannot be empty')),
+      );
+    }
+  }
+
+
+
+  /// Function to retrieve a value for a given key								HERE
+  Future<void> _retrieveValue() async {
+    final key = _retrieveKeyController.text.trim();
+    if (key.isNotEmpty) {
+      final value = await secureStorage.read(key: key);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            value != null ? 'Retrieved Value: $value' : 'Key not found',
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Key cannot be empty')),
+      );
+    }
+  }
+
+  /// Function to delete a key-value pair									HERE
+  Future<void> _deleteKeyValue() async {
+    final key = _deleteKeyController.text.trim();
+    if (key.isNotEmpty) {
+      await secureStorage.delete(key: key);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Key deleted successfully')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Key cannot be empty')),
+      );
+    }
+  }
+
+
+  
+  // =====================================================================
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Secure Storage'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Key:',
+                style: TextStyle(fontSize: 16),
+              ),
+              TextField(
+                controller: _storeKeyController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter key',
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Value:',
+                style: TextStyle(fontSize: 16),
+              ),
+              TextField(
+                controller: _storeValueController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter value',
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _storeKeyValue,
+                  child: const Text('Store'),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Key:',
+                style: TextStyle(fontSize: 16),
+              ),
+              TextField(
+                controller: _retrieveKeyController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter key to retrieve',
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _retrieveValue,
+                  child: const Text('Retrieve'),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Key:',
+                style: TextStyle(fontSize: 16),
+              ),
+              TextField(
+                controller: _deleteKeyController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter key to delete',
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _deleteKeyValue,
+                  child: const Text('Delete'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
