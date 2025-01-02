@@ -1,16 +1,46 @@
+The flutter_easyloading package is a Flutter library used to show a customizable loading indicator overlay as well as toast messages.
 
+
+-----------------
   flutter_easyloading: ^3.0.5
 
 
 --------------- Within main.dart ------------------
-      title: "Flutter Lesson2",
-      initialRoute: "/",
-      onGenerateRoute: RouteGenerator.generateRoute,
 
-      builder: EasyLoading.init(),		//Add this.
+void main() {
+  runApp(const MyApp());
+  configLoading();			// THIS 
+}
+
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false;
+    // ..customAnimation = CustomAnimation();
+}
+
+
+--------------- Within return MaterialApp( .. -----------------
+
+      builder: EasyLoading.init(),
 
 
 --------------- Within the page it is used ------------------
+
+
+
+-------------------------------------------------------------
 
               onTap: () {
               Future.delayed(Duration(seconds: 2),() {			// I personally used Future in order to call .dismiss() after a certain period of time.
@@ -23,4 +53,22 @@
 
               // EasyLoading.show(status: 'loading...');
               EasyLoading.showProgress(1, status: 'downloading...');
+
+EasyLoading.show(status: 'loading...');
+
+EasyLoading.showProgress(0.3, status: 'downloading...');
+
+EasyLoading.showSuccess('Great Success!');
+
+EasyLoading.showError('Failed with Error');
+
+EasyLoading.showInfo('Useful Information.');
+
+EasyLoading.showToast('Toast');
+
+EasyLoading.dismiss();
+
               },
+
+
+

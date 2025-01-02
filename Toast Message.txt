@@ -1,4 +1,9 @@
 NB: An alternative is using the EasyLoading dependency.
+SIMILARLY: Toastificaition
+
+
+
+
 
 Official documentation: https://pub.dev/packages/fluttertoast
 

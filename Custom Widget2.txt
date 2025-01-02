@@ -16,7 +16,7 @@ class CustomFilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton(
-            onPressed: () => onPressed(),
+            onPressed: onPressed,
             child: Text(text),
           );
   }
