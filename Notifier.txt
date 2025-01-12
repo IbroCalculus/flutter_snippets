@@ -1,0 +1,96 @@
+========== Preferably, create a file for the notifier instance (ie notifiers.dart) ==================
+
+import 'package:flutter/material.dart';
+
+// Create a ValueNotifier for the counter
+final ValueNotifier<int> counterNotifier = ValueNotifier<int>(0);
+
+
+
+
+======================= USAGE EXAMPLE 1 (INT VALUE) ====================
+
+import 'package:flutter/material.dart';
+import 'package:flutter_testing/notifiers.dart';
+
+class CounterPage extends StatelessWidget {
+  CounterPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('ValueNotifier Example'),
+      ),
+      
+      
+      body: Center(
+        child: ValueListenableBuilder<int>(
+          valueListenable: counterNotifier,
+          builder: (context, value, child) {
+            return Text(
+              'Counter: $value',
+              style: const TextStyle(fontSize: 24),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              counterNotifier.value++;
+            },
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(width: 10),
+          FloatingActionButton(
+            onPressed: () {
+              counterNotifier.value--;
+            },
+            child: const Icon(Icons.remove),
+          ),
+        ],
+      ),
+      
+    );
+  }
+}
+
+
+============ EXAMPLE 2 (String) ======================
+
+final ValueNotifier<String> textFieldNotifier = ValueNotifier<String>("Initial text");
+
+-----------------------------------------------------------
+
+    TextEditingController controller1 = TextEditingController();
+
+// Within body:
+
+            ValueListenableBuilder(
+              valueListenable: textFieldNotifier,
+              builder: (context, value, child) {
+                return Text(value);
+              },
+            ),
+
+            TextField(
+              controller: controller1,
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                print(textFieldNotifier.value = controller1.text);
+              },
+              child: Text("Show Text In Text Widget"),
+            ),
+
+
+----- ALTERNATIVELY, USING THE ONCHANGED PROPERTY OF THE TEXTFIELD (hence not needing the button and the controller) ------
+
+            TextField(
+              onChanged: (value) {
+                textFieldNotifier.value = value;
+              },

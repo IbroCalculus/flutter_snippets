@@ -1,6 +1,8 @@
 CHECK ALSO: BottomNavigationBar2.txt (This uses the bottomAppBar widget)
 CHECK ALSO: PersistentFootButton.txt
 
+NB: The best seem to be from flutter https://api.flutter.dev/flutter/material/NavigationBar-class.html. CHECK IT IN BottomNavigationBar3.txt
+
 
 class _MainPageState extends State<MainPage> {
   int currentTabIndex = 0;
@@ -75,7 +77,7 @@ class _DashboardState extends State<Dashboard> {
   int currentTabIndex = 0;
 
     return Scaffold(
-      body: IndexedStack(
+      body: IndexedStack(			// ALTERNATIVELY, USE body: navPages[currentPageIndex], CHECK BELOW TO SEE USAGE
         index: currentTabIndex,
         children: [
           HomeTab(),
@@ -189,3 +191,22 @@ class _DashboardState extends State<Dashboard> {
   }
 
 }
+
+
+=============== ALTERNATIVE TO body: IndexedStack( ===================
+
+class _HomepageState extends State<Homepage> {
+
+  int currentPageIndex = 0;
+  List<Widget> navPages = <Widget>[
+    const HomeNavPage(),
+    const NotificationsNavPage(),
+    const MessagesNavPage(),
+    CounterPage(),
+  ];
+
+
+  @override
+  Widget build(BuildContext context) {
+
+      body: navPages[currentPageIndex],

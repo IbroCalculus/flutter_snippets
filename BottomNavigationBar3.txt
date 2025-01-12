@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  
+  int currentPageIndex = 0;
+
+  List<Widget> navPages = <Widget>[		// USED FOR ALTERNATIVE TO body: IndexedStack(, ie; body: navPages[currentPageIndex],
+    const HomeNavPage(),
+    const NotificationsNavPage(),
+    const MessagesNavPage(),
+    CounterPage(),
+  ];
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      body: IndexedStack(
+        index: currentPageIndex,
+        children: [
+          HomeNavPage(),
+          NotificationsNavPage(),
+          MessagesNavPage()
+        ],
+
+	// ALTERNATIVELY
+      body: navPages[currentPageIndex],
+      ),
+
+
+
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        indicatorColor: Colors.amber,
+        backgroundColor: Colors.blue,
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Badge(child: Icon(Icons.notifications_sharp)),
+            label: 'Notifications',
+          ),
+          NavigationDestination(
+            icon: Badge(
+              label: Text('5'),
+              child: Icon(Icons.messenger_sharp),
+            ),
+            label: 'Messages',
+          ),
+        ],
+      ),
+          NavigationDestination(
+            icon: Badge(
+              // label: Text('5'),
+              child: Icon(Icons.countertops),
+            ),
+            label: 'Counter',
+          ),	# End NavigationBar
+
+
+
+
+    );
+  }
+}
