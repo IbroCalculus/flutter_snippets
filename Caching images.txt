@@ -1,0 +1,81 @@
+
+  cached_network_image: ^3.4.1
+
+
+------------------ Usage ---------------------
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+
+class ImageCachingPage extends StatelessWidget {
+  const ImageCachingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    var imageURL = "https://upload.wikimedia.org/wikipedia/commons/1/15/%22Chamber_of_horrors.%22_Washington%2C_D.C.%2C_Dec._20._When_members_of_Congress_introduce_bills_on_new_drug_and_food_legislation_they_often_request_the_aid_of_Miss_Ruth_Lamb%2C_Chief_of_Public_LCCN2016872582.jpg";
+
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Image Caching"),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            spacing: 10.0,
+            children: [
+
+
+              // Without a progress indicator
+              CachedNetworkImage(
+                imageUrl: imageURL,
+                placeholder: (context, url) {
+                  return Container(child: Icon(Icons.image, size: 50.0,),);
+                  // return CircularProgressIndicator();
+                },
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+
+
+              // With a progress indicator
+              CachedNetworkImage(
+                imageUrl: imageURL,
+                progressIndicatorBuilder: (context, url, downloadProgress) {
+                  // CircularProgressIndicator()
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      LinearProgressIndicator(
+                        value: downloadProgress.progress,
+                        minHeight: 8,
+                        backgroundColor: Colors.grey.shade300,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue), // Progress color
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        '${((downloadProgress.progress ?? 0) * 100).toStringAsFixed(1)}%', // Percentage
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  );
+                },
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(
+                    Icons.error,
+                    color: Colors.red,
+                    size: 40,
+                  ),
+                ),
+              ),
+
+
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

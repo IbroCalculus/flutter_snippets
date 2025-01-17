@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class ApiPage extends StatefulWidget {
+  const ApiPage({Key? key}) : super(key: key);
+
+  @override
+  State<ApiPage> createState() => _ApiPageState();
+}
+
+class _ApiPageState extends State<ApiPage> {
+
+  Future<dynamic>? _futureData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("API Page"),
+      ),
+
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Trigger fetching data
+                setState(() {
+                  _futureData = fetchData2();
+                });
+              },
+              child: const Text("Get Data"),
+            ),
+
+            if (_futureData != null)
+              FutureBuilder(
+                future: _futureData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text(
+                      'Error: ${snapshot.error}',
+                      style: const TextStyle(color: Colors.red),
+                    );
+                  } else if (snapshot.hasData) {
+                    // Display fetched data
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          snapshot.data.toString(),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Handle button press
+                            setState(() {
+                              _futureData = fetchData2();
+                            });
+                          },
+                          child: const Text("Refresh"),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Text('No Data Available');
+                  }
+                },
+              )
+            else
+              const Text(
+                "Press the button to fetch data.",
+                style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ----------------- The Future function ------------------
+fetchData2() async {
+  var response = await http.get(Uri.parse("https://jsonplaceholder.typicode"
+      ".com/posts/1"));
+  if (response.statusCode == 200) {
+    var jsonStringResponse = response.body;
+    var jsonResponse = json.decode(jsonStringResponse);
+    return jsonResponse;
+  } else {
+    throw Exception('Failed to load data from the API');
+  }
+}

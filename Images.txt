@@ -1,3 +1,4 @@
+CHECK ALSO: Image compression.txt
 CHECK ALSO: SVG Pictures.txt and Background.txt
 CHECK ALSO: Crop images.txt to crop and make image circular
 CHECK ALSO: Save images_videos.txt

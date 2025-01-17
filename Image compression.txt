@@ -1,0 +1,147 @@
+
+  flutter_image_compress: ^2.4.0
+  path_provider: ^2.1.5
+  permission_handler: ^11.3.1
+
+
+--------------------- Usage and Implementation -------------
+
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart';
+
+class ImageCompressionPage extends StatefulWidget {
+  const ImageCompressionPage({super.key});
+
+  @override
+  State<ImageCompressionPage> createState() => _ImageCompressionPageState();
+}
+
+class _ImageCompressionPageState extends State<ImageCompressionPage> {
+
+  String imagePath = "assets/images/img_3.png";
+  String? compressedImagePath;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Image Compression"),
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            spacing: 20.0,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Image Compressor",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Image.asset(imagePath, height: 200),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    // Load the asset as a temporary file
+                    File imageFile = await getFileFromAsset(imagePath);
+
+                    // Log the original file size
+                    final originalSize = imageFile.lengthSync();
+                    print("Original Size: ${(originalSize / 1024).toStringAsFixed(2)} KiB");
+
+                    // Define the path for the compressed image
+                    final appDocDir = await getApplicationDocumentsDirectory();
+                    final compressedImagePath = '${appDocDir.path}/compressed_image.jpg';
+
+                    // Compress the image
+                    File? compressedFile = await compressAndGetFile(imageFile, compressedImagePath);
+
+                    if (compressedFile != null) {
+                      // Log the compressed file size
+                      final compressedSize = compressedFile.lengthSync();
+                      print("Compressed Size: ${(compressedSize / 1024).toStringAsFixed(2)} KiB");
+
+                      // Calculate the compression ratio in ratio format
+                      final compressionRatio = (originalSize / compressedSize).toStringAsFixed(1); // Keep 1 decimal point if needed
+                      print("Compression Ratio: $compressionRatio:1");
+
+                      setState(() {
+                        this.compressedImagePath = compressedFile.path;
+                      });
+
+                      print("Compressed File Path: ${compressedFile.path}");
+                    } else {
+                      print("Compression failed.");
+                    }
+                  } catch (e) {
+                    print("Error: $e");
+                  }
+                },
+                child: const Text("Compress Image Now"),
+              ),
+              const SizedBox(height: 20),
+              if (compressedImagePath != null) ...[
+                const Text("Compressed Image:"),
+                const SizedBox(height: 10),
+                Image.file(File(compressedImagePath!), height: 200),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+
+
+  // The image compression function
+
+  Future<File?> compressAndGetFile(File file, String targetPath) async {
+    final XFile? result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 88,
+      minWidth: 300, // Resize width
+      minHeight: 300, // Resize height
+    );
+
+    return result != null ? File(result.path) : null;
+  }
+
+
+
+  // Use this function to get the image file from string path, which is then
+  // passed to the compressAndGetFile function. But if all file, like from an
+  // image picker, then not need of using this.
+
+  Future<File> getFileFromAsset(String assetPath) async {
+    // Load the asset as a byte buffer
+    final byteData = await rootBundle.load(assetPath);
+
+    // Get the temporary directory of the app
+    final tempDir = await getTemporaryDirectory();
+
+    // Create a file in the temporary directory
+    final file = File('${tempDir.path}/temp_image.jpg');
+
+    // Write the byte buffer to the file
+    await file.writeAsBytes(byteData.buffer.asUint8List());
+
+    return file;
+  }
+}
+
+
+
+-------------- main.dart ---------------
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();		// This
+  runApp(const MyApp());
+}
+

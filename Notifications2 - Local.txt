@@ -1,0 +1,137 @@
+
+  flutter_local_notifications: ^18.0.1
+  flutter_timezone: ^4.0.0
+
+---------------- Android Manifest permissions ----------
+
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+ALSO, still within Manifest: (Inside </application>, before its closing tag </application>
+
+        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
+        
+    </application>	# Closing tage
+
+
+------------------ CREATE A FILE AND PASTE THE CODE (ie local_notification_service.dart) ------------------------------
+
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_prac/api_page.dart';
+import 'package:flutter_prac/main.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+class LocalNotificationService {
+  // Singleton pattern
+  static final LocalNotificationService _instance = LocalNotificationService._internal();
+
+  factory LocalNotificationService() {
+    return _instance;
+  }
+
+  LocalNotificationService._internal();
+
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  // Initialize the notifications
+  Future<void> init() async {
+    // Initialize timezone data for scheduled notifications
+    tz.initializeTimeZones();
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
+
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        print("Notification clicked!");
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(builder: (context) => const ApiPage()), // Replace ApiPage with your desired page
+        );
+      },
+    );
+  }
+
+  // Show a simple notification
+  Future<void> showNotification({required String title, required String body}) async {
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'high_importance_channel', // Channel ID
+      'High Importance Notifications', // Channel name
+      channelDescription: 'This channel is used for important notifications.',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails notificationDetails = NotificationDetails(android: androidDetails);
+
+    await _flutterLocalNotificationsPlugin.show(
+      0, // Notification ID
+      title, // Notification title
+      body, // Notification body
+      notificationDetails,
+    );
+  }
+
+  // Show a scheduled notification
+  Future<void> showScheduledNotification({
+    required String title,
+    required String body,
+    required int secondsFromNow,
+  }) async {
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'scheduled_channel', // Channel ID for scheduled notifications
+      'Scheduled Notifications', // Channel name
+      channelDescription: 'This channel is used for scheduled notifications.',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails notificationDetails = NotificationDetails(android: androidDetails);
+
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+      1, // Notification ID
+      title, // Notification title
+      body, // Notification body
+      tz.TZDateTime.now(tz.local).add(Duration(seconds: secondsFromNow)), // Schedule time
+      notificationDetails, // Ensure the notification shows even in Doze mode
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime, 
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    );
+  }
+}
+
+
+
+------------- IN main.dart -------------------
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_prac/api_page.dart';
+import 'package:flutter_prac/local_notification_service.dart';
+import 'package:flutter_prac/test_page.dart';
+
+import 'firebase_options.dart';
+import 'firebase_pushnotification.dart';
+
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotificationService().init();
+  runApp(const MyApp());
+}
