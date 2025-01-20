@@ -1,0 +1,114 @@
+
+  video_player: ^2.9.2
+
+
+-------------------------------
+
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
+
+class VideoPlayerScreen2 extends StatefulWidget {
+  const VideoPlayerScreen2({super.key});
+
+  @override
+  State<VideoPlayerScreen2> createState() => _VideoPlayerScreen2State();
+}
+
+class _VideoPlayerScreen2State extends State<VideoPlayerScreen2> {
+
+  late final VideoPlayerController videoPlayerController;
+  late final ChewieController chewieController;
+  late final playerWidget;
+
+  @override
+  void initState() {
+    super.initState();
+
+    videoPlayerController = VideoPlayerController.asset('assets/videos/video_1.mp4');
+    // videoPlayerController = VideoPlayerController.networkUrl(Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'));
+
+    videoPlayerController.initialize().then((_) {
+      // Initialize the ChewieController
+      setState(() {
+        chewieController = ChewieController(
+          videoPlayerController: videoPlayerController,
+          autoPlay: true,
+          looping: true,
+          materialProgressColors: ChewieProgressColors(
+            playedColor: Colors.blue,
+            handleColor: Colors.blueAccent,
+            backgroundColor: Colors.grey,
+            bufferedColor: Colors.lightBlue,
+          ),
+        );
+        playerWidget = Chewie(
+          controller: chewieController,
+        );
+
+      });
+    });
+  }
+
+
+  @override
+  void dispose() {
+    videoPlayerController.dispose();
+    chewieController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Chewie Video Player')),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              "Video Player",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+
+          // --------------------- Video Player Start ---------------------
+          
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              height: 300, // Fixed height for the video player
+              alignment: Alignment.center,
+              child: videoPlayerController.value.isInitialized
+                  ? Container(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: playerWidget,
+              )
+                  : const CircularProgressIndicator(),
+            ),
+          ), 
+          
+          // --------------------- Video Player End -----------------------
+          
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              "The best Video Player",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

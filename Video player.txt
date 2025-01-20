@@ -1,0 +1,100 @@
+NB: CHECK AND USE Video player2.txt (It uses the Chewie package which is built ontop of video_player package, adding more UI benefits
+
+
+------------------------------
+
+  video_player: ^2.9.2
+
+
+-------------------------------
+
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+
+class VideoPlayerScreen extends StatefulWidget {
+  const VideoPlayerScreen({super.key});
+
+  @override
+  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
+}
+
+class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+  late VideoPlayerController videoPlayerController;
+
+  @override
+  void initState() {
+    super.initState();
+    videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
+      ..initialize().then((_) {
+        setState(() {
+          // Mark the player as initialized
+        });
+      }).catchError((error) {
+        print('Video Player Error: $error');
+      });
+  }
+
+  @override
+  void dispose() {
+    videoPlayerController.dispose(); // Clean up the controller
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Video Player')),
+      
+      // --------------------- Body Start ---------------------
+
+      body: Center(
+        child: videoPlayerController.value.isInitialized
+            ? Container(
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(20),
+          ),
+                height: 300,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AspectRatio(
+                      aspectRatio: videoPlayerController.value.aspectRatio,
+                      child: VideoPlayer(videoPlayerController),
+                    ),
+                    const SizedBox(height: 20),
+                    VideoProgressIndicator(
+                      videoPlayerController,
+                      allowScrubbing: true,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            videoPlayerController.value.isPlaying
+                                ? Icons.pause
+                                : Icons.play_arrow,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              videoPlayerController.value.isPlaying
+                                  ? videoPlayerController.pause()
+                                  : videoPlayerController.play();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            : const CircularProgressIndicator(),
+      ), 
+     
+      // --------------------- Body End -----------------------
+      
+    );
+  }
+}
