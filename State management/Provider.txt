@@ -66,7 +66,7 @@ class _CounterAppState extends State<CounterApp> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: Provider.of<AppProvider>(context, listen: false).incrementCounter,	// NB: false, NOT true
+        onPressed: Provider.of<AppProvider>(context, listen: false).incrementCounter(),	// NB: false, NOT true
         child: const Icon(Icons.add),
       ),
     );

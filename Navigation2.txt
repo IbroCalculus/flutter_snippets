@@ -1,5 +1,5 @@
 
-==================== USING ONGENERATED ROUTE =============================
+==================== USING onGenerateRoute =============================
 
 Within lib, create a folder 'routes' -> dart file 'route_generator'
 
@@ -20,14 +20,17 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (context) => PracticePage());
       case "/loginPage":
         return MaterialPageRoute(builder: (context) => LoginPage());
-      case '/verify_email':
-        if (settings.arguments is String) {
-          final userEmail = settings.arguments as String;
-          return MaterialPageRoute(
-            builder: (context) => VerifyEmailScreen(userEmail: userEmail),
-          );
-        }
-        return _errorRoute();
+
+      case '/verify_user':
+        final args = settings.arguments as VerifyUserArguments;
+        return MaterialPageRoute(builder: (context) => VerifyUserScreen(userEmail: args.userEmail, userId: args.userId, isMale: args.isMale,),);
+
+      case '/verify_user2':
+        return MaterialPageRoute(
+          builder: (context) => VerifyUserScreen2(),
+          settings: settings, // Pass settings to the screen
+        );
+
       default:
         return _errorRoute();
     }
@@ -64,3 +67,88 @@ NB: If error, delete: import 'dart.js' that may import at the top.
 --- For other activities, as known, use;
 
                 Navigator.pushNamed(context, "/practicePage");
+
+
+============= For /verify_user: ==============
+
+	1. VerifyUserScreen
+class VerifyUserScreen extends StatelessWidget {
+  final String userEmail;
+  final int userId;
+  final bool isMale;
+
+  VerifyUserScreen({
+    required this.userEmail,
+    required this.userId,
+    required this.isMale,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Build your UI using the provided arguments
+  }
+}
+
+	2. Navigation to VerifyUserScreen
+
+Navigator.pushNamed(context,  '/verify_user',  arguments: VerifyUserArguments(userEmail: 'user@example.com', userId: 123, isMale: true,),);
+
+
+
+
+============= For /verify_user2: ==============
+
+	1. VerifyUserScreen2
+
+class VerifyUserScreen2 extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    if (args == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text('Error')),
+        body: Center(child: Text('No user data provided.')),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Verify User')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Email: ${args['userEmail']}'),
+            Text('User ID: ${args['userId']}'),
+            Text('Gender: ${args['isMale'] ? 'Male' : 'Female'}'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+	2. Navigation to VerifyUserScreen
+
+Navigator.pushNamed(
+  context,
+  '/verify_user2',
+  arguments: {
+    'userEmail': 'user@example.com',
+    'userId': 123,
+    'isMale': true,
+  },
+);
+
+
+
+
+
+
+
+
+
+
+

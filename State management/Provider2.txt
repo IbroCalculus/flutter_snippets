@@ -1,0 +1,153 @@
+provider: ^6.1.2
+
+==== Using A Simple  Application for Demonstration ======
+
+
+---- Create a Provider Class (app_provider.dart) ----
+
+import 'package:flutter/foundation.dart';
+
+class AppProvider extends ChangeNotifier{
+
+  List<int> numbers = [1,2,3,4];
+
+  void addNumberToList() {
+    int lastListValue = numbers.last;
+    numbers.add(lastListValue+1);
+    notifyListeners();
+  }
+
+}
+
+
+
+---- In main.dart -----
+
+import 'package:provider/provider.dart';
+
+
+void main() {
+  runApp(
+    MultiProvider(          // This enables adding multiple providers. In this case, only one provider is added, which is AppProvider.
+      providers: [
+        ChangeNotifierProvider(create: (context) => AppProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
+
+
+---- In home_page2.dart -----
+
+import 'package:flutter/material.dart';
+import 'package:flutter_provider_demo/pages/second_page2.dart';
+import 'package:flutter_provider_demo/utils/app_provider.dart';
+import 'package:provider/provider.dart';
+
+class HomePage2 extends StatelessWidget {
+  const HomePage2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      
+      appBar: AppBar(
+        title: Text("Home Page2"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+
+      // Body is wrapped with Consumer<AppProvider> widget to listen to changes in the AppProvider class.
+      body: Consumer<AppProvider>(
+        builder: (BuildContext context, AppProvider appProvidervalue, Widget? child) {
+          return Column(
+            children: [
+              Text(appProvidervalue.numbers.last.toString(),
+                style: TextStyle(fontSize: 30.0),),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: appProvidervalue.numbers.length,
+                  itemBuilder: (context, index) {
+                    return Text(appProvidervalue.numbers[index].toString(),
+                      style: TextStyle(fontSize: 30.0),);
+                  },
+                ),
+              ),
+              ElevatedButton(onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SecondPage2()));
+              }, child: Text("Go to second page"),),
+            ],
+          );
+        },
+      ),
+      
+      
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Provider.of<AppProvider>(context, listen: false).addNumberToList();
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+
+
+---- In second_page.dart ----
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../utils/app_provider.dart';
+
+class SecondPage2 extends StatelessWidget {
+  const SecondPage2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    
+    // OR Wrap the entire Scaffold with Consumer<AppProvider> widget to listen to changes in the AppProvider class.
+
+    return Consumer<AppProvider>(
+      builder: (BuildContext context, AppProvider appProvidervalue, Widget? child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Second Page"),
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          ),
+          
+          
+          body: Column(
+            children: [
+              Text(appProvidervalue.numbers.last.toString(),
+                style: TextStyle(fontSize: 30.0),),
+              SizedBox(
+                height: 50.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: appProvidervalue.numbers.length,
+                  itemBuilder: (context, index) {
+                    return Text(appProvidervalue.numbers[index].toString(),
+                      style: TextStyle(fontSize: 30.0),);
+                  },),
+              ),
+            ],
+          ),
+          
+          
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              appProvidervalue.addNumberToList();
+            },
+            child: Icon(Icons.add),
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+NB: See the 2 ways provider is used in the floatingActionButton of both screens. 
+

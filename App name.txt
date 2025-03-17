@@ -1,0 +1,18 @@
+NB: The default parameter is required, the rest is optional. You can find a list of some possible language tags at https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
+
+-----------------------------------------------------------------------
+dev_dependencies: 
+  launcher_name: ^1.0.2 # check latest version on pub.dev
+  
+launcher_name:
+  default: "Default Launcher Name (English)"
+  es: "Spanish Launcher Name"
+  fr: "French Launcher Name"
+  de: "German Launcher Name"
+  [...]
+
+
+CMD > 
+	flutter pub get
+	dart run launcher_name:main

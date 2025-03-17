@@ -1,0 +1,57 @@
+============ In navigation_service.dart (Begin with Navigation.txt) ===============
+
+--- Add the function ---
+
+  void showSnackbar({
+    required String message,
+    Color backgroundColor = Colors.black87,
+    Duration duration = const Duration(seconds: 3),
+    SnackBarAction? action,
+  }) {
+    if (navigatorKey.currentContext == null) return;
+
+    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(color: Colors.white)),
+        backgroundColor: backgroundColor,
+        duration: duration,
+        action: action,
+      ),
+    );
+  }
+
+
+
+-------------- Usage ------------------
+
+- 1. Show a Simple Snackbar
+
+            onPressed: () {
+              getIt<NavigationService>().showSnackbar(message: "Item added to favorites!");
+            },
+
+
+- 2. Show Snackbar with a Custom Duration
+
+            onPressed: () {
+              getIt<NavigationService>().showSnackbar(
+                message: "This is a longer message...",
+                duration: Duration(seconds: 5),
+              );
+            },
+
+
+- 3. Show Snackbar with an Action Button
+
+            onPressed: () {
+              getIt<NavigationService>().showSnackbar(
+                message: "Undo deletion?",
+                action: SnackBarAction(
+                  label: "Undo",
+                  textColor: Colors.yellow,
+                  onPressed: () {
+                    print("Undo action clicked!");
+                  },
+                ),
+              );
+            },

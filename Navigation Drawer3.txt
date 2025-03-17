@@ -1,0 +1,146 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomeScreen(),
+    );
+  }
+}
+
+// Reusable scaffold with drawer
+class BaseScaffold extends StatelessWidget {
+  final String title;
+  final Widget body;
+
+  const BaseScaffold({super.key, required this.title, required this.body});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      drawer: MyDrawer(), // Add the drawer here
+      body: body,
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseScaffold(
+      title: 'Home Screen',
+      body: Center(
+        child: Text(
+          'This is the Home Screen',
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseScaffold(
+      title: 'Settings Screen',
+      body: Center(
+        child: Text(
+          'This is the Settings Screen',
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseScaffold(
+      title: 'Profile Screen',
+      body: Center(
+        child: Text(
+          'This is the Profile Screen',
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    );
+  }
+}
+
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text(
+              'My Drawer',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Home'),
+            onTap: () {
+              Navigator.pop(context); // Close the drawer
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.pop(context); // Close the drawer
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text('Profile'),
+            onTap: () {
+              Navigator.pop(context); // Close the drawer
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

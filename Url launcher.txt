@@ -1,0 +1,81 @@
+It is used for launching URLS and URIs. ie URL, email, phone number, SMS, file etc
+
+
+  url_launcher: ^6.3.1
+
+
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class UrlLauncherPage extends StatelessWidget {
+  const UrlLauncherPage({super.key});
+
+  // Function to launch URL
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Url Launcher Page')),
+      body: Center(
+        child: Column(
+          spacing: 10.0,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                _launchUrl('https://www.example.com');
+              },
+              child: Text('Open Website'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _launchUrl('tel:+1234567890');
+              },
+              child: Text('Make Phone Call'),
+            ),
+            
+            ElevatedButton(
+              onPressed: () {
+                _launchUrl('mailto:someone@example.com?subject=Hello&body=Hi');
+              },
+              child: Text('Send Email'),
+            ),
+            
+            ElevatedButton(
+              onPressed: () {
+                _launchUrl('sms:1234567890?body=Hello%20World');
+              },
+              child: Text('Send SMS'),
+            ),
+            
+            ElevatedButton(
+              onPressed: () {
+                _launchUrl('geo:37.422,-122.084?z=14');
+              },
+              child: Text('Open Map Location'),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                _launchUrl('https://play.google.com/store/apps/details?id=com.ibsuleiman9.muslim_counter_app');
+              },
+              child: Text('Open Play Store'),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                _launchUrl('https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=37.422,-122.084&travelmode=driving',);
+              },
+              child: Text('Get Directions'),
+            ),
+            
+          ],
+        ),
+      ),
+    );
+  }
+}

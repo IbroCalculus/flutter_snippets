@@ -1,0 +1,133 @@
+============ In navigation_service.dart (Begin with Navigation.txt) ===============
+
+--- Add the function ---
+
+  void showBottomSheet({
+    required Widget Function(BuildContext) builder,
+    Color? backgroundColor,
+    double? elevation,
+    ShapeBorder? shape,
+    Clip? clipBehavior,
+    Color? barrierColor,
+    bool isScrollControlled = false,
+    bool enableDrag = true,
+    bool isDismissible = true,
+  }) {
+    if (navigatorKey.currentContext == null) return;
+
+    showModalBottomSheet(
+      context: navigatorKey.currentContext!,
+      builder: builder,
+      backgroundColor: backgroundColor,
+      elevation: elevation,
+      shape: shape,
+      clipBehavior: clipBehavior,
+      barrierColor: barrierColor,
+      isScrollControlled: isScrollControlled,
+      enableDrag: enableDrag,
+      isDismissible: isDismissible,
+    );
+  }
+
+-------------- Usage ------------------
+- 1: Basic Bottom Sheet
+
+void showSimpleBottomSheet() {
+  getIt<NavigationService>().showBottomSheet(
+    builder: (context) => Container(
+      padding: EdgeInsets.all(20),
+      height: 200,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "This is a Bottom Sheet",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              getIt<NavigationService>().goBack(); // Close the bottom sheet
+            },
+            child: Text("Close"),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+
+            onPressed: () {
+              showSimpleBottomSheet();
+            },
+
+
+- 2: Bottom Sheet with List Options
+
+  void showOptionsBottomSheet() {
+    getIt<NavigationService>().showBottomSheet(
+      builder: (context) => Container(
+        padding: EdgeInsets.all(16),
+        height: 250,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.share),
+              title: Text("Share"),
+              onTap: () {
+                print("Share Clicked");
+                getIt<NavigationService>().goBack();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.delete),
+              title: Text("Delete"),
+              onTap: () {
+                print("Delete Clicked");
+                getIt<NavigationService>().goBack();
+              },
+            ),
+          ],
+        ),
+      ),
+      isScrollControlled: true, // Allows full-screen modal behavior
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+    );
+  }
+
+
+            onPressed: () {
+              showOptionsBottomSheet();
+            },
+
+
+
+- 3: Bottom Sheet with List Options
+
+  void showFullScreenBottomSheet() {
+    getIt<NavigationService>().showBottomSheet(
+      builder: (context) => Container(
+        padding: EdgeInsets.all(16),
+        height: MediaQuery.of(context).size.height * 0.9, // 90% of screen height
+        child: Column(
+          children: [
+            Text("Full-Screen Bottom Sheet", style: TextStyle(fontSize: 20)),
+            Spacer(),
+            ElevatedButton(
+              onPressed: () => getIt<NavigationService>().goBack(),
+              child: Text("Close"),
+            ),
+          ],
+        ),
+      ),
+      isScrollControlled: true, // Allows full height modal
+    );
+  }
+
+            onPressed: () {
+              showFullScreenBottomSheet();
+            },

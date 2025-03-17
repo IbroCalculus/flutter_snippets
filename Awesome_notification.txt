@@ -1,0 +1,65 @@
+
+  awesome_notifications: ^0.10.1
+
+
+-------------- android manifest -------------
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+
+ --- ALSO ENSURE:
+            android:exported="true" 
+
+------------- build.gradle ------------------
+buildscript {
+    ...
+    
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.1'
+    }
+}
+
+android {
+    compileSdkVersion 34
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 34
+        ...
+    }
+    ...
+}
+
+
+
+-------------- main.dart -------------------
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+    // set the icon to null if you want to use the default app icon
+      'resource://drawable/res_app_icon',
+      [
+        NotificationChannel(
+            channelGroupKey: 'basic_channel_group',
+            channelKey: 'basic_channel',
+            channelName: 'Basic notifications',
+            channelDescription: 'Notification channel for basic tests',
+            defaultColor: Color(0xFF9D50DD),
+            ledColor: Colors.white)
+      ],
+      channelGroups: [
+        NotificationChannelGroup(
+            channelGroupKey: 'basic_channel_group',
+            channelGroupName: 'Basic group')
+      ],
+      debug: true
+  );
+  
+  runApp(const MyApp());
+}

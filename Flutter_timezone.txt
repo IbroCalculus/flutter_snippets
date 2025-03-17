@@ -1,0 +1,15 @@
+
+  Future<void> _showTimeZones() async {
+    final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
+    List<String> _availableTimezones = await FlutterTimezone.getAvailableTimezones();
+
+    print('Current Timezone: $currentTimeZone');
+    print('Available Timezones: $_availableTimezones');
+  }
+
+
+
+            ElevatedButton(
+              onPressed: _showTimeZones,
+              child: const Text('Show Timezones'),
+            ),

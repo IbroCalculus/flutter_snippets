@@ -1,26 +1,43 @@
 
-  flutter_map: ^6.1.0
-  latlong2: ^0.9.0
+  flutter_map: ^8.1.0
+  latlong2: ^0.9.1
 
 
       body: FlutterMap(
         options: MapOptions(
+          // initialCenter: LatLng(51.509364, -0.128928), // Center the map over London
           initialCenter: LatLng(9.076479, 7.398574),    // This is lat, long for Abuja Nigeria.
-          initialZoom: 10,
+          initialZoom: 9.2,
         ),
         children: [
-          TileLayer(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+          TileLayer( // Bring your own tiles
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'dev.fleaflet.flutter_map.example', // Add your app identifier
+            // And many more recommended properties!
           ),
           MarkerLayer(
               markers: [
                 Marker(
-                  width: 300,
-                  point: LatLng(9.076479, 7.398574),  // Same lat, long as above
-                  child: Icon(Icons.my_location,size: 50,color: Colors.red,)
+                    width: 100,
+                    height: 100,
+                    point: LatLng(9.076479, 7.398574),  // Decided to use same lat, long as above
+                    child: Column(
+                      children: [
+                        Icon(Icons.my_location,size: 50,color: Colors.blue,),
+                        Text("Location", style: TextStyle(color: Colors.red),)
+                      ],
+                    )
                 ),
-          ]
+              ]
+          ),
+          RichAttributionWidget( // Include a stylish prebuilt attribution widget that meets all requirments
+            attributions: [
+              TextSourceAttribution(
+                'OpenStreetMap contributors',
+                onTap: () => launchUrl(Uri.parse('https://openstreetmap.org/copyright')), // (external)
+              ),
+              // Also add images...
+            ],
           ),
         ],
       ),

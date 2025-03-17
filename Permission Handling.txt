@@ -8,6 +8,12 @@
 
 ---------- In main.dart --------------
 
+
+***************************************************************************************
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 Future<void> requestPermissions(List<Permission> permissions) async {
   for (var permission in permissions) {
     // Request permission and get status
@@ -19,37 +25,54 @@ Future<void> requestPermissions(List<Permission> permissions) async {
       print('${permission.toString().split('.')[1]} permission denied');
     } else if (status.isPermanentlyDenied) {
       print('${permission.toString().split('.')[1]} permission permanently denied. Please enable it in settings.');
-      await openAppSettings();  // Opens app settings if permanently denied
+      await openAppSettings(); // Opens app settings if permanently denied
     }
   }
 }
 
+Future<int> getAndroidVersion() async {
+  if (Platform.isAndroid) {
+    return int.tryParse(Platform.version.split(' ')[0]) ?? 0;
+  }
+  return 0; // Return 0 for non-Android platforms
+}
 
 Future<void> initializePermissions() async {
   // Determine platform-specific permissions
   List<Permission> permissions = [Permission.storage];
 
-  // Add manageExternalStorage permission for Android 11 and above
-  if (Platform.isAndroid && (await getAndroidVersion()) >= 30) {
-    permissions.add(Permission.manageExternalStorage);
+  // Add notification permission for Android 13+ (SDK 33 and above)
+  if (Platform.isAndroid && (await getAndroidVersion()) >= 33) {
+    permissions.add(Permission.notification);
   }
 
   // Request permissions
   await requestPermissions(permissions);
 }
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize notifications before the app starts
+  final LocalNotificationService notificationService = LocalNotificationService();
+  await notificationService.init();
+  runApp(const MyApp());
+}
 
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  
   @override
   void initState() {
     super.initState();
-    initializePermissions();
+    initializePermissions();					// THIS
   }
-
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
-}
+***************************************************************************************
 
 
 =======================================================================================================================

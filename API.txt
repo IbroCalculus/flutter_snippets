@@ -1,5 +1,12 @@
 There are 2 packages that can be used for this; ie http and dio
 
+NB: Check API2.txt to learn two ways of working with API data. Either:
+	- Without a Model Class: Directly parsing and using the JSON data.​
+	- With a Model Class: Defining a structured model to represent the data.
+
+
+
+The basic example here is without a model class
 
 ===================== HTTP PACKAGE =============================
 

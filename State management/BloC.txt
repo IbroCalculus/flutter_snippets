@@ -1,0 +1,138 @@
+BloC -> Business Logic Companion
+
+NB: There are 2 approaches for managing state in Bloc. Either through Cubit state management or Bloc.
+
+NB: This reference uses Cubit
+
+========= In android studio IDE =========
+ - Install the plugins; Bloc and Flutter Bloc.
+
+
+========= In Flutter dependencies =========
+  flutter_bloc: ^9.1.0
+  bloc: ^9.0.0
+
+
+---------- A counter app -----------
+
+- Create a folder ie counter, with 3 files, ie; 
+	- counter_cubit.dart, 
+	- counter_view.dart and
+	- counter_page.dart.
+
+ Then main.dart
+
+
+================= counter_cubit.dart ===============
+
+import 'package:bloc/bloc.dart';
+
+class CounterCubit extends Cubit<int>{
+  CounterCubit(super.initialState);
+  // CounterCubit() : super(0);
+
+  // Increment
+  void increment() => emit(state + 1);
+
+  // Decrement
+  void decrement() => emit(state - 1);
+
+  @override
+  void onChange(Change<int> change) {
+    print('Change value: $change');
+    super.onChange(change);
+  }
+
+}
+
+
+================= counter_view.dart ===============
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_demo/counter/counter_cubit.dart';
+
+class CounterView extends StatelessWidget {
+  const CounterView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return BlocBuilder<CounterCubit, int>(				// ======= NOTE BlocBuilder
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("BloC HomePage"),
+            backgroundColor: Colors.deepPurple,
+            foregroundColor: Colors.white,
+          ),
+          
+          
+          body: Center(child: Text('$state', style: TextStyle(fontSize: 36))),
+          
+          
+          floatingActionButton: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 10.0,
+            children: [
+              FloatingActionButton(onPressed: () {
+                context.read<CounterCubit>().increment();		// ========= Increment 
+              }, child: Icon(Icons.add)),
+              FloatingActionButton(onPressed: () {
+                context.read<CounterCubit>().decrement();		// ========= Decrement
+              }, child: Icon(Icons.remove)),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+================= counter_page.dart ===============
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_demo/counter/counter_cubit.dart';
+import 'package:flutter_bloc_demo/counter/counter_view.dart';
+
+class CounterPage extends StatelessWidget {
+  const CounterPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(create: (context) {
+      return CounterCubit(0);
+    },
+      
+    child: CounterView(),
+    );
+  }
+}
+
+
+
+
+==================== main.dart =====================
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc_demo/counter/counter_page.dart';
+
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      home: const CounterPage(),				// JUST THIS
+    );
+  }
+}

@@ -1,25 +1,35 @@
 
 ========== 1. To use custom font ===========
-- Right-click on project name and create new folder called 'fonts'
-- Copy and paste the font inside the folder, ie: Oswald-LightItalic.ttf
+- Right-click on project name and create new folder called ie 'assets/fonts'
+- Copy and paste the fonts inside the folder, ie: Lettertype-Bold.ttf, Lettertype-Bold-italic.ttf, Lettertype-italic.ttf, Lettertype-Regular.ttf, Lettertype-SemiBold.ttf, Lettertype-SemiBold-italic.ttf
+
 - Go to 'pubspec.yaml' file, scroll down to fonts section and uncomment all the codes
 
 -NB: Identation matters, fonts in directly under # example, if fonts is moved 1 space back, others like family must move same
   # example:
   fonts:
-    - family: Oswald
-      fonts:
-        - asset: fonts/Oswald-LightItalic.ttf
-
-    - family: Oswald2
-      fonts:
-#       - asset: fonts/Oswald-Stencil.ttf
-        - asset: fonts/Oswald-HeavyItalic.ttf
+     - family: Lettertype
+       fonts:
+         - asset: assets/fonts/Lettertype-Bold.ttf
+         - asset: assets/fonts/Lettertype-Bold-italic.ttf
+         - asset: assets/fonts/Lettertype-italic.ttf
+         - asset: assets/fonts/Lettertype-Regular.ttf
+         - asset: assets/fonts/Lettertype-SemiBold.ttf
+         - asset: assets/fonts/Lettertype-SemiBold-italic.ttf
 
 
 ------ in main.dart file -----------
 
-                fontFamily: 'Oswald',
+        child: Column(
+          children: [
+            Text("Text 1", style: TextStyle(fontFamily: 'Lettertype', fontStyle: FontStyle.normal, fontWeight: FontWeight.bold, fontSize: 36),),
+            Text("Text 2", style: TextStyle(fontFamily: 'Lettertype', fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, fontSize: 36),),
+            Text("Text 3", style: TextStyle(fontFamily: 'Lettertype', fontStyle: FontStyle.italic, fontWeight: FontWeight.normal, fontSize: 36),),
+            Text("Text 4", style: TextStyle(fontFamily: 'Lettertype', fontStyle: FontStyle.normal, fontWeight: FontWeight.normal, fontSize: 36),),
+            Text("Text 5", style: TextStyle(fontFamily: 'Lettertype', fontStyle: FontStyle.normal, fontWeight: FontWeight.w600, fontSize: 36),),
+            Text("Text 6", style: TextStyle(fontFamily: 'Lettertype', fontStyle: FontStyle.italic, fontWeight: FontWeight.w600, fontSize: 36),),
+          ],
+        ),
 
 
 

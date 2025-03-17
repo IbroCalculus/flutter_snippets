@@ -19,7 +19,7 @@ NB:
           automaticallyImplyLeading: false,	// This do away with the <- in the next page's app bar that allows backward navigation when clicked.
 
 
----------------------- 1. Navigation to another screen  -----------------
+============================== 1. Navigation to another screen  ==============================
 The screen Class name is TextStyling
 
               onTap: (){
@@ -42,11 +42,12 @@ The screen Class name is TextStyling
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const SecondPage()));
 
 
----------------------- To go back in stack  -----------------
+---- To go back in stack  ---------
+
             Navigator.pop(context);
 
 
----------------------- To go back while returning an information -----------
+---- To go back while returning an information ----
 
 	--- The first page ---
 
@@ -72,20 +73,23 @@ The screen Class name is TextStyling
 
 
 
-  ---------------- using Named Navigation --------------------
+============================== 2. Using Named Navigation ==============================
  
                 Navigator.pushNamed(context, "/home");
 
-                Navigator.pushReplacementNamed(context, '/home');   //Same as 'finish()' in android. Discard from backstack
+                Navigator.pushReplacementNamed(context, '/home');   		//Same as 'finish()' in android. Discard from backstack
                // Navigator.of(context).pushReplacementNamed('/home');.
 
 
- ----------------- In main.dart  --------------------      
+ ----------------- In main.dart  --------------------  
+    
       initialRoute: '/',	// home: LoginPage(),    Remove home, and add initialRoute instead.
+
       routes: {
         '/': (context) => LoginPage(),
         '/home': (context) => HomePage(),
       },
+
       onUnknownRoute: (settings) {
         MaterialPageRoute(builder: (context) =>
         Scaffold(
@@ -110,6 +114,7 @@ The screen Class name is TextStyling
         "/friend_request":(context) => FriendRequestPage(),
         "/login":(context) => LoginPage(),
       },
+
       onUnknownRoute: (settings) {
         MaterialPageRoute(builder: (context) =>
         Scaffold(

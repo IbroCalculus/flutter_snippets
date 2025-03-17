@@ -11,14 +11,15 @@ CREATE BOTH APP PROJECT (ie flutter_firebase2) AND FIREBASE PROJECT (ie flutter-
 
 ======= ONE TIME SETUP ON COMPUTER (You don't have to do this again if already done on you computer, except perhaps; firebase login and firebase logout) ========
 
-- Click on Install the Firebase CLI (This will open another website to install the Firebase CLI)
 	---- Within the website ---
-	- Windows - npm:			(NB: standalone binary is simply the .exe version, better just use npm)
-		1. Install Node.js
-	IN CMD, no specific directory, run the command: npm install -g firebase-tools
+	- Windows - npm:
+		1. Install Node.js			(If you don't already have npm installed on your windows
+		2. Install the firebase CLI:
+			IN CMD, no specific directory, run the command: npm install -g firebase-tools.		
+			( cmd >firebase --version TO CHECK IF FIREBASE INSTALLED)
 
 - Back to firebase Step 1:
-	- In windows CMD, run command: firebase login (You can logout using firebase logout)
+	- In windows CMD, run command: firebase login (You can logout using 'firebase logout')
 	- Allow firebase to collect CLI and Emulator ... (Just type n). email selection app will pop up. Choose your firebae email and login.
 
 - IN CMD, anywhere: dart pub global activate flutterfire_cli
@@ -26,6 +27,12 @@ CREATE BOTH APP PROJECT (ie flutter_firebase2) AND FIREBASE PROJECT (ie flutter-
 
 - IN PROJECT'S FIREBASE, ADD SHA1 AND SHA256 within Project Setting (CHECK: SHA Keys.txt)
   NB: IF perhaps forgot to add SHA, and later do it, you can always rerun the flutterfire configure to reconfigure/update.
+
+
+- IN Project directory CMD > flutterfire configure --project=<Project-name>			# <- You will find this in the firebase step-by-step instruction, just copy and paste 
+
+NB: Some cmds:
+firebase:projects list		- list all projects on firebase
 
 ===================== FOR EVERY PROJECT (NOT one time) ============================
 - IN PARTICULAR PROJECT'S CMD: flutterfire configure. 	(If this does not work in android studio, open the project's root directory and run in CMD shell) 

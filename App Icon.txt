@@ -1,13 +1,10 @@
-flutter pub add flutter_launcher_icons
 
-dependencies:
-  flutter_launcher_icons: ^0.13.1
+dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
 
 
 //----- Paste the lines of code underneath as shown, then replace the value of image_path as necessary
 
-dev_dependencies:
-  flutter_launcher_icons: "^0.13.1"
 
 flutter_launcher_icons:
   android: "launcher_icon"

@@ -1,0 +1,60 @@
+https://docs.flutter.dev/deployment/android
+
+--------- 1. Create keystore (If you don't have an existing one), else, skip and use the existing one --------------
+
+windows app root dir cmd > keytool -genkey -v -keystore $env:USERPROFILE\upload-keystore.jks `
+        -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 `
+        -alias upload
+
+(Confirm from the above documentation URL)
+
+
+--------- 2. Reference the keystore from the app ------------
+- Within anndroid directory of the app project, Create a file named key.properties.
+
+key.properties
+storePassword=my_pass1
+keyPassword=my_pass1
+keyAlias=upload
+storeFile=C:\\Users\\dummyuser\\Documents\\My documents\\Keystore file\\demo-keystore.jks
+
+
+------- 3. app/build.gradle.kts --------------
+- Add these imports at the top
+
+import java.util.Properties
+import java.io.File
+import java.io.FileInputStream
+
+
+- Above android {, add these lines:
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
+
+- Above buildTypes {, add these lines:
+
+signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = keystoreProperties["storeFile"]?.let { file(it) }
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
+
+
+- Inside buildTypes, change: 
+            signingConfig = signingConfigs.getByName("debug") to 
+            signingConfig = signingConfigs.getByName("release")
+
+
+
+------------------------
+cmd > flutter clean (To clear cache)
+cmd > flutter pub get
+cmd > flutter build appbundle --release (Or simply use the IDE)

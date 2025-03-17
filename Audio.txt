@@ -1,0 +1,139 @@
+dependencies:
+  audioplayers: ^6.3.0
+
+
+NB: Audio file must be within assets directory for local files. ie: assets/audios/my_music.mp3.
+    Also declare directory in pubspec.yaml
+
+------------------------------------------------------------------------------
+
+
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
+
+class PracticePage extends StatefulWidget {
+  const PracticePage({super.key});
+
+  @override
+  State<PracticePage> createState() => _PracticePageState();
+}
+
+class _PracticePageState extends State<PracticePage> {
+
+  late AudioPlayer _audioPlayer;
+  bool isPlaying = false;
+  bool isPaused = false;
+  bool isLooping = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+
+    // Handle completion
+    _audioPlayer.onPlayerComplete.listen((event) {
+      setState(() {
+        isPlaying = false;
+        isPaused = false;
+      });
+      print('Done playing music');
+    });
+  }
+
+
+  // ======== Play Music =========
+  Future<void> playMusic(String filename) async {
+    await _audioPlayer.play(AssetSource('audios/$filename'));
+    setState(() {
+      isPlaying = true;
+      isPaused = false;
+    });
+  }
+
+
+  // ======== Pause Music =========
+  Future<void> pauseMusic() async {
+    await _audioPlayer.pause();
+    setState(() {
+      isPlaying = false;
+      isPaused = true;
+    });
+  }
+
+
+  // ======== Resume Music =========
+  Future<void> resumeMusic() async {
+    await _audioPlayer.resume();
+    setState(() {
+      isPlaying = true;
+      isPaused = false;
+    });
+  }
+
+
+  // ======== Stop Music =========
+  Future<void> stopMusic() async {
+    await _audioPlayer.stop();
+    setState(() {
+      isPlaying = false;
+      isPaused = false;
+    });
+  }
+
+
+  // ======== Toggle Loop Music =========
+  Future<void> toggleLoop() async {
+    if (isLooping) {
+      await _audioPlayer.setReleaseMode(ReleaseMode.stop);
+    } else {
+      await _audioPlayer.setReleaseMode(ReleaseMode.loop);
+    }
+    setState(() {
+      isLooping = !isLooping;
+    });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Testing Page"), centerTitle: true),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: isPlaying ? null : () => playMusic('Snare.wav'),
+              child: const Text("Play Music"),
+            ),
+            
+            ElevatedButton(
+              onPressed: isPlaying ? pauseMusic : null,
+              child: const Text("Pause Music"),
+            ),
+            
+            ElevatedButton(
+              onPressed: isPaused ? resumeMusic : null,
+              child: const Text("Resume Music"),
+            ),
+            
+            ElevatedButton(
+              onPressed: isPlaying || isPaused ? stopMusic : null,
+              child: const Text("Stop Music"),
+            ),
+            
+            ElevatedButton(
+              onPressed: toggleLoop,
+              child: Text(isLooping ? "Disable Loop" : "Enable Loop"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

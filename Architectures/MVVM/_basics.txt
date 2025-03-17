@@ -1,0 +1,49 @@
+
+======================= CODE ==========================
+
+Check Navigation.txt, implement all setups there ie:
+
+  get_it: ^8.0.3
+- setup in navigation_service.dart
+- setup in init_getit.dart
+- setup in main.dart 
+
+
+============================ THEORY ==========================
+
+Architecture refers to the design patterns and structural organization of your app. It defines how different parts of the app interact, including UI, business logic, and data layers.
+
+================================ Common Flutter Architectures: ================================
+
+----------- 1. MVC (Model-View-Controller) ---------------
+
+Model: Represents data and business logic.
+View: Displays UI to users.
+Controller: Handles user input and updates the model.
+❌ Not commonly used in Flutter because Flutter widgets already handle UI updates effectively.
+
+
+----------- 2. MVVM (Model-View-ViewModel) ---------------
+
+Model: Manages data and business logic.
+View: UI representation of data.
+ViewModel: Acts as an intermediary, exposing data and commands for the View.
+✅ Often used with Riverpod or Provider.
+
+
+----------- 3. Clean Architecture (Uncle Bob’s Clean Architecture) ---------------
+
+Presentation Layer: UI and state management.
+Domain Layer: Business logic and use cases.
+Data Layer: Handles API calls, databases, and repositories.
+✅ Ideal for large-scale apps; used with Bloc, Riverpod, GetX
+
+
+----------- 4. Layered Architecture (Classic Approach) ---------------
+
+UI Layer (View)
+Logic Layer (Controller/Bloc/Provider)
+Data Layer (Repository, API, DB)
+✅ Recommended for maintaining scalability in medium to large apps.
+
+

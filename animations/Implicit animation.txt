@@ -1,0 +1,110 @@
+https://api.flutter.dev/flutter/animation/Curves-class.html
+
+
+===========================
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+
+class ImplicitAnimationTab extends StatefulWidget {
+  const ImplicitAnimationTab({super.key});
+
+  @override
+  State<ImplicitAnimationTab> createState() => _ImplicitAnimationTabState();
+}
+
+class _ImplicitAnimationTabState extends State<ImplicitAnimationTab> {
+
+  bool showAnimation = false; // ============= THIS ===================
+  double blurValue = 0; // ============= THIS ===================
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _animatedExample(),
+            _tweenAnimationExample()
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _animatedExample() {
+    return Column(
+      children: [
+        AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          curve: Curves.bounceIn,          // CHECK https://api.flutter.dev/flutter/animation/Curves-class.html FOR AVAILABLE OPTIONS
+          height: showAnimation ? 200 : 0,
+          width: showAnimation ? 300 : 0,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            "Animated Container",
+            style: TextStyle(color: Colors.white, fontSize: 24),
+          ),
+        ),
+        AnimatedOpacity(
+          opacity: showAnimation ? .1 : 1,
+          duration: Duration(milliseconds: 1000),
+          child: Text("Welcome to this"),
+        ),
+        ElevatedButton(
+          child: Text("Trigger"),
+          onPressed: () {
+            setState(() {
+              showAnimation = !showAnimation;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _tweenAnimationExample() {
+    return SizedBox(
+      height: 200,
+      child: Column(
+        children: [
+          Expanded(
+            child: TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0, end: blurValue),
+              duration: Duration(milliseconds: 2000),
+              builder: (context, value, child) {
+                return SizedBox(
+                  height: 200,
+                  width: 200,
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(
+                        sigmaX: value ?? 0.01 * 40,
+                        sigmaY: value ?? 0.01 * 40,
+                    ),
+                    child: Image.asset("assets/images/img_1.jpg", fit: BoxFit.cover,),
+                  ),
+                );
+              },
+            ),
+          ),
+          Slider(
+            value: blurValue,
+            min: 0,
+            max: 10,
+            onChanged: (value) {
+              setState(() {
+                blurValue = value;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+

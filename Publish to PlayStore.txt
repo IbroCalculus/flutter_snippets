@@ -1,0 +1,1 @@
+CHECK: Release to playstore.txt

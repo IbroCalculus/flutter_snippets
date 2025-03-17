@@ -1,0 +1,55 @@
+============ In navigation_service.dart (Begin with Navigation.txt) ===============
+
+--- Add the function ---
+
+  Future<T?> showAdaptiveDialogBox<T>({
+    required Widget Function(BuildContext) builder,
+    bool barrierDismissible = true,
+    Color? barrierColor,
+  }) async {
+    if (navigatorKey.currentContext == null) return null;
+
+    return await showAdaptiveDialog<T>(
+      context: navigatorKey.currentContext!,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor ?? Colors.black54,
+      builder: builder,
+    );
+  }
+
+// -------- Extra functions I used -------
+
+  void goBack() {
+    navigatorKey.currentState!.pop();
+  }
+
+-------------- Usage ------------------
+
+  void showDeleteDialog() {
+    getIt<NavigationService>().showAdaptiveDialogBox(
+      builder: (context) => AlertDialog(
+        title: Text("Delete Item"),
+        content: Text("Are you sure you want to delete this item?"),
+        actions: [
+          TextButton(
+            onPressed: () => getIt<NavigationService>().goBack(),
+            child: Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              print("Item deleted!");
+              getIt<NavigationService>().goBack();
+            },
+            child: Text("Confirm"),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+            onPressed: () {
+              getIt<NavigationService>().navigate(const FavoritesScreen());
+            },
+
+

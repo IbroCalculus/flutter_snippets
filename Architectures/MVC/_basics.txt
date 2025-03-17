@@ -1,0 +1,94 @@
+- Model: Manages the data and business logic.​
+- View: Displays the data and sends user actions to the Controller.​
+- Controller: Handles user input, updates the Model, and refreshes the View.​
+
+
+
+------- FILES ---------
+1. model.dart
+2. view.dart
+3. controller.dart
+4. main.dart
+
+
+------------------------- A counter app like the default one with FAB
+
+============ model.dart ===================
+
+class Model{
+  int _counter = 0;
+  int get counter => _counter;
+
+  void incrementCounter(){
+    _counter++;
+  }
+}
+
+
+
+============ controller.dart ===================
+
+import 'package:flutter_mvc_demo/model.dart';
+
+class Controller {
+  final Model _model;
+  Controller({required model}) : _model = model;
+
+  int get counter => _model.counter;
+
+  void incrementCounter() {
+    _model.incrementCounter();
+  }
+
+}
+
+
+============ view.dart ===================
+
+import 'package:flutter/material.dart';
+import 'package:flutter_mvc_demo/model.dart';
+import 'controller.dart';
+
+class HomePageView extends StatefulWidget {
+  const HomePageView({super.key});
+
+  @override
+  State<HomePageView> createState() => _HomePageViewState();
+}
+
+class _HomePageViewState extends State<HomePageView> {
+  final Model _model = Model();
+  late Controller _controller;
+
+  @override
+  void initState() {
+    _controller = Controller(model: _model);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('MVC Home Page'),
+      ),
+      body: Center(
+        child: Text('${_controller.counter}', style: TextStyle(fontSize: 36.0),
+        ),
+      ),
+
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _controller.incrementCounter();
+          });
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+
+

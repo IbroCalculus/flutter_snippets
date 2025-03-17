@@ -1,0 +1,11 @@
+
+            Image.asset("assets/gifs/gif_2.gif"),
+
+            Text('OR'),
+
+            Gif(							// USING gif: ^2.3.0
+              autostart: Autostart.once,
+              placeholder: (context) =>
+              const Center(child: CircularProgressIndicator()),
+              image: const AssetImage('assets/gifs/gif_2.gif'),
+            ),

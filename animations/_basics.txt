@@ -1,0 +1,26 @@
+Types:
+- lottie
+- GIFs
+- Animation controllers and Animation classes (opacity and size animations)
+
+
+​In Flutter, animations are categorized into two main types: implicit and explicit animations.
+
+- 1. Implicit Animations:
+
+These are straightforward animations where Flutter handles the transition for you. You specify the beginning and end states, and Flutter takes care of animating between them. For example, if you want a container to change its size or color smoothly when a certain condition changes, you can use an AnimatedContainer. When you update its properties, Flutter automatically animates the changes over a specified duration. 
+
+Example:
+
+AnimatedContainer(
+  duration: Duration(seconds: 1),
+  width: isExpanded ? 200.0 : 100.0,
+  height: isExpanded ? 200.0 : 100.0,
+  color: isExpanded ? Colors.blue : Colors.red,
+)
+
+In this example, when the isExpanded variable changes, the container smoothly transitions between the specified sizes and colors over one second.
+
+
+- 2. Explicit Animations:
+These animations give you more control over the animation process. You define how the animation progresses, its timing, and its behavior. This involves using classes like AnimationController and Tween. Explicit animations are useful when you need intricate animations or when you want to control the animation's state directly. 

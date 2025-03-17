@@ -1,0 +1,30 @@
+NB: Ensure the icon is square (e.g., 512x512 or 1024x1024).
+
+---------- 1. Add the logo in a diretory (ie assets/icons/GreyDoIcon.png) --------
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.14.3
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/GreyDoIcon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icon/GreyDoIcon.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/icon/GreyDoIcon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icon/GreyDoIcon.png"
+
+
+RUN CMD > 
+		flutter pub get
+		dart run flutter_launcher_icons

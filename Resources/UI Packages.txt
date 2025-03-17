@@ -1,0 +1,12 @@
+dependencies:
+
+  getwidget: ^6.0.0			// Prebuilt UI Kits (reference tutorial: https://youtu.be/5IDiCt9nz04)
+  calendar_view: ^1.4.0
+  timelines_plus: ^1.0.6		// For timelines, like steppers. (Go study it)
+  fl_chart: ^0.70.2			// Supports  Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.
+  flutter_svg: ^2.0.17			// SVG images
+  flutter_spinkit: ^5.2.1		// spinkit for loading.
+  slideable: ^0.0.2			// Swipe to see options like delete.
+  awesome_snackbar_content: ^0.1.5	// snackbar, material banner.
+  cached_network_image: ^3.4.1
+  animations: ^2.0.11			// Animate widgets

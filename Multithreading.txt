@@ -1,0 +1,3 @@
+Dart uses isolates for multithreading.
+
+2 ways of archiving multithreading in dart are; either isolates.spawn() or compute function. Both of which creates separate isolates, similar to separate threads.

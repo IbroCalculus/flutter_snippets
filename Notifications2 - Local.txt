@@ -1,16 +1,45 @@
+CHECK ALSO: Awesome notification.txt for using the package awesome_notification
+
+NB: Flutter_timezone is used to get the location timezone. CHECK: Timezone.txt
+NB: Local notification those not work once the app is closed (in background), rather, only when minimized.
+NB: Ensure that the icon file (e.g., launcher_icon.png) is placed in the android/app/src/main/res/drawable/ AND used approprately within local_notification_service.dart
+    default is AndroidInitializationSettings('@mipmap/ic_launcher'); will now be: AndroidInitializationSettings('launcher_icon');
+
+ie: """
+Specify the Icon in Code: When initializing the AndroidInitializationSettings, reference the correct icon name:
+
+const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('launcher_icon');
+
+Alternative Approach: Some developers use the existing launcher icon for notifications. To do this, reference the ic_launcher resource:
+
+const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+
+Note: Ensure that the icon is a simple white-on-transparent image to comply with Android's design guidelines for notification icons.
+
+"""
+
+---------------------- Dependencies --------------------
 
   flutter_local_notifications: ^18.0.1
   flutter_timezone: ^4.0.0
+  permission_handler: ^11.4.0
+  timezone (Although this package is transitive wiht flutter_local_notifications. No need installing, except if perhaps some error and it is required)
 
 ---------------- Android Manifest permissions ----------
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
-ALSO, still within Manifest: (Inside </application>, before its closing tag </application>
+ALSO, still within Manifest: (Inside <application>, before its closing tag </application>
 
+
+        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
@@ -21,13 +50,79 @@ ALSO, still within Manifest: (Inside </application>, before its closing tag </ap
         
     </application>	# Closing tage
 
+ALSO, Withing <activity tag, add:
+
+        <activity
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+
+------------------------------------------ build.gradle.kts ------------------------------------------
+Add these:
+
+    ndkVersion = "27.0.12077973"							1
+        isCoreLibraryDesugaringEnabled = true						2
+        multiDexEnabled = true								3
+dependencies {										4
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
+}
+
+	ie:
+ 
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id("dev.flutter.flutter-gradle-plugin")
+}
+
+android {
+    namespace = "com.ibsuleiman9.flutter_local_notifications_example"
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"					// ============ 1
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true				// ============ 2
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId = "com.ibsuleiman9.flutter_local_notifications_example"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        minSdk = 26
+        targetSdk = 35
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+        multiDexEnabled = true						// ============ 3
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig = signingConfigs.getByName("debug")
+        }
+    }
+}
+
+dependencies {								// ============ 4
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
+}
+
+flutter {
+    source = "../.."
+}
+
 
 ------------------ CREATE A FILE AND PASTE THE CODE (ie local_notification_service.dart) ------------------------------
 
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_prac/api_page.dart';
-import 'package:flutter_prac/main.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -59,15 +154,12 @@ class LocalNotificationService {
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
         print("Notification clicked!");
-        navigatorKey.currentState?.push(
-          MaterialPageRoute(builder: (context) => const ApiPage()), // Replace ApiPage with your desired page
-        );
       },
     );
   }
 
-  // Show a simple notification
-  Future<void> showNotification({required String title, required String body}) async {
+  // Show a instant notification
+  Future<void> showInstantNotification({required String title, required String body}) async {
     const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       'high_importance_channel', // Channel ID
       'High Importance Notifications', // Channel name
@@ -108,7 +200,7 @@ class LocalNotificationService {
       body, // Notification body
       tz.TZDateTime.now(tz.local).add(Duration(seconds: secondsFromNow)), // Schedule time
       notificationDetails, // Ensure the notification shows even in Doze mode
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime, 
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
@@ -118,20 +210,175 @@ class LocalNotificationService {
 
 ------------- IN main.dart -------------------
 
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_prac/api_page.dart';
-import 'package:flutter_prac/local_notification_service.dart';
-import 'package:flutter_prac/test_page.dart';
+import 'package:flutter_local_notifications_example/pages/home_page.dart';
+import 'package:flutter_local_notifications_example/utils/local_notification_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import 'firebase_options.dart';
-import 'firebase_pushnotification.dart';
+Future<void> requestPermissions(List<Permission> permissions) async {
+  for (var permission in permissions) {
+    // Request permission and get status
+    var status = await permission.request();
 
+    if (status.isGranted) {
+      print('${permission.toString().split('.')[1]} permission granted');
+    } else if (status.isDenied) {
+      print('${permission.toString().split('.')[1]} permission denied');
+    } else if (status.isPermanentlyDenied) {
+      print('${permission.toString().split('.')[1]} permission permanently denied. Please enable it in settings.');
+      await openAppSettings(); // Opens app settings if permanently denied
+    }
+  }
+}
 
-final navigatorKey = GlobalKey<NavigatorState>();
+Future<int> getAndroidVersion() async {
+  if (Platform.isAndroid) {
+    return int.parse((await Process.run('getprop', ['ro.build.version.sdk'])).stdout.trim());
+  }
+  return 0; // Return 0 for non-Android platforms
+}
+
+Future<void> initializePermissions() async {
+  // Determine platform-specific permissions
+  List<Permission> permissions = [Permission.storage];
+
+  // Add notification permission for Android 13+ (SDK 33 and above)
+  if (Platform.isAndroid && (await getAndroidVersion()) >= 33) {
+    permissions.add(Permission.notification);
+    permissions.add(Permission.scheduleExactAlarm);
+  }
+
+  // Request permissions
+  await requestPermissions(permissions);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalNotificationService().init();
+  final LocalNotificationService notificationService = LocalNotificationService();
+  await notificationService.init();
   runApp(const MyApp());
 }
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    initializePermissions();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Local Notifications',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.deepPurple,
+          foregroundColor: Colors.white,
+        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+------------- home_page.dart -------------------
+
+NB: This consists of two buttons. One for instant notification, the other for scheduled notification using datepicker and timepicker.
+
+import 'package:flutter/material.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import '../utils/local_notification_service.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  final LocalNotificationService _notificationService = LocalNotificationService();
+
+  Future<void> _showInstantNotification() async {
+    await _notificationService.showInstantNotification(
+      title: 'Instant Notification',
+      body: 'This is an immediate notification!',
+    );
+  }
+
+  Future<void> _scheduleNotification(DateTime scheduledTime) async {
+    Duration difference = scheduledTime.difference(DateTime.now());
+    int secondsFromNow = difference.inSeconds;
+
+    if (secondsFromNow > 0) {
+      await _notificationService.showScheduledNotification(
+        title: 'Scheduled Notification',
+        body: 'This is your scheduled notification!',
+        secondsFromNow: secondsFromNow,
+      );
+    }
+  }
+
+  Future<void> _selectDateTime() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        final DateTime finalDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+        _scheduleNotification(finalDateTime);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Local Notifications')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: _showInstantNotification,
+              child: const Text('Show Instant Notification'),
+            ),
+            ElevatedButton(
+              onPressed: _selectDateTime,
+              child: const Text('Schedule Notification'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+

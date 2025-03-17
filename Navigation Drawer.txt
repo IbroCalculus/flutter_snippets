@@ -1,5 +1,5 @@
 You must add an appbar for navigation drawer to work.
-
+NOTE: Naviagation Drawer2.txt and Navigation Drawer3.txt are how to implement navigation between screens on clicking drawer items.
 NOTE: Within drawer, Drawer header can be of 2 types; using 'DrawerHeader' or 'UserAccountDrawerHeader()'
 
 

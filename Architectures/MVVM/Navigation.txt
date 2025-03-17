@@ -1,0 +1,129 @@
+
+  get_it: ^8.0.3
+
+============= CREATE A FILE TITLED navigation_service.dart in a directory (ie service/navigation_service.dart) ==============
+
+import 'package:flutter/material.dart';
+
+class NavigationService {
+  late GlobalKey<NavigatorState> navigatorKey;
+
+  NavigationService() {
+    navigatorKey = GlobalKey<NavigatorState>();
+  }
+
+  navigate(Widget widget) {
+    return navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => widget));
+  }
+}
+
+
+  navigateReplacement(Widget widget) {
+    return navigatorKey.currentState!.pushReplacement(MaterialPageRoute(builder: (context) => widget));
+  }
+
+  void goBack() {
+    navigatorKey.currentState!.pop();
+  }
+
+// etc
+
+========== CREATE init_getit.dart in same directory (ie service/init_getit.dart) =================
+
+import 'package:get_it/get_it.dart';
+import 'package:movies_streamer/service/navigation_service.dart';
+
+GetIt  getIt = GetIt.instance;
+
+void setupLocator(){
+  getIt.registerLazySingleton<NavigationService>(() => NavigationService());
+}
+
+
+============= in main.dart =============
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();						// ========= THIS ===========
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  final navigatorKey = NavigationService().navigatorKey;       // ============ THIS ===========
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    return MaterialApp(
+      navigatorKey: getIt<NavigationService>().navigatorKey,	// ============ And THIS ===========
+      home: SplashScreen(),
+    );
+  }
+}
+
+
+
+============ USAGE (when navigating to other screens ==============
+
+            onPressed: () {
+              getIt<NavigationService>().navigate(const FavoritesScreen());	// Navigate to FavoritesScreen
+            },
+
+
+--------- Similarly, navigating with parameters ---------
+
+void onMovieClick(int index, Map<String, dynamic> movie) {
+  getIt<NavigationService>().navigate(
+    MovieDetailScreen(
+      title: movie["title"],
+      imageUrl: movie["imageUrl"],
+      rating: movie["rating"],
+      genres: List<String>.from(movie["genres"]),
+      releaseDate: movie["releaseDate"],
+      description: movie["description"] ?? "No description available.",
+      favoriteButton: FavoriteBtnWidget( // ✅ Pass Favorite Button
+        isFavorite: movie["isFavorite"],
+        onPressed: () {
+          toggleFavorite(index);
+        },
+      ),
+    ),
+  );
+}
+
+------- which was previously --------
+
+  void onMovieClick(int index, Map<String, dynamic> movie) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MovieDetailScreen(
+          title: movie["title"],
+          imageUrl: movie["imageUrl"],
+          rating: movie["rating"],
+          genres: List<String>.from(movie["genres"]),
+          releaseDate: movie["releaseDate"],
+          description: movie["description"] ?? "No description available.",
+          favoriteButton: FavoriteBtnWidget( // ✅ Pass Favorite Button
+            isFavorite: movie["isFavorite"],
+            onPressed: () {
+              toggleFavorite(index);
+              setState(() {}); // Update UI when returning
+            },
+          ),
+        ),
+      ),
+    ).then((_) {
+      setState(() {}); // Update UI when coming back
+    });
+  }
+

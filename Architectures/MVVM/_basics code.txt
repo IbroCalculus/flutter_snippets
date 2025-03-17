@@ -1,0 +1,84 @@
+
+------- FILES ---------
+
+1. model.dart
+2. view.dart
+3. view_model.dart
+4. main.dart
+
+
+------------------------- A counter app like the default one with FAB
+
+============ model.dart ===================
+
+class Model{
+  int counter = 0;
+}
+
+============ view_model.dart ===================
+
+import 'model.dart';
+
+typedef VoidCallback = void Function();
+
+class ViewModel{
+  final Model _model;
+  VoidCallback? onCounterChanged;
+
+  ViewModel({required model}) : _model = model;
+
+  int get counter => _model.counter;
+
+  void incrementCounter() {
+    _model.counter++;
+    onCounterChanged?.call();
+  }
+}
+
+
+============ view.dart ===================
+
+import 'package:flutter/material.dart';
+import 'package:flutter_mvvm_demo/model.dart';
+import 'package:flutter_mvvm_demo/view_model.dart';
+
+class HomePageView extends StatefulWidget {
+  const HomePageView({super.key});
+
+  @override
+  State<HomePageView> createState() => _HomePageViewState();
+}
+
+class _HomePageViewState extends State<HomePageView> {
+
+  final ViewModel viewModel = ViewModel(model: Model());
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.onCounterChanged = () {
+      setState(() {});
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('MVVM Home Page'),
+      ),
+      
+      body: Center(
+        child: Text('${viewModel.counter}', style: TextStyle(fontSize: 36.0),
+        ),
+      ),
+      
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          viewModel.incrementCounter();
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}

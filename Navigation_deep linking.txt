@@ -1,0 +1,30 @@
+Deep linking is a method that allows your app to be opened to a specific screen or route when a user clicks on a URL or an intent from another app. Instead of just launching the app’s home screen, deep links navigate the user directly to a targeted location inside your app.
+
+============= Types of Deep Linking =============
+
+-------- 1. Traditional Deep Linking: --------  
+
+Requires the app to be installed.
+Clicking the link only works if the app is already installed.
+Example: myapp://verify_user?userId=123&userEmail=user@example.com
+
+
+-------- 2. Universal Linking (iOS) & App Links (Android): ---------
+
+Works even if the app is not installed.
+If the app is installed, the link opens the app.
+If not installed, it opens the web version (if configured).
+Example: https://mywebsite.com/verify_user?userId=123&userEmail=user@example.com
+
+
+-------- 3. Deferred Deep Linking: -------- 
+
+The link works even before the app is installed.
+After installation, the app opens to the correct screen with the passed data.
+
+
+
+
+
+================================== CODE SECTION ========================
+
