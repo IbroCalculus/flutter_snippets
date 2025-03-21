@@ -1,0 +1,42 @@
+2 different methods.
+
+1. Using in app update functionality. Implement with the package (upgrade)
+2. Prompt all users to update via google play console.
+
+
+
+============== 1. Using the package ==============
+
+  upgrader: ^11.3.1
+
+
+    return UpgradeAlert(
+
+      showReleaseNotes: true,
+      showIgnore: false,
+      showLater: false,
+      barrierDismissible: false,
+      upgrader: Upgrader(
+        debugLogging: true,
+        durationUntilAlertAgain: Duration(days: 1),
+      ),
+
+      child: Scaffold(
+        body: SingleChildScrollView( ...
+
+
+------- Checking for updates with ie a button click ------------
+
+void checkForUpdates() async {
+  final bool isUpdateAvailable = await Upgrader().isUpdateAvailable();
+  if (isUpdateAvailable) {
+    print("A new update is available!");
+  } else {
+    print("Your app is up to date.");
+  }
+}
+
+
+============== 2. Prompt all users to update via Play Console ==============
+
+The app -> Test and release -> App bundle explorer -> (Top right; Recovery tools -> Prompt users to update)
