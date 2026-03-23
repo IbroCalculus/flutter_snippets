@@ -1,0 +1,95 @@
+
+  firebase_storage: ^12.4.4
+  image_picker: ^1.1.2
+
+NB: Firebase storage is paid, free alternatives are: Cloudinary, imagekit.io, appwrite, superbase (https://youtu.be/aE5gAHOhIok?si=rPQHk9Hg1ZysaBv5)
+    Recommended are Google Clould Storage and AWS Amazon S3, Azure Blob Storage, BackBlaze
+
+
+------ In firebase console, storage -> production mode -> rules 
+rules_version = '2';
+
+// Craft rules based on data in your Firestore database
+// allow write: if firestore.get(
+//    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;				// <- Modify to this
+    }
+  }
+}
+
+
+--------------------- Example 1 -----------------------
+
+
+Future<String> _uploadImageToFirebase(User user, File imageFile) async {
+  final storageRef = FirebaseStorage.instance
+      .ref()
+      .child('user_images')
+      .child('${user.uid}.jpg');
+
+  await storageRef.putFile(imageFile);
+  return await storageRef.getDownloadURL();
+}
+
+
+    // Create user in Firebase Auth
+    UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+
+    // Upload image and get URL
+    final imageUrl = await _uploadImageToFirebase(userCredential.user!, _pickedImageFile!);
+
+    // Update Firebase User Profile
+    await userCredential.user!.updatePhotoURL(imageUrl);
+
+
+WHERE  _pickedImageFile! is of type, File
+
+
+
+---------------------- Example 2 -------------------------------
+
+Two buttons, Pick Image and Upload Image. Use the image_picker to pick and then firebase storage
+
+
+  File? _pickedImageFile;
+
+
+  void _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50, maxWidth: 150);			// ImageSource.camera
+    if (pickedImage == null) {
+      return;
+    }
+    setState(() {
+      _pickedImageFile = File(pickedImage.path);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Imaged picked successfully!')),
+    );
+  }
+
+
+  Future<String> _uploadImage(File image) async {
+    final storageRef = FirebaseStorage.instance.ref().child('gallery_images').child("uploaded_image");
+    await storageRef.putFile(image);
+    return await storageRef.getDownloadURL();
+  }
+
+
+
+-------------- Usage  ----------------
+
+          ElevatedButton(onPressed: () {
+            _pickImage();
+          }, child: const Text("Pick Image")),
+          
+          ElevatedButton(onPressed: () {
+            _uploadImage(_pickedImageFile!);
+          }, child: const Text("Upload Image")),

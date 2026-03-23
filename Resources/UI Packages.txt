@@ -10,3 +10,6 @@ dependencies:
   awesome_snackbar_content: ^0.1.5	// snackbar, material banner.
   cached_network_image: ^3.4.1
   animations: ^2.0.11			// Animate widgets
+  flutter_animate 4.5.2			// Animate widgets
+
+  https://fluttergems.dev/animation-transition/			// Get list of animation/transition packages

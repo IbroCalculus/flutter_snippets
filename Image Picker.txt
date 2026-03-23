@@ -1,0 +1,68 @@
+
+  image_picker: ^1.1.2			(NB: It also picks videos)
+
+
+// NB: It picks the following:  (CHECK pub.dev documentation: https://pub.dev/packages/image_picker)
+
+ - Pick an image			(ImageSource.galleray)
+ - Pick a photo				(ImageSource.camera)
+ - Pick a video				final XFile? galleryVideo =  await picker.pickVideo(source: ImageSource.gallery);
+ - Capture a video			final XFile? galleryVideo =  await picker.pickVideo(source: ImageSource.camera);
+ - Pick multiple images.		final List<XFile> images = await picker.pickMultiImage();
+ - Pick singe image or video.		final XFile? media = await picker.pickMedia();
+ - Pick multiple images and videos.	final List<XFile> medias = await picker.pickMultipleMedia();
+
+// ========== A custom widget that picks an image and feel the circleAvatar widgete ==================
+
+
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+class UserImagePicker extends StatefulWidget {
+  const UserImagePicker({super.key});
+
+  @override
+  State<UserImagePicker> createState() => _UserImagePickerState();
+}
+
+class _UserImagePickerState extends State<UserImagePicker> {
+
+
+  File? _pickedImageFile;
+
+  void _pickImage() async {
+
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedImage = await picker.pickImage(source: ImageSource.camera, imageQuality: 50, maxWidth: 150);			// ImageSource.camera
+    if (pickedImage == null) {
+      return;
+    }
+    setState(() {
+      _pickedImageFile = File(pickedImage.path);
+    });
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CircleAvatar(
+          radius: 40,
+          backgroundColor: Colors.grey,
+          foregroundImage: _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
+        ),
+        TextButton.icon(
+          onPressed: () {
+            _pickImage();
+          },
+          label: Text("Add Image", style: TextStyle(color: Theme.of(context).colorScheme.primary), ),
+          icon: const Icon(Icons.image),
+        ),
+      ],
+    );
+  }
+}
+

@@ -1,0 +1,16 @@
+NB: Know that you can subscribe to topics as shown in Push Notification.txt incase you missed it.
+
+    //_firebaseMessaging.subscribeToTopic('chat1');		// SUBSCRIBE TO Topic if applicable. (Ask ChatGPT if you forget what this is about)
+
+
+
+============ SENDING PUSH NOTIFICATIONS AUTOMATICALLY VIA CLOUD FUNCTIONS ==============
+
+In Firebase console -> Build -> Functions, Follow the instrutions:
+1. In general cmd > npm install -g firebase-tools	(This should have been done since setup)
+2. In project cmd > firebase init	(Select Functions: Configure a Cloud Functions directory and its files. NB: Space bar to select, Enter to proceed)
+3. Select: Use an existing project and select the project
+4. Select preferred language between those listed. ie; JavaScript, TypeScript, Python. (I prefer Python)
+5. This will create a functions directory
+
+6. In project cmd > firebase deploy		(To deploy the application)

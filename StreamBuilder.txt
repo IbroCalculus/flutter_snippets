@@ -1,0 +1,89 @@
+CHECK ALSO: FutureBuilder.txt
+
+NB: This demo consists of both StreamBuilder and FutureBuilder
+
+
+import 'package:flutter/material.dart';
+
+class TestPage extends StatelessWidget {
+  const TestPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Test Page')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 20.0,
+        children: [
+          StreamBuilderDemo(), 
+          FutureBuilderDemo()
+        ],
+      ),
+    );
+  }
+}
+
+
+// This is simulating a continuous stream of numbers
+Stream<int> numberStream = Stream<int>.periodic(
+  Duration(seconds: 1),
+  (count) => count,
+);
+
+
+// A simple custom StreamBuilder widget
+class StreamBuilderDemo extends StatelessWidget {
+  const StreamBuilderDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<int>(
+      stream: numberStream,
+      initialData: 0,
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          return Center(child: Text('Current number: ${snapshot.data}'));
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+}
+
+
+
+
+// Simulated future that completes after 3 seconds
+Future<String> fetchData() async {
+  await Future.delayed(const Duration(seconds: 3));
+  return "Data loaded";
+}
+
+
+// A simple custom FutureBuilder widget
+class FutureBuilderDemo extends StatelessWidget {
+  const FutureBuilderDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: fetchData(),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Text('FutureBuilder Error: ${snapshot.error}');
+          } else {
+            return Text('FutureBuilder: ${snapshot.data}');
+          }
+        } else {
+          return Text('State: ${snapshot.connectionState}');
+        }
+      },
+    );
+  }
+}

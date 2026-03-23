@@ -80,6 +80,8 @@ class PushNotification{
     final token = await _firebaseMessaging.getToken();
     print("Device token: $token");
 
+    //_firebaseMessaging.subscribeToTopic('chat1');		// SUBSCRIBE TO Topic if applicable. (Ask ChatGPT if you forget what this is about)
+
     // Initialize local notifications
     const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
     const InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid);

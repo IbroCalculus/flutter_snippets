@@ -15,7 +15,7 @@ class FirestoreDbService {
 
   void create({required String name, required String email, required String phone}) {
     try {
-      firestore.collection(collection).add({
+      firestore.collection(collection).add({			// Similarly: firestore.collection(collection).doc("doc_1").set({ ...
         "username": name,
         "email": email,
         "phone": phone,
