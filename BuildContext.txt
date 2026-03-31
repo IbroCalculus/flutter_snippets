@@ -1,0 +1,12 @@
+More on Google Docs; Flutter Reference - BuildContext
+
+======================
+BuildContext represents the location of a widget in the widget tree.
+BuildContext is your widget's location ID within the app's widget tree.
+It tells your widget where it is, who its parent widgets are, and allows it to access data shared by those parents.
+
+BuildContext is used for:
+ - Building widgets: widgets use it to build their part of the UI.
+ - Data Propagation: Sharing data across other widgets easily
+ - Navigation: navigating between screens/routes
+ - Theming: sued to access theme data defined in the app.

@@ -7,7 +7,7 @@ CHECK ALSO: File Downloader.txt
 We can use either a network image, on an asset image
 
 Two methods each of adding both
-1. Asset Image:
+1a. Asset Image:
 Image(
 	//image.AssetImage("path")
 	image: const AssetImage("assets/images/lambo1.jpeg"),
@@ -16,17 +16,21 @@ Image(
         // height: 200,
         fit: BoxFit.cover,
 )
-Image.asset()
 
-2. Network Image:
+1b. Image.asset()	// Recommended
+
+2a. Network Image:
 Image(
 	image.NetworkImage("path")
 )
-Image.network()
+
+2b. Image.network()	// Recommended
 
 
 --- Network Image (from the internet) -----
 Right click and 'copy image address' from the internet.
+
+NB: It is recommend to use Image.network(...) instead of Image(image: ...) below. Ask AI
  
       body: const Center(
         child: Image(
@@ -48,6 +52,8 @@ Right click and 'copy image address' from the internet.
 Then select pub.get. After which check on 'Dart Analysis' tab below android studio to make sure no error.
 
 --- Within main.dart file ---
+
+NB: Similar, for asset image, recommended to use Image.asset(...).
 
       body: Column(
         children: [

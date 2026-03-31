@@ -62,11 +62,13 @@ class _CounterAppState extends State<CounterApp> {
               },
             ),
             Text("Number: ${Provider.of<AppProvider>(context, listen: true).counter}")  // NB: true, NOT false
+            Text("Number: ${context.watch<Approvider>().counter}")  			// NB: Cleaner alternative to the above
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: Provider.of<AppProvider>(context, listen: false).incrementCounter(),	// NB: false, NOT true
+        onPressed: () => Provider.of<AppProvider>(context, listen: false).incrementCounter(),	// NB: false, NOT true
+        onPressed: () => context.read<AppProvider>().incrementCounter(),			// NB: Cleaner alternative to the above
         child: const Icon(Icons.add),
       ),
     );
