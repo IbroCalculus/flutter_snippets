@@ -1,35 +1,235 @@
-================== READING LOCAL JSON DATA ======================
-Within directory; assets -> data -> infodata.json
+======================= Serialization / Deserialization ===================
+Serialization / Encoding: Converting a Dart data structure (Map, List, or custom object) → JSON String
+Deserialization / Decoding: Converting a JSON String → Dart data structure
 
---- Within pubspec.yaml ---
-  assets:
-    - assets/data/receivedrequest.json
+--------------- Basic usage ------------------
 
-
-=================== In the page (In a Stateful widget) =============
 import 'dart:convert';
 
-          ElevatedButton(
-              onPressed: () {
-                readReceveivedRequestJson();
-              },
-              child: Text("Read Json")
-          )
+class Person {
+  String name;
+  int age;
 
+  Person({required this.name, required this.age});
+  
+  // Serialization: Object → JSON-serializable Map
+  Map<String, dynamic> toJson() => {'name': name, 'age': age};
+  
 
-// The function for reading the json
-
-  readReceveivedRequestJson() async{
-    String receivedRequests = await DefaultAssetBundle.of(context).loadString('assets/data/receivedrequest.json');	//This gets all the json data as a string
-    debugPrint(receivedRequests);
-
-    var jsonValueofReceivedRequests = jsonDecode(receivedRequests); //This converts the String to Json object.
-    debugPrint(jsonValueofReceivedRequests.toString());
-
+  // Deserialization: Map → Object
+  factory Person.fromJson(Map<String, dynamic> json) {
+    // return Person(name: json['name'], age: json['age']);
+    return Person(
+        name: json['name'] as String,
+        age: json['age'] as int
+    );
   }
+
+  @override
+  String toString() => 'Person(name: $name, age: $age)';
+
 }
 
 
 
-=================== CREATE A MODEL FOR THE JSON DATA =====================
+void main() {
 
+  // 1. Create a Person object
+  final person = Person(name: 'Alice', age: 30);
+  print('Original object: $person');
+  
+  // 2. SERIALIZATION: Object → JSON String
+  final jsonString = jsonEncode(person.toJson());
+  print('\nSerialized JSON: $jsonString');		// Output: {"name":"Alice","age":30}
+  
+  
+  // 3. DESERIALIZATION: JSON String → Object 
+  final decodedMap = jsonDecode(jsonString) as Map<String, dynamic>;
+  final restoredPerson = Person.fromJson(decodedMap);
+  print('\nDeserialized object: $restoredPerson'); 
+  print('Name: ${restoredPerson.name}');
+  print('Age: ${restoredPerson.age}');
+
+}
+
+
+
+-------------------------- 2. Serializing and Deserializing List --------------------------
+
+void main() {
+
+  // 1. Working with Lists of Persons
+  print('\n--- Working with Lists ---');
+  final people = [
+    Person(name: 'Bob', age: 25),
+    Person(name: 'Carol', age: 28),
+  ];
+
+  // Serialize list → JSON String
+  final peopleJson = jsonEncode(people.map((p) => p.toJson()).toList());
+  print('People JSON: $peopleJson');
+
+  // Deserialize JSON String → List<Person>
+  final List<dynamic> decodedList = jsonDecode(peopleJson);
+  final restoredPeople = decodedList
+      .map((item) => Person.fromJson(item as Map<String, dynamic>))
+      .toList();
+
+  print('Restored people: $restoredPeople');
+}
+
+
+
+
+
+
+
+
+================== READING LOCAL JSON DATA ======================
+
+ There are two main methods to read local JSON files in Flutter:
+
+ 1. dart:io → File()
+    - Used to read files from the device file system.
+    - Works only on native platforms (Android, iOS, desktop).
+    - Does NOT work on web because the browser has no direct file system access.
+
+ 2. rootBundle (from services.dart)
+    - Used to read files bundled as assets in your Flutter app.
+    - Works on ALL platforms (Android, iOS, web, desktop).
+    - Requires the file to be declared in pubspec.yaml under "assets".
+
+
+
+
+Within directory; assets -> data -> film.json, film2.json
+
+--- Within pubspec.yaml ---
+  assets:
+    - assets/data/.
+
+===================================== 1. Using dart:io → File() ===============================================
+
+-------------------------- Reading a list of object json (film.json) --------------------------
+
+import 'dart:convert';
+import 'dart:io';
+
+void main(){
+
+  // Reading a json list of movies
+  Future<void> readJsonListFile() async {
+    final file = File('assets/data/film.json');
+    final contents = await file.readAsString();
+
+    // Parse to List (because your JSON starts with [ ])
+    final List<dynamic> jsonData = jsonDecode(contents);
+
+    // Access first movie's title
+    print(jsonData[0]['Title']);  // "Avatar"
+
+    // Loop through all movies
+    for (var movie in jsonData) {
+      print('${movie['Title']} (${movie['Year']})');
+    }
+  }
+
+  readJsonListFile();
+}
+
+
+-------------------------- Reading a single object json (film2.json) --------------------------
+
+import 'dart:convert';
+import 'dart:io';
+
+void main() {
+  
+  Future<void> readJsonFile() async {
+    final file = File('assets/data/film2.json');
+    final contents = await file.readAsString();
+
+    // Parse to Map (because your JSON starts with { })
+    final Map<String, dynamic> movie = jsonDecode(contents);
+
+    // Access fields directly (no index needed)
+    print(movie['Title']);        // "Avatar"
+    print(movie['Year']);         // "2009"
+    print(movie['Director']);     // "James Cameron"
+
+    // Access nested list (Images)
+    final List<dynamic> images = movie['Images'];
+    for (var imageUrl in images) {
+      print(imageUrl);
+    }
+
+    // Print all data nicely
+    print('${movie['Title']} (${movie['Year']}) - ${movie['Runtime']}');
+    print('Genre: ${movie['Genre']}');
+    print('Plot: ${movie['Plot']}');
+  }
+
+  readJsonFile();
+}
+
+
+===================================== 2. Using rootBundle (from services.dart) ===============================================
+
+-------------------------- Reading a list of object json (film.json) --------------------------
+
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
+Future<void> readJsonListFile() async {
+  // Load JSON string from assets
+  final String contents = await rootBundle.loadString('assets/data/film.json');
+
+  // Decode JSON (List)
+  final List<dynamic> jsonData = jsonDecode(contents);
+
+  // Access first item
+  print(jsonData[0]['Title']);
+
+  // Loop through all movies
+  for (var movie in jsonData) {
+    print('${movie['Title']} (${movie['Year']})');
+  }
+}
+
+void main() async {
+  await readJsonListFile();
+}
+
+
+-------------------------- Reading a single object json (film2.json) --------------------------
+
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
+Future<void> readJsonFile() async {
+  // Load JSON string
+  final String contents = await rootBundle.loadString('assets/data/film2.json');
+
+  // Decode JSON (Map)
+  final Map<String, dynamic> movie = jsonDecode(contents);
+
+  // Access fields
+  print(movie['Title']);
+  print(movie['Year']);
+  print(movie['Director']);
+
+  // Access nested list
+  final List<dynamic> images = movie['Images'];
+  for (var imageUrl in images) {
+    print(imageUrl);
+  }
+
+  // Pretty print
+  print('${movie['Title']} (${movie['Year']}) - ${movie['Runtime']}');
+  print('Genre: ${movie['Genre']}');
+  print('Plot: ${movie['Plot']}');
+}
+
+void main() async {
+  await readJsonFile();
+}

@@ -75,3 +75,26 @@ class _CounterAppState extends State<CounterApp> {
   }
 }
 
+
+
+============================== Multiple Providers ==============================
+
+---- In main.dart -----
+
+void main() {
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TipCalculatorModel()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+
+}
+
+
+
+
