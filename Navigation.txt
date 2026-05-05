@@ -2,7 +2,8 @@
 CHECK ALSO: Navigation2.txt for navigation using routine in a different class
 CHECK ALSO: Hero.txt for smooth animation navigation 
 
-NB: Depp Linking: It is when you click on a link and it opens a specific route/page within the app on your phone if you have it installed.
+NB: Deep Linking: It is when you click on a link and it opens a specific route/page within the app on your phone if you have it installed.
+NB: Check go_router package for deep linking
 
 ALTERNATIVELY: Use dependency;
 
@@ -91,13 +92,12 @@ The screen Class name is TextStyling
       },
 
       onUnknownRoute: (settings) {
-        MaterialPageRoute(builder: (context) =>
-        Scaffold(
-          appBar: AppBar(title: const Text('Unknown Route')),
-          // body: Center(child: Text('Unknown route: ${settings.path}')),
-          body: const Center(child: Text('Unknown route: 404'),),
-        ));
-        return null;
+        return MaterialPageRoute(builder: (context) =>
+            Scaffold(
+              appBar: AppBar(title: const Text('Unknown Route')),
+              // body: Center(child: Text('Unknown route: ${settings.name}')),
+              body: const Center(child: Text('Unknown route: 404'),),
+            ));
       },
 
 --- E.g: ---
@@ -154,7 +154,7 @@ class AppRoutes {
 
 
 
-================================= To Pass value from one activity to another  =================================
+============ To Pass value from one activity to another  (1. Using basic method) ==============
  --- On First Activity:
 
   String productName = "";
@@ -225,6 +225,59 @@ class AppRoutes {
     );
   }
 --------------------------------------------------------
+
+
+============ To Pass value from one activity to another  (2. Using named navigation) ==============
+
+Will be passing two arguments; username and email from Homepage to Screen3
+
+--- On main.dart 
+
+      routes: {
+        '/': (context) => const Homepage(),
+
+        '/screen3': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          return Screen3(username: args['username'], email: args['email'],);
+        },
+      },
+
+--- On HomePage.dart:
+
+  final String username = "Ibrahim Calculus";
+  final String email = "theEmailGuy@email.com";
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/screen3', arguments: {'username': username, 'email': email});
+              },
+              child: Text("Go to third page"),
+            ),
+
+
+---- On Screen3.dart:
+
+import 'package:flutter/material.dart';
+
+class Screen3 extends StatelessWidget {
+  final String username;
+  final String email;
+
+  const Screen3({super.key, required this.username, required this.email});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Scree No.3")),
+      body: Center(
+        child: Column(
+          children: [Text('username $username'), Text("Email $email")],
+        ),
+      ),
+    );
+  }
+}
+
 
 
 ================= Handle onBackButton pressed =======================
