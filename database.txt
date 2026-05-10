@@ -1,0 +1,10 @@
+They are local databases and also cloud databases
+
+Local:
+    Sqflite (sqflite.txt), 
+    Hive (Hive.txt),
+    sharedPreferences (sharedPreferences.txt)
+
+Cloud:
+    Firebase (firebase.txt)
+    Supabase (supabase.txt)

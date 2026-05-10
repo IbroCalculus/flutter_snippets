@@ -20,6 +20,7 @@ class ApiWithoutModelPage extends StatefulWidget {
 }
 
 class _ApiWithoutModelPageState extends State<ApiWithoutModelPage> {
+  
   Future<List<dynamic>>? posts;
   final String apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 

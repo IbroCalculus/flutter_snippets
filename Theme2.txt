@@ -1,0 +1,59 @@
+========================= Organise theme (Light Mode, Dart ThemeMode) ==================
+
+----------- 1. create a file, ie "theme.dart" ----------
+
+import 'package:flutter/material.dart';
+
+ThemeData lightMode = ThemeData(
+  useMaterial3: true,
+  brightness: Brightness.light,
+
+  colorScheme: ColorScheme.light(
+    surface: Colors.grey.shade400,              // deprecated background: Colors.grey.shade400
+    primary: Colors.grey.shade300,
+    secondary: Colors.grey.shade200,
+  ),
+
+);
+
+ThemeData darkMode = ThemeData(
+  useMaterial3: true,
+  brightness: Brightness.dark,
+
+  colorScheme: ColorScheme.dark(
+    surface: Colors.grey.shade900,              // deprecated background: Colors.grey.shade900
+    primary: Colors.grey.shade800,
+    secondary: Colors.grey.shade700,
+  ),
+
+);
+
+
+---------- 2. main.dart -----------
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      theme: lightMode,
+      darkTheme: darkMode,
+      themeMode: ThemeMode.light,
+
+      home: const Homepage(),
+    );
+  }
+
+
+------------ 3. homepage.dart ----------
+
+class Homepage extends StatelessWidget {
+  const Homepage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      
+      backgroundColor: Theme.of(context).colorScheme.surface,
+
+      body: Center(

@@ -2,7 +2,7 @@ Riverpod is the successor to the Provider package to fix some issues by the Prov
 
 -------------------------------------------------------------------------------------------------
 
-  flutter_riverpod: ^2.6.1
+  flutter_riverpod: ^3.3.1
 
 
 

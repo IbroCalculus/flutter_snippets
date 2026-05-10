@@ -1,0 +1,112 @@
+Riverpod is the successor to the Provider package to fix some issues by the Provider package.
+
+-------------------------------------------------------------------------------------------------
+
+  flutter_riverpod: ^3.3.1
+
+
+
+---- Create a RiverpodNotifier Class (counter_provider.dart) ----
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// PROVIDER
+final counterProvider = NotifierProvider<CounterNotifier, int>(CounterNotifier.new,);
+
+// NOTIFIER CLASS
+class CounterNotifier extends Notifier<int> {
+
+  // INITIAL STATE
+  @override
+  int build() {
+    return 0;
+  }
+
+  // INCREMENT
+  void increment() {
+    state++;
+  }
+
+  // DECREMENT
+  void decrement() {
+    state--;
+  }
+
+  // RESET
+  void reset() {
+    state = 0;
+  }
+}
+
+
+---------------------------- main.dart ----------------------------
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+void main() {
+  runApp(
+      ProviderScope(child: const MyApp())
+  );
+}
+
+
+
+----------------------------- HomePage.dart -----------------------------
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/counter_provider.dart';
+
+class HomePage extends ConsumerWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    debugPrint("This has been rebuilt");
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Modern Riverpod Counter")),
+
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+
+          children: [
+
+            // Text(ref.watch(counterProvider).toString(), style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),),
+
+            Consumer(builder: (context, ref, child){
+              debugPrint("Only this rebuilds");
+              return Text("${ref.watch(counterProvider)}");
+            }),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+
+              children: [
+                ElevatedButton(
+                  onPressed: () { ref.read(counterProvider.notifier).decrement(); },
+                  child: const Text("Decrement"),
+                ),
+
+                ElevatedButton(
+                  onPressed: () { ref.read(counterProvider.notifier).reset();},
+                  child: const Text("Reset"),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {ref.read(counterProvider.notifier).increment();},
+                  child: const Text("Increment"),
+                ),
+                                
+              ],
+              
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

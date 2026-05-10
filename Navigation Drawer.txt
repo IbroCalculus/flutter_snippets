@@ -1,4 +1,6 @@
-You must add an appbar for navigation drawer to work.
+Either You  add an appbar for navigation drawer to work or using a click to open the drawer using Scaffold.of(context).openDrawer(); ( Example below ).
+
+
 NOTE: Naviagation Drawer2.txt and Navigation Drawer3.txt are how to implement navigation between screens on clicking drawer items.
 NOTE: Within drawer, Drawer header can be of 2 types; using 'DrawerHeader' or 'UserAccountDrawerHeader()'
 
@@ -79,3 +81,25 @@ NB: Similar to drawer is endDrawer. It comes from the right, just replace drawer
                 CircleAvatar(foregroundImage: AssetImage('images/img1.jpg'),),
                 CircleAvatar(foregroundImage: AssetImage('images/img1.jpg'),),
               ],
+
+
+------------------------------ Open Drawer with menu button click on appbar ----------------------------------
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            return IconButton(icon: Icon(Icons.menu), color: Colors.white, onPressed: () { Scaffold.of(context).openDrawer(); }, );
+          }
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Center (child: Text('Home Page')),
+      drawer: Drawer(),
+    );
+  }

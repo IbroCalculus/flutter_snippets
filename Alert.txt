@@ -1,3 +1,7 @@
+NB: CHECK ALSO Dialog.txt
+Dialog (or modal) is different from AlertDialog. In this snippet below, an alert dialog is placed inside a showDialog (which is a modal)
+You can place any widget inside a showDialog (CHECK Dialog.txt)
+
 
   void showAlert(BuildContext context, String title, String message) {
     showDialog(
@@ -14,7 +18,7 @@
               },
             ),
           ],
-        );
+        ); 
       },
     );
   }

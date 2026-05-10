@@ -1,98 +1,136 @@
 CHECK ALSO: StreamBuilder.txt
 
+-------------------------------------------------------------
+
+FutureBuilder is a Flutter widget that helps you build UI based on the state of a Future.
+
+You use it when:
+  data is loading asynchronously
+  waiting for an API response
+  reading from a database/file
+  performing delayed operations
+
+Instead of manually managing loading/error/success states with setState, FutureBuilder does it for you.
+
+--------------------------- Example 1 ----------------------------------
+
+NB: It is not ideal to pass the Future function, ie; getFuture directly into the FutureBuilder. use late init
+    CHECK Example 2 for a better way.
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-class ApiPage extends StatefulWidget {
-  const ApiPage({Key? key}) : super(key: key);
+class FuturebuilderPage extends StatelessWidget {
+  const FuturebuilderPage({super.key});
 
-  @override
-  State<ApiPage> createState() => _ApiPageState();
-}
 
-class _ApiPageState extends State<ApiPage> {
+  Future<void> getFuture (){
+    return Future.delayed(const Duration(seconds: 5));
+  }
 
-  Future<dynamic>? _futureData;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("API Page"),
+        title: const Text('FutureBuilder'),
       ),
-
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                // Trigger fetching data
-                setState(() {
-                  _futureData = fetchData2();
-                });
-              },
-              child: const Text("Get Data"),
-            ),
-
-            if (_futureData != null)
-              FutureBuilder(
-                future: _futureData,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text(
-                      'Error: ${snapshot.error}',
-                      style: const TextStyle(color: Colors.red),
-                    );
-                  } else if (snapshot.hasData) {
-                    // Display fetched data
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          snapshot.data.toString(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Handle button press
-                            setState(() {
-                              _futureData = fetchData2();
-                            });
-                          },
-                          child: const Text("Refresh"),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return const Text('No Data Available');
-                  }
-                },
-              )
-            else
-              const Text(
-                "Press the button to fetch data.",
-                style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-              ),
-          ],
+        
+        
+        child: FutureBuilder(
+          future: getFuture(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            else {
+              return const Text('Data Loaded');
+            }
+          },
         ),
+        
+        
       ),
     );
   }
 }
 
-// ----------------- The Future function ------------------
-fetchData2() async {
-  var response = await http.get(Uri.parse("https://jsonplaceholder.typicode"
-      ".com/posts/1"));
-  if (response.statusCode == 200) {
-    var jsonStringResponse = response.body;
-    var jsonResponse = json.decode(jsonStringResponse);
-    return jsonResponse;
-  } else {
-    throw Exception('Failed to load data from the API');
+
+
+--------------------------- Example 2 --------------------------
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class FuturebuilderPage extends StatefulWidget {
+  const FuturebuilderPage({super.key});
+
+  @override
+  State<FuturebuilderPage> createState() => _FuturebuilderPageState();
+}
+
+class _FuturebuilderPageState extends State<FuturebuilderPage> { 
+  
+  late final Future<Map<String, dynamic>> _apiFuture;
+
+  Future<Map<String, dynamic>> getApiData () async {
+    final String APIURL = "https://jsonplaceholder.typicode.com/posts/1";
+    final response = await http.get(Uri.parse(APIURL));
+    if  (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResponse = json.decode(response.body);
+      return jsonResponse;
+    } else {
+      throw Exception('Failed to load data');
+    }
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _apiFuture = getApiData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('FutureBuilder'),
+      ),
+      body: Center(
+
+
+        child: FutureBuilder<Map<String, dynamic>>(
+          future: _apiFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            else if (snapshot.hasData) {
+              final Map<String, dynamic> data = snapshot.data!;
+
+              return Column(
+                children: [
+                  Text('UserID: ${data["userId"]}'),
+                  Text('ID: ${data["id"]}'),
+                  Text('title: ${data["title"]}'),
+                  Text('Body: ${data["body"]}'),
+                ],
+              );
+            }
+            else {
+              return const Text('No data available');
+            }
+          },
+        ),
+
+
+      ),
+    );
   }
 }

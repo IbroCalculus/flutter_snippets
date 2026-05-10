@@ -1,0 +1,4 @@
+
+bool isLoading = false;
+
+ child: isLoading == true  ? CircularProgressIndicator() : Container(...)

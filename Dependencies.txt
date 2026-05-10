@@ -6,3 +6,10 @@ dependencies:
     sdk: flutter
 
 In the above, 'flutter' is added as a dependency, within it there is 'sdk: flutter'.
+
+
+------------------ Dev dependencies ------------------
+
+Using command: 
+    dart pub add hive_generator           // This adds to depepdencies
+    dart pub add dev: hive_generator      // This adds to dev_dependencies

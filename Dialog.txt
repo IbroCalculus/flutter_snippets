@@ -1,0 +1,26 @@
+ALSO: Alert.txt
+
+showDialog is a modal for showing a modal dialog. It can contain any widget. Just like it is used with AlertDialog in Alert.txt
+
+-------------------- A container placed inside a dialog. --------------
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Custom Dialog"),
+                IconButton(onPressed: () {
+                  Navigator.pop(context);
+                }, icon: Icon(Icons.cancel))
+              ],
+            ),
+          ),
+        );
+      },
+    );
