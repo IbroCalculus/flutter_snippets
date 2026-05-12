@@ -1,0 +1,15 @@
+An InheritedWidget is a special widget used to share data efficiently down the widget tree without manually passing data through constructors.
+It is one of Flutter’s core state-sharing mechanisms and is heavily used internally by Flutter itself.
+
+For example:
+    Theme.of(context)
+    MediaQuery.of(context)
+    Navigator.of(context)
+
+All of these use InheritedWidget underneath.
+
+Core Idea
+An InheritedWidget:
+    Stores shared data
+    Wraps part of the widget tree
+    Allows descendants to access the data with:

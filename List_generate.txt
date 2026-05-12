@@ -1,0 +1,9 @@
+Generates children list for a widget that houses multiple children. ie; Wrap, Column, Row, ListView, etc.
+
+Wrap(
+  spacing: 10,
+  children: List.generate(
+    15,
+    (index) => Chip(label: Text("Chip $index")),
+  ),
+)

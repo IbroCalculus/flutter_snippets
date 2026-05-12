@@ -1,0 +1,179 @@
+A Chip is a compact UI element used to represent information, filters, selections, tags, contacts, or actions.
+
+-------------- 1. Basic Chip ---------------
+A simple non-interactive chip. Used mainly for displaying information.
+
+Wrap(
+  spacing: 10,
+  runSpacing: 10,
+
+  children: [
+    Chip(label: Text("New Arrival")),
+    Chip(label: Text("50% Off")),
+    Chip(label: Text("Best Seller")),
+    Chip(label: Text("Limited Edition")),
+  ],
+)
+
+-------------- 2. ChoiceChip -------------------
+Used for single selection. Like radio buttons, only ONE option selected at a time.
+Perfect for: Categories, Filters, Shoe brands, Gender selection
+
+ --- Basic ---
+ChoiceChip(
+  label: Text("Nike"),
+  selected: true,
+  onSelected: (value) {
+    debugPrint("onSelected value: $value");  // value = boolean
+  },
+)
+
+
+--- Usage -----
+
+
+  final List<String> brands = ["Nike", "Adidas", "Puma", "Bata"];
+  int selectedIndex = 0;
+
+  
+            Wrap(
+              spacing: 10,
+              children: List.generate(brands.length, (index) {
+                final isSelected = selectedIndex == index;
+
+                return ChoiceChip(
+                  label: Text(
+                    brands[index],
+                    style: TextStyle(
+                      color: isSelected ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  selected: isSelected,
+                  selectedColor: Colors.black,
+                  backgroundColor: Colors.grey.shade200,
+                  showCheckmark: false,
+                  onSelected: (value) {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                  },
+                );
+              }),
+            ),
+
+
+-------------- 3. FilterChip -------------------
+Used for multi-selection. Like checkboxes, multiple options can be selected at a time.
+Perfect for: Tags, Filters, Shoe sizes, Colors
+
+FilterChip(
+  label: Text("Nike"),
+  selected: true,
+  onSelected: (value) {},
+)
+
+
+---- Usage ----
+
+
+  final List<String> brands = ["Nike", "Adidas", "Puma", "Bata"];
+  List<String> selectedBrands = [];
+  
+        Wrap(
+          spacing: 10,
+          children: brands.map((brand) {
+            
+            final isSelected = selectedBrands.contains(brand);
+
+            return FilterChip(
+              label: Text(
+                brand,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.black,
+                ),
+              ),
+              selected: isSelected,
+              selectedColor: Colors.blue,
+              backgroundColor: Colors.grey.shade200,
+              onSelected: (value) {
+                setState(() {
+                  if (value) {
+                    selectedBrands.add(brand);
+                  } else {
+                    selectedBrands.remove(brand);
+                  }
+                });
+              },
+            );
+          }).toList(),
+        ),
+
+
+-------------- 4. ActionChip -------------------
+Acts like a button.
+Used for: Triggering actions, Suggestions, Quick commands
+
+
+            Wrap(
+              spacing: 10,
+              children: [
+                ActionChip(
+                  label: Text("Search"),
+                  avatar: Icon(Icons.search),
+                  onPressed: () {
+                    print("Searching...");
+                  },
+                ),
+
+                ActionChip(
+                  label: Text("Share"),
+                  avatar: Icon(Icons.share),
+                  onPressed: () {
+                    print("Sharing...");
+                  },
+                ),
+
+                ActionChip(
+                  label: Text("Favorite"),
+                  avatar: Icon(Icons.favorite),
+                  onPressed: () {
+                    print("Liked...");
+                  },
+                ),
+              ],
+            )
+
+-------------- 5. InputChip -------------------
+Advanced chip with: Selection, Deletion, Avatar, Press events
+Often used in: Email recipient fields, Tag systems, Contact selectors
+
+
+  List<String> users = ["Ahmed", "Fatima", "Suleiman",];
+
+          Wrap(
+          spacing: 10,
+          children: users.map((user) {
+
+            return InputChip(
+
+              avatar: CircleAvatar(
+                child: Text(user[0]),
+              ),
+              label: Text(user),
+
+              onPressed: () {
+                print(user);
+              },
+
+              onDeleted: () {
+
+                setState(() {
+                  users.remove(user);
+                });
+
+              },
+
+            );
+
+          }).toList(),
+        ),
