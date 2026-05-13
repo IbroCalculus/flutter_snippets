@@ -1,3 +1,8 @@
+
+NB: CHECK and use RadioButton2.txt to see modern method of using RadioButton
+    Will delete this later
+
+
 They are 2 type of radio buttons, ie Radio, RadioListTile (Recommended).
 
 NB: Use RadioListTile()
@@ -90,7 +95,6 @@ NB: To add text to each radio button, wrap in a Row column and add a Text() to i
                   _selectedRadio = value!;
                 });
               },
-
             ),
 
 // Second group of 3 radio buttons 

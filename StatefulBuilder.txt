@@ -1,0 +1,18 @@
+StatefulBuilder is a small utility widget in Flutter that lets you create and update state inside a limited part of the UI without creating a full StatefulWidget.
+
+It is commonly used for: Dialogs, Bottom sheets, Temporary UI changes,  Small interactive sections
+
+-------- What Problem Does It Solve? -----
+Normally, to update UI dynamically, you use a StatefulWidget, but sometimes you only need state for a tiny section of the screen. Instead of creating a whole new widget class, Flutter gives you StatefulBuilder.
+
+
+------- Syntax -------
+StatefulBuilder(
+  builder: (context, setLocalState) {       //  setLocalState is custom name
+    return Widget();
+  },
+)
+
+Notice: builder: (context, setLocalState). This setLocalState only rebuilds the widgets inside the StatefulBuilder.
+
+CHECK: BottomSheet.txt for example

@@ -1,6 +1,7 @@
-ALSO: Alert.txt
+ALSO: Alert.txt for more on AlertDialog, Dialog, SimpleDialog. 
 
 showDialog is a modal for showing a modal dialog. It can contain any widget. Just like it is used with AlertDialog in Alert.txt
+AlertDialog, Dialog, SimpleDialog are widgets that can be placed inside a showDialog.
 
 -------------------- A container placed inside a dialog. --------------
 
@@ -24,3 +25,142 @@ showDialog is a modal for showing a modal dialog. It can contain any widget. Jus
         );
       },
     );
+
+
+------------------- 1. Show an AlertDialog -------------------
+
+  void showMyAlertDialog() {
+
+    showDialog(
+      context: context,
+      builder: (context) {
+
+        return AlertDialog(
+          title: Text("Delete Item"),
+          content: Text("Are you sure?"),
+
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Delete"),
+            ),
+          ],
+        );
+
+      },
+    );
+
+  }
+
+
+
+------------------- 2. show a SimpleDialog -------------------
+
+  void showMySimpleDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+
+        return SimpleDialog(
+          title: Text("Simple Dialog"),
+          children: [
+            SimpleDialogOption(
+              onPressed: () => print("Option 1 selected"),
+              child: Text("Option 1"),
+            ),
+
+            SimpleDialogOption(
+              onPressed: () => print("Option 2 selected"),
+              child: Text("Option 2"),
+            ),
+
+            SimpleDialogOption(
+              onPressed: () => print("Option 3 selected"),
+              child: Text("Option 3"),
+            ),
+          ],
+        );
+
+      },
+    );
+  }
+
+
+------------------- 3. show a Dialog -------------------
+
+  void showMyDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+
+        return Dialog(
+          child: Container(
+            height: 200,
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Custom Dialog",
+                  style: TextStyle(fontSize: 20),
+                ),
+
+                SizedBox(height: 20),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Close"),
+                )
+              ],
+            ),
+          ),
+        );
+
+      },
+    );
+  }
+
+
+
+------------------- 4. show a widget (ie container) in a showDialog -------------------
+
+
+  void showMyContainerInDialog(){
+    showDialog(
+      context: context,
+      builder: (context) {
+
+        return Center(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Custom Dialog"),
+                IconButton(onPressed: () {
+                  Navigator.pop(context);
+                }, icon: Icon(Icons.cancel))
+              ],
+            ),
+          ),
+        );
+
+      },
+    );
+  }
+
+
+NB: Even though 3. Dialog and 4. Container seem to do same, But Dialog provides special behavior and styling that a plain Container does not. 
+    Because Dialog provides built-in Material Design dialog behavior and styling.
