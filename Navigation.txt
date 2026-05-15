@@ -21,6 +21,11 @@ NB:
 
 
 ============================== 1. Navigation to another screen  ==============================
+
+NB: There is also Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => TextStyling()));
+
+
+
 The screen Class name is TextStyling
 
               onTap: (){

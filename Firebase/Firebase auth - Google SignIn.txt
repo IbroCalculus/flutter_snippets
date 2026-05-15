@@ -1,0 +1,71 @@
+
+dependencies:
+  google_sign_in: ^7.2.0
+
+In Project's Firebase Console;
+ go to Authentication > Sign-in method > Google. Enable it, Choose Email and save.
+ Go back to Settings > General > Add SHA1 and SHA256  certificates.      (CHECK SHA Keys.txt to get them)
+ Then download google-services.json file and put it in android/app folder. (replacing any existing google-services.json file)
+
+
+ ---------------------- Code --------------------------
+ Create the two Futures below, call the handleGoogleSignIn within your button click event
+
+ 
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  
+  Future<User?> authenticateWithGoogle() async {    // User? from package:firebase_auth/firebase_auth.dart
+    try {
+      await GoogleSignIn.instance.initialize();
+      final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate();
+      final GoogleSignInAuthentication googleAuth =  googleUser.authentication;
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+      final UserCredential userCredential = await auth.signInWithCredential(credential);
+      final user = userCredential.user;
+      return user;
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+
+
+  Future<void> handleGoogleSignIn() async {
+    try {
+      final User? user = await authenticateWithGoogle();
+      if (user != null){
+        print("USER: $user");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      }
+    }  catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+
+  }
+
+
+ElevatedButton(onPressed: handleGoogleSignIn, child: Text("Sign In with Google"))
+
+
+
+========================= SIGN OUT ==========================
+
+  Future<void> SignOut() async {
+    await auth.signOut();
+    await GoogleSignIn.instance.signOut();
+  }
+
+
