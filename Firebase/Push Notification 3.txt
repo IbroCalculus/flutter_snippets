@@ -1,0 +1,210 @@
+NB:
+
+------------ Why we need to use local notifications in addition to FCM -------------------
+FCM messages received while your app is in the foreground don't automatically show a system notification on Android/iOS. You need local notifications to display an alert, badge, or sound when the user is actively using the app.
+
+
+| State                   | What it means                     | Example                                                 |
+| ----------------------- | --------------------------------- | ------------------------------------------------------- |
+| **Foreground**          | App is open, visible, and running | User is scrolling through your Flutter app              |
+| **Background**          | App is running but not visible    | User switched to another app or went to the home screen |
+| **Terminated / Killed** | App is not running at all         | User swiped it away from recent apps or phone rebooted  |
+
+
+If you implement just using the firebase_notifications/firebase_notification_service and main below without local notifications, you will only get the notification when the app is in the background or terminated state. But if you want to get the notification when the app is in the foreground or background, you need to use local notifications.
+
+
+
+---------------------------------------------------------------------------
+
+dependencies:
+  firebase_messaging: ^16.2.2
+  flutter_local_notifications: ^21.0.0
+
+
+
+---------- 1. Create file firebase_notifications/local_notification_service.dart ----------
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+class LocalNotificationService {
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  Future<void> init() async {
+    const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    await _flutterLocalNotificationsPlugin.initialize(settings: InitializationSettings(android: androidInitializationSettings));
+  }
+
+  Future<void> showNotification({required int id, required String title, required String body, String? payload}) async {
+
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: _androidNotificationDetails(),
+    );
+
+    await _flutterLocalNotificationsPlugin.show(
+        id: id,
+        title: title,
+        body: body,
+        payload: payload,
+        notificationDetails: notificationDetails,
+    );
+  }
+
+  AndroidNotificationDetails _androidNotificationDetails() {
+    return const AndroidNotificationDetails(
+      'main_channel',
+      'Main Channel',
+      channelDescription: 'Main Channel Description',
+      importance: Importance.max,
+      priority: Priority.max,
+      playSound: true,
+    );
+  }
+
+}
+
+
+
+---------- 2. Create file firebase_notifications/firebase_notification_service and paste the below code ----------
+
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_practice2/pages/fcm_app/firebase_notifications/local_notification_service.dart';
+import 'package:flutter/material.dart';
+
+
+// NB: This first Future (firebaseMessagingBackgroundHandler) is used in main.dart, not within this file
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+  print("Notification received from Firebase while app in background: ${message.messageId}");
+  print("Title: ${message.notification?.title}");
+  print("body: ${message.notification?.body}");
+  print("Payload: ${message.data}");
+}
+
+Future<void> handleForegroundMessage(RemoteMessage message) async {
+
+  print("Notification received from Firebase while app is opened");
+  print("Title: ${message.notification?.title}");
+  print("body: ${message.notification?.body}");
+  print("Payload: ${message.data}");
+
+
+  final notification = message.notification;
+
+  if  (notification != null) {
+    LocalNotificationService().showNotification(
+      id: 001,
+      title: notification.title!,
+      body: notification.body!,
+    );
+  }
+
+}
+
+Future<void> handleOnMessageOpened(RemoteMessage message) async {
+  if(message.notification != null){
+    print("Background Notification Tapped");
+    print("Title: ${message.notification?.title}");
+    print("body: ${message.notification?.body}");
+    print("Payload: ${message.data}");
+  }
+
+}
+
+
+class FirebaseNotificationServices {
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+
+  Future<void> init() async {
+    await registerNotification();
+
+    // Function to handle message when app is in foreground
+    FirebaseMessaging.onMessage.listen(handleForegroundMessage);
+
+    // Function to handle when the user clicks on the notification received while the app is in the background
+    FirebaseMessaging.onMessageOpenedApp.listen(handleOnMessageOpened);
+
+  }
+
+  Future<void> registerNotification () async {
+
+    NotificationSettings settings = await _messaging.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: true,
+      criticalAlert: true,
+      provisional: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+    final fcmToken = await getFCMToken();
+    print('fcmToken: $fcmToken');
+  }
+
+  Future<String?> getFCMToken () async {
+    String? token = await _messaging.getToken();
+    print("FirebaseMessaging token: $token");
+    return token;
+  }
+
+
+}
+
+
+---------- 3. within main.dart ----------
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);  // Remove this since It is now used in firebaseMessagingBackgroundHandler
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);          // Function to listen to background changes
+  print("Firebase app initialized successfully");
+  await LocalNotificationService().init();
+  await FirebaseNotificationServices().init();
+
+  runApp(const MyApp());
+}
+
+
+---------- 4. Within android > app > build.gradle.kts --------
+
+android {
+    defaultConfig {
+        multiDexEnabled = true
+    }
+
+    compileOptions {
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
+        // Sets Java compatibility to Java 17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+  
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+}
+
+NB: CHECK at https://pub.dev/packages/flutter_local_notifications#gradle-setup
+
+
+
+
+
+=======================================================================================================================
+Now exectute app and from console copy fcm token, (ie; from print('fcmToken: $fcmToken'); )
+
+Go to firebase console > messaging > Firebase Notification messages.

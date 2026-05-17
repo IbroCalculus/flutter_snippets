@@ -1,5 +1,7 @@
 ===================== USING DefaultTabController ===========================
 
+NB: This also enables swiping  between tabs
+
 Assume want to create two tabs;
 
   @override
@@ -10,7 +12,6 @@ Assume want to create two tabs;
       initialIndex: 1,
       child: Scaffold(
 
-        // Within the appBar section
         appBar: AppBar(
           title: Text("Friend Requests",),
           bottom: TabBar(
@@ -21,11 +22,9 @@ Assume want to create two tabs;
           ),
         ),
 
-        // Within the body section
-        body: TabBarView(
-          
+        body: TabBarView(          
           children: [
-            SentRequests(),			// This is another page created. It navigates to it (You may simply paste widgets, ie a Text("Welcom to Sent Requests") )
+            SentRequests(),
             ReceivedRequests(),
           ],
           

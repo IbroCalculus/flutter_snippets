@@ -105,7 +105,7 @@ class PushNotification{
     // Function to handle message when app is in foreground
     FirebaseMessaging.onMessage.listen(handleForegroundMessage);
 
-    // Function to handle when the user clicks on the notification and the app is in the background
+    // Function to handle when the user clicks on the notification received while the app is in the background
     FirebaseMessaging.onMessageOpenedApp.listen(handleOnMessageOpened);
 
 
