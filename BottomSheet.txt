@@ -11,6 +11,8 @@ NB: StatefulBuilder used in the example 2 below. This is used to control the sta
         },
       ),
 
+      CHECK Example 2 below which uses StatefulBuilder
+
 ---------------- Example 1 (Basic Usage of showModalBottomSheet) ---------------------
 NB: showModalBottomSheet return a Future.
 

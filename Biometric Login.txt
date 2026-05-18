@@ -1,3 +1,7 @@
+
+  local_auth: ^2.3.0
+  
+
 ==================== 1. MainActivity.kt must extend FlutterFragmentActivity ====================
 
 package com.ibsuleiman9.biometric_flutter_login
@@ -20,11 +24,6 @@ class MainActivity : FlutterFragmentActivity() {
 
 =================== 1c. minSdk ===============
         minSdk = 23
-
-
-
-==================== 2. Dependency =================================
-  local_auth: ^2.3.0
 
 
 

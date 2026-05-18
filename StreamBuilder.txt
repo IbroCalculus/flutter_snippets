@@ -53,6 +53,7 @@ class StreamBuilderDemo extends StatelessWidget {
   }
 }
 
+NB: Add necessary else if statements to handle other connection states like done below for FutureBuilder example. Ask AI
 
 
 

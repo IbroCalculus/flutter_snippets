@@ -1,0 +1,41 @@
+import 'package:flutter/services.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.immersiveSticky,
+  );
+
+  runApp(const MyApp());
+}
+
+NB:
+
+------------- 1. Hide status bar + navigation bar ------------
+
+SystemChrome.setEnabledSystemUIMode(
+  SystemUiMode.immersiveSticky,
+);
+
+  - Full immersive mode
+  - User can temporarily reveal bars with swipe
+
+
+
+------------- 2. Hide only status bar ------------
+
+SystemChrome.setEnabledSystemUIMode(
+  SystemUiMode.manual,
+  overlays: [SystemUiOverlay.bottom],
+);
+
+  - This keeps bottom navigation visible.
+
+
+------------- 3. Show status bar again ------------ 
+ 
+SystemChrome.setEnabledSystemUIMode(
+  SystemUiMode.manual,
+  overlays: SystemUiOverlay.values,
+);
