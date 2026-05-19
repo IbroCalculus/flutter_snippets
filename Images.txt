@@ -6,6 +6,11 @@ CHECK ALSO: File Downloader.txt
 
 We can use either a network image, on an asset image
 
+
+NB: There is also;
+    - Image.file(File(path)): Loads image from a local device file. Mostly used when user selects image from gallery/camera.
+    - Image.memory(bytes): Loads image from raw bytes (Uint8List). Useful when image comes from; database, API response, encryption/decryption, base64 conversion.
+
 Two methods each of adding both
 1a. Asset Image:
 Image(

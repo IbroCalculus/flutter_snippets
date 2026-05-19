@@ -1,3 +1,6 @@
+NB: When reading;
+        Collection query  → QuerySnapshot
+        Single document   → DocumentSnapshot
 
 
 ------------------------- 1. Saving to firestore -------------------------

@@ -29,6 +29,39 @@ class UserImagePicker extends StatefulWidget {
 
 class _UserImagePickerState extends State<UserImagePicker> {
 
+    // NB: XFile is a cross-platform file type returned by image_picker  (contains path, name, and metadata)
+
+
+  File? selectedImage;          // stores selected image as a File object
+  
+  Future<void> pickImage() async {
+
+    final imagePicker = ImagePicker();
+    final XFile? image = await imagePicker.pickImage(source: ImageSource.gallery,); // Picks image from gallery; returns XFile or null if user cancels
+
+    if (image != null) {
+
+      final imagePath = image.path;                   //  String path
+      final imageName = image.name;                   //  photo.jpg
+      final imageFile = File(imagePath);              //  File object created from the path
+
+      // final imageFile = File(image.path);
+
+      print("File path: $imagePath");                 //  /storage/emulated/0/DCIM/photo.jpg
+      print("Image File Object: $imageFile",);        //  File: '/storage/emulated/0/DCIM/photo.jpg'
+      print("Image File Name: $imageName");           //  Image File Name: 1000872118.jpg
+
+      setState(() {
+        selectedImage = imageFile;
+      });
+    }
+    
+  }
+
+  Image.file( selectedImage!, width: 200, height: 200, fit: BoxFit.cover,)
+
+
+---------------------------------------------------------------------
 
   File? _pickedImageFile;
 
@@ -42,10 +75,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
       });
 
       return File(pickedImage.path);
-    }
-    
+    }    
     return null;
-
   }
 
   @override
