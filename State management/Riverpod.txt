@@ -1,95 +1,126 @@
-Riverpod is the successor to the Provider package to fix some issues by the Provider package.
+Two methods to create providers in riverpod:
+Riverpod.txt, the manual method
+Riverpod2.txt, modern Riverpod code-generation approach
+
+========================= Creating a counter app using Riverpod ============================
+
+Folder Structure (Recommended):
+
+lib/
+│
+├── main.dart
+├── providers/
+│   └── counter_provider.dart
+├── pages/
+│   └── counter_page.dart
+
 
 -------------------------------------------------------------------------------------------------
 
+dependencies:
   flutter_riverpod: ^3.3.1
 
 
-
----- Create a RiverpodNotifier Class (riverpod_notifier.dart) ----
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final riverpodProvider = ChangeNotifierProvider.autoDispose<RiverpodNotifier>((ref) => RiverpodNotifier(),);
-
-class RiverpodNotifier extends ChangeNotifier{
-  int _counter = 0;
-  int get counter => _counter;
-
-  void incrementCounter() {
-    _counter++;
-    notifyListeners();
-  }}
-
-
-
------ main.dart -------------
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+------------------------    main.dart    ------------------------------
 
 void main() {
   runApp(
-      ProviderScope(child: const MyApp())
+    const ProviderScope(
+      child: MyApp(),
+    ),
   );
 }
 
 
----- home_page.dart ----------
+
+------------------------ providers/counter_provider.dart ---------------------
+
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+
+final counterProvider = NotifierProvider<Counter, int>(Counter.new);      // Provider
+
+
+//STATE NOTIFIER
+class Counter extends Notifier<int> {
+
+  @override
+  int build() {
+    return 0;                   // INITIAL VALUE OF STATE
+  }
+
+  void increment() {
+    state++;
+  }
+
+  void decrement() {
+    state--;
+  }
+
+  void reset() {
+    state = 0;
+  }
+}
+
+
+------------------------ home_page.dart ------------------------------
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_demo/pages/seond_page.dart';
-import '../utils/riverpod_notifier.dart';
+import 'package:riverpod_prac2/providers/counter_provider.dart';
 
-class HomePage extends ConsumerWidget {           	    // NB: THIS now extends ConsumerWidget instead of Stateless widget
+class HomePage extends ConsumerWidget {           	            // NB: THIS now extends ConsumerWidget instead of Stateless widget
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {       // ====== THIS ie Widget ref
-
-    final appNotifier = ref.watch(riverpodProvider);        // ====== THIS as well
+  Widget build(BuildContext context, WidgetRef ref) {           // ====== THIS ie Widget ref
+    
+    final counter = ref.watch(counterProvider);                 // ====== THIS ie ref.watch
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      
-      
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 20,
+            children: [
 
-            // =========== HERE, Method 1 of getting value ================
-            Consumer(
-              builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                return Text(
-                  'Count value: ${appNotifier.counter}',
-                  style: TextStyle(fontSize: 24.0),
-                );
-              },
-            ),
-
-            Text('${appNotifier.counter}', style: TextStyle(fontSize: 64.0)),   // =========== HERE, method 2 of getting value ================
-
-            ElevatedButton(onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SecondPage()));
-            }, child: Text("Go to Page 2"),),
-          ],
+              Text("$counter",),
+              
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: [
+                  
+                  ElevatedButton(
+                    onPressed: () {
+                      ref.read(counterProvider.notifier).increment();
+                    },
+                    child: const Text("Increment"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      ref.read(counterProvider.notifier).decrement();
+                    },
+                    child: const Text("Decrement"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      ref.read(counterProvider.notifier).reset();
+                    },
+                    child: const Text("Reset"),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-      
-      
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          appNotifier.incrementCounter();             // =========== HERE, for setting value ================
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
 }
+
+
 

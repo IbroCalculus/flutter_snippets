@@ -1,61 +1,71 @@
-Riverpod is the successor to the Provider package to fix some issues by the Provider package.
+
+
+
+========================= Creating a counter app using Riverpod ============================
 
 -------------------------------------------------------------------------------------------------
 
+dependencies:
   flutter_riverpod: ^3.3.1
+  riverpod_annotation: ^4.0.2
+
+
+dev_dependencies:
+  build_runner: ^2.15.0
+  riverpod_generator: ^4.0.3
+  riverpod_lint: ^3.1.3
+
+
+------------------------    main.dart    ------------------------------
+
+void main() {
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
 
 
 
----- Create a RiverpodNotifier Class (counter_provider.dart) ----
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+------------------------ providers/counter_provider.dart ---------------------
 
-// PROVIDER
-final counterProvider = NotifierProvider<CounterNotifier, int>(CounterNotifier.new,);
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// NOTIFIER CLASS
-class CounterNotifier extends Notifier<int> {
 
-  // INITIAL STATE
+part 'counter_provider.g.dart';                                       // part 'FILENAME.g.dart';
+
+@riverpod
+class Counter extends  _$Counter {
+
   @override
   int build() {
-    return 0;
+    return 0;                       // INITIAL VALUE OF STATE
   }
 
-  // INCREMENT
   void increment() {
     state++;
   }
-
-  // DECREMENT
+  
   void decrement() {
     state--;
   }
-
-  // RESET
+  
   void reset() {
     state = 0;
   }
 }
 
 
----------------------------- main.dart ----------------------------
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-void main() {
-  runApp(
-      ProviderScope(child: const MyApp())
-  );
-}
+Then run this command in terminal: dart run build_runner build -d
+This will generate the counter_provider.g.dart file.              (DO NOT MODIFY THIS FILE)
 
 
-
------------------------------ HomePage.dart -----------------------------
+------------------------ home_page.dart ------------------------------
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../providers/counter_provider.dart';
 
 class HomePage extends ConsumerWidget {
@@ -64,49 +74,27 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    debugPrint("This has been rebuilt");
+    final state = ref.watch(counterProvider);   // counterProvider is from counter_provider.g.dart
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Modern Riverpod Counter")),
-
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: [
-
-            // Text(ref.watch(counterProvider).toString(), style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),),
-
-            Consumer(builder: (context, ref, child){
-              debugPrint("Only this rebuilds");
-              return Text("${ref.watch(counterProvider)}");
-            }),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-
-              children: [
-                ElevatedButton(
-                  onPressed: () { ref.read(counterProvider.notifier).decrement(); },
-                  child: const Text("Decrement"),
-                ),
-
-                ElevatedButton(
-                  onPressed: () { ref.read(counterProvider.notifier).reset();},
-                  child: const Text("Reset"),
-                ),
-
-                ElevatedButton(
-                  onPressed: () {ref.read(counterProvider.notifier).increment();},
-                  child: const Text("Increment"),
-                ),
-                                
-              ],
-              
-            ),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('$state'),
+              Row(
+                children: [
+                  TextButton(onPressed: () => ref.read(counterProvider.notifier).increment(), child: Text("Increment")),
+                  TextButton(onPressed: () => ref.read(counterProvider.notifier).decrement(), child: Text("Decrement")),
+                  TextButton(onPressed: () => ref.read(counterProvider.notifier).reset(), child: Text("Reset")),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
