@@ -53,6 +53,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final counterBloc = context.read<CounterBloc>();                // THIS
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -75,23 +78,17 @@ class HomePage extends StatelessWidget {
                 children: [
                   
                   ElevatedButton(
-                    onPressed: () {
-                      context.read<CounterBloc>().add(CounterIncrementPressed());
-                    },
+                    onPressed: () => counterBloc.add(CounterIncrementPressed()),
                     child: const Text("Increment"),
                   ),
                   
                   ElevatedButton(
-                    onPressed: () {
-                      context.read<CounterBloc>().add(CounterDecrementPressed());
-                    },
+                    onPressed: () => counterBloc.add(CounterDecrementPressed()),
                     child: const Text("Decrement"),
                   ),
                   
                   ElevatedButton(
-                    onPressed: () {
-                      context.read<CounterBloc>().add(CounterResetPressed());
-                    },
+                    onPressed: () => counterBloc.add(CounterResetPressed()),
                     child: const Text("Reset"),
                   ),
                   

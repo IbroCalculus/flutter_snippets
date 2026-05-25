@@ -28,6 +28,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final counterCubit = context.read<CounterCubit>();                // THIS
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -36,39 +39,33 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 20,
             children: [
-              
+
               BlocBuilder<CounterCubit, int>(
                 builder: (context, count) {
                   return Text("$count");
                 },
               ),
-              
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 20,
                 children: [
-                  
+
                   ElevatedButton(
-                    onPressed: () {
-                      context.read<CounterCubit>().increment();
-                    },
+                    onPressed: () => counterCubit.increment(),
                     child: const Text("Increment"),
                   ),
-                  
+
                   ElevatedButton(
-                    onPressed: () {
-                      context.read<CounterCubit>().decrement();
-                    },
+                    onPressed: () => counterCubit.decrement(),
                     child: const Text("Decrement"),
                   ),
-                  
+
                   ElevatedButton(
-                    onPressed: () {
-                      context.read<CounterCubit>().reset();
-                    },
+                    onPressed: () => counterCubit.reset(),
                     child: const Text("Reset"),
                   ),
-                  
+
                 ],
               ),
             ],
@@ -78,6 +75,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
 
 
 
@@ -120,7 +118,7 @@ home: MultiBlocProvider(
     BlocProvider(create: (_) => CounterCubit(),),
     BlocProvider(create: (_) => ThemeCubit(),),
   ],
-  
+
   child: const HomePage(),
 ),
 
