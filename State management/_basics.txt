@@ -62,3 +62,17 @@ Which One Should You Choose?
 ✅ For small apps → setState(), GetX
 ✅ For medium apps → Provider, Riverpod
 ✅ For large-scale apps → Bloc, Clean Architecture (with Riverpod or Provider)
+
+
+============================== Terms Associated with state management ======================
+
+------------------ 1. Reactive state management ------------------
+This is a programming approach where the UI automatically updates whenever the state changes.
+
+Instead of manually telling the UI:  "Hey, rebuild this widget because the data changed,"
+you declare: "This UI depends on this state."
+
+Then the framework watches that state and rebuilds automatically when the state changes.
+
+E.g: Without reactive state management, we use setState() to update the UI. 
+     But with reactive state management, we just declare that our UI depends on a state.

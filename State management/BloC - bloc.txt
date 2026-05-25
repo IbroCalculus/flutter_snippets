@@ -1,0 +1,170 @@
+
+================ CODE IMPLEMENTATION (A basic counter) Using Bloc technique ================
+
+  flutter_bloc: ^9.1.1
+
+
+-----------------------  bloc/counter_bloc.dart ------------------
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+sealed class CounterEvent {}
+
+final class CounterIncrementPressed extends CounterEvent {}
+
+final class CounterDecrementPressed extends CounterEvent {}
+
+final class CounterResetPressed extends CounterEvent {}
+
+final class CounterState {
+  final int count;
+
+  const CounterState(this.count);
+}
+
+class CounterBloc extends Bloc<CounterEvent, CounterState> {
+  CounterBloc() : super(const CounterState(0)) {
+
+    on<CounterIncrementPressed>((event, emit) {
+      emit(CounterState(state.count + 1));
+    });
+
+    on<CounterDecrementPressed>((event, emit) {
+      emit(CounterState(state.count - 1));
+    });
+
+    on<CounterResetPressed>((event, emit) {
+      emit(const CounterState(0));
+    });
+
+  }
+}
+
+
+
+-------------------------- home_page.dart --------------------------
+
+import 'package:bloc_practice/bloc/counter_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 20,
+            children: [
+              
+              BlocBuilder<CounterBloc, CounterState>(
+                builder: (context, state) {
+                  return Text("${state.count}");
+                },
+              ),
+              
+              
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 20,
+                children: [
+                  
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<CounterBloc>().add(CounterIncrementPressed());
+                    },
+                    child: const Text("Increment"),
+                  ),
+                  
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<CounterBloc>().add(CounterDecrementPressed());
+                    },
+                    child: const Text("Decrement"),
+                  ),
+                  
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<CounterBloc>().add(CounterResetPressed());
+                    },
+                    child: const Text("Reset"),
+                  ),
+                  
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+------------------------------ main.dart ------------------------------
+
+import 'package:bloc_practice/bloc/counter_bloc.dart';
+import 'package:bloc_practice/pages/home_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      
+      home: BlocProvider(                                                     // THIS
+        create: (context) => CounterBloc(),
+        child: const HomePage(),
+      ),
+      
+    );
+  }
+}
+
+
+
+----------------------------- For Multiple Blocs ----------------------------------
+
+return MaterialApp(
+  debugShowCheckedModeBanner: false,
+  title: 'Flutter Demo',
+  theme: ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+  ),
+
+  home: MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => CounterBloc(),
+      ),
+
+      BlocProvider(
+        create: (context) => AuthBloc(),
+      ),
+
+      BlocProvider(
+        create: (context) => ThemeBloc(),
+      ),
+    ],
+    child: const HomePage(),
+  ),
+);
+

@@ -1,0 +1,31 @@
+====================== THEORIES ======================
+BLoC (Business Logic Component) is the overall design pattern / state management technique.
+Inside the flutter_bloc library, there are two different ways (classes) to implement this pattern:
+
+- Method -    - How it works -      - UI Interaction
+1. Cubit	    Method-to-State	    UI calls methods directly (e.g. cubit.increment())	Lower	Simple states & quick actions
+2. Bloc 	    Event-to-State	    UI sends/dispatches Events (e.g. bloc.add(IncrementEvent))
+
+So, both Bloc and Cubit are part of the BLoC state management family. Cubit is just a simplified version of Bloc that removes the need for explicit event classes.
+
+------------------------------ Cubit ------------------------
+
+Cubit is a simpler version of BLoC used in Flutter for state management.
+A Cubit: stores a state, changes the state, tells the UI when the state changes.
+
+You can think of Cubit as a class whose job is to manage and emit state.
+
+A Cubit has: A state, Methods that change the state, emit() to send out a new state
+
+E.g:
+class CounterCubit extends Cubit<int> {
+  CounterCubit() : super(0);
+
+  void increment() => emit(state + 1);
+  void decrement() => emit(state - 1);
+  void reset() => emit(0);
+}
+
+
+
+

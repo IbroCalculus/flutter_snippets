@@ -43,11 +43,25 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  // Save credentials
+  // Save credentials (Same for update, which is basically overriding the value of same key)
   Future<void> _saveCredentials() async {
     final prefs = await SharedPreferences.getInstance(); // Correct usage
     await prefs.setString('username', _usernameController.text);
     await prefs.setString('password', _passwordController.text);
+  }
+
+
+  // Delete a single value
+  Future<void> _deleteUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('username');
+  }
+
+
+  // Clear all
+  Future<void> _clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 
   // Handle login button press

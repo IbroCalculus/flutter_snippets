@@ -1,0 +1,115 @@
+
+GetX is used majorly in 3 aspects: State Management, Dependency Injection, and Routing.
+CHECK ALSO: GetX_routing.txt, GetX_dependency_injection.txt
+
+---------------------------------------------------------------
+
+get: ^4.7.3
+
+
+NB: .obs converts a normal value into an observable/reactive value. 
+    That reactive variable automatically notifies the UI when its value changes.
+
+
+------------------------ controllers/counter_controller.dart ----------------------------
+
+import 'package:get/get.dart';
+
+class CounterController extends GetxController {
+  var count = 0.obs;
+
+  void increment() {
+    count++;
+  }
+
+  void decrement() {
+    count--;
+  }
+
+  void reset() {
+    count.value = 0;
+  }
+}
+
+
+------------------------ main.dart ----------------------------
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getx_practice/pages/home_page.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(                                      // THIS. USE GetMaterialApp
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: HomePage(),
+    );
+  }
+}
+
+
+----------------------------- home_page.dart ---------------------------------
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getx_practice/controllers/counter_controller.dart';
+
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
+
+  final CounterController controller = Get.put(CounterController());                // THIS (The controller)
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 20,
+            children: [
+              
+              Obx(
+                      () => Text('${controller.count.value}')                       // THIS
+              ),                        
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: [
+                  ElevatedButton(
+                    onPressed: controller.increment,                                // THIS
+                    child: const Text("Increment"),
+                  ),
+
+                  ElevatedButton(
+                    onPressed: controller.decrement,                                // THIS
+                    child: const Text("Decrement"),
+                  ),
+
+                  ElevatedButton(
+                    onPressed: controller.reset,                                    // THIS
+                    child: const Text("Reset"),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
