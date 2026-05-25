@@ -152,17 +152,9 @@ return MaterialApp(
 
   home: MultiBlocProvider(
     providers: [
-      BlocProvider(
-        create: (context) => CounterBloc(),
-      ),
-
-      BlocProvider(
-        create: (context) => AuthBloc(),
-      ),
-
-      BlocProvider(
-        create: (context) => ThemeBloc(),
-      ),
+      BlocProvider(create: (context) => CounterBloc(),),
+      BlocProvider(create: (context) => AuthBloc(),),
+      BlocProvider(create: (context) => ThemeBloc(),),
     ],
     child: const HomePage(),
   ),

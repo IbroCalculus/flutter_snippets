@@ -117,15 +117,10 @@ class MyApp extends StatelessWidget {
 
 home: MultiBlocProvider(
   providers: [
-    BlocProvider(
-      create: (_) => CounterCubit(),
-    ),
-
-    BlocProvider(
-      create: (_) => ThemeCubit(),
-    ),
+    BlocProvider(create: (_) => CounterCubit(),),
+    BlocProvider(create: (_) => ThemeCubit(),),
   ],
-
+  
   child: const HomePage(),
 ),
 
