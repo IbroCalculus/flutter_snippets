@@ -1,0 +1,19 @@
+=============== What is MVC? =============
+MVC (Model View Controller) is a design pattern that separates the user interface, the application logic, and the data.
+    - Model:                    handles data and business logic
+    - View:                     handles UI
+    - Controller:               handles interaction between model and view
+
+---- Typical Folder structure: ----
+lib/
+│
+├── models/
+│   └── counter_model.dart
+│
+├── controllers/
+│   └── counter_controller.dart
+│
+├── views/
+│   └── counter_view.dart
+│
+└── main.dart

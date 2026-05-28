@@ -1,0 +1,26 @@
+
+You can rewatch short quick tutorials on YouTube:
+https://youtu.be/j2ZsGubn_7M?si=34SHzZHNQqRVJiGE (This is now old and doesn't work anymore)
+
+dependencies:
+  rive: ^0.14.7
+
+------------------- Setup ----------------
+Go to: rive.app (https://editor.rive.app/home) OR Use the desktop app
+
+
+------------------------- Using built-in animations: Popular example (Login bear) --------------------
+
+Go to: Marketplace Examples
+Search for: Login bear (Animated Login Character)
+Download the .riv file (Do not open to edit, it requires a paid subscription to export. Just download the file)
+add the .riv file to your project (ie assets/rive_animation_assets/login_bear.riv)
+in pubspec.yaml:
+    assets:
+      - assets/rive_animation_assets/
+
+
+
+---- To be continued (Old tutorials not working. Have to check its docs for more info @ https://rive.app/docs/runtimes/flutter/flutter ) ----
+Check this playlist: https://youtube.com/playlist?list=PL8NTBhIXP2gERbpgjibkJwHBfCPi7GOAs&si=PkliCf1DFGb3_dTx
+

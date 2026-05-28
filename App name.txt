@@ -1,3 +1,6 @@
+
+==================== 1. Method 1: Using package ====================
+
 NB: The default parameter is required, the rest is optional. You can find a list of some possible language tags at https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 
@@ -16,3 +19,12 @@ launcher_name:
 CMD > 
 	flutter pub get
 	dart run launcher_name:main
+
+==================== 2. Method 2: Using manual ====================
+
+----------- For android (in AndroidManifest.xml) ---------
+
+    <application
+        android:label="flutter_mvc"     // REPLACE to desired launcher name
+
+CHECK ONLINE for ios and others

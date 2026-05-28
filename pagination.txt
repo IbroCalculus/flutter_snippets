@@ -1,0 +1,18 @@
+Pagination in Flutter is the technique of loading data in small chunks (pages) instead of loading everything at once.
+
+Pagination is a technique that splits large datasets into smaller, discrete "pages" of content (e.g., showing 20 items at a time instead of 1,000 at once). This improves performance, reduces memory usage, and creates a better user experience.
+
+It is commonly used when fetching data from:
+    APIs
+    databases
+    social media feeds
+    chat apps
+    product lists
+    infinite scrolling apps
+
+
+--- Core Flutter Widgets/Common Tools Commonly used for pagination: ---
+    ListView.builder
+    ScrollController
+    FutureBuilder
+    packages like; infinite_scroll_pagination

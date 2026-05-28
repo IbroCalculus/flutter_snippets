@@ -1,0 +1,20 @@
+=============== What is an architectural pattern? ===============
+
+An architectural pattern is a standard way of organizing code in an application.
+
+It defines:
+    how different parts of the app are separated
+    how those parts communicate
+    where specific logic should live
+
+Think of it as a blueprint for structuring software.
+
+=================== Common Architectural Patterns ==============
+    Pattern	                        Meaning
+    MVC	                            Model View Controller
+    MVVM	                        Model View ViewModel
+    MVP	                            Model View Presenter
+    Clean Architecture	            Layered architecture emphasizing independence
+    BLoC Architecture	            Business Logic Component
+    Redux	                        Centralized immutable state
+    Flux	                        Unidirectional data flow

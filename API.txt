@@ -1,6 +1,12 @@
 
 NB: CHECK API.txt in dart_code_snippet. Better explained.
 
+NB: In android emulator, to access the computers localhost, use the the reserved IP address, 10.0.2.2,
+    E.g: Instead of using 127.0.0.1, use 10.0.2.2.
+
+      final apiUrl = "http://127.0.0.1:8000/posts";
+      final apiUrl = "http://10.0.2.2:8000/posts";
+
 
 There are 2 packages that can be used for this; ie http and dio
 
@@ -10,9 +16,12 @@ NB: Check API2.txt to learn two ways of working with API data. Either:
 
 
 
-The basic example here is without a model class
+The basic example here is without a model class using http package.
 
-===================== HTTP PACKAGE =============================
+
+===================== USING HTTP PACKAGE =============================
+
+--------------------- 1. GET request ---------------------
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -24,9 +33,10 @@ import 'package:http/http.dart' as http;
     try {
       // Send a GET request to the API
       final response = await http.get(Uri.parse(apiUrl));
+      // final response = await http.get(Uri.parse(apiUrl)).timeout(Duration(seconds: 5));      // Incase of need for timeout, just use this;
       
       if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(response.body);        
+        final List<dynamic> data = json.decode(response.body);        
         print("Number of data in the list: ${data.length}");
         
         for (var item in data) {
@@ -42,6 +52,47 @@ import 'package:http/http.dart' as http;
       print('Error: $error');
     }
   }
+
+
+--------------------- 2. POST request ---------------------
+
+Assume an endpoint http://127.0.0.1:8000/posts, that accepts a body of { title: <String>, body: <String>}.
+
+REMEMBER: If running the API on current computer, in trying to use android emulater, use the reserved IP address, 10.0.2.2 instead of 127.0.0.1.
+          ie; http://127.0.0.1:8000/posts becomes http://10.0.2.2:8000/posts
+
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
+
+Future<void> createPost() async {
+  final apiUrl = "http://127.0.0.1:8000/posts";
+
+  try {    
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(<String, String>{
+        'title': 'foo',
+        'body': 'bar',
+      }),
+    );
+    //  ).timeout(Duration(seconds: 5));      // Incase of need for timeout, just add this
+
+    if (response.statusCode == 201) {
+      final data = json.decode(response.body);
+      print(data);
+    } else {
+      print("Error: ${response.body}");
+    }
+
+  } catch (e) {
+    print("Error: $e");
+  }
+}
 
 
 

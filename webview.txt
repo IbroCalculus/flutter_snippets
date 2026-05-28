@@ -1,0 +1,43 @@
+dependencies:
+  webview_flutter: ^4.13.1
+
+------------ Android manifest ------------
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+------------ .dart file -------------
+NB: This is a basic implementation. You can research and add more features to it.
+
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+class WebViewPage extends StatefulWidget {
+  const WebViewPage({super.key});
+
+  @override
+  State<WebViewPage> createState() => _WebViewPageState();
+}
+
+class _WebViewPageState extends State<WebViewPage> {
+  
+  late WebViewController _controller;                       // THIS
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _controller = WebViewController()                       // THIS
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)      // THIS
+      ..loadRequest(Uri.parse("https://flutter.dev"));      // THIS
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+          child: WebViewWidget(controller: _controller)
+      ),
+    );
+  }
+}
