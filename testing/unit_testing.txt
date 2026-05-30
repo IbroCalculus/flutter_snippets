@@ -1,0 +1,12 @@
+Unit testing is a type of testing that is done to test the smallest units of code, such as functions and methods.
+Unit testing allows you to verify individual parts of your code, such as specific functions or classes , to ensure they work as expected.
+
+
+-----------------------------
+
+dart_practice2/
+ ├── lib/
+ │    └── main.dart
+ ├── test/
+ │    └── main_test.dart
+ ├── pubspec.yaml
