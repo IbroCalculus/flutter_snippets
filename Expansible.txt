@@ -1,0 +1,84 @@
+Same as accordion in web
+
+==================================================
+import 'package:flutter/material.dart';
+
+class WidgetDemoPage extends StatefulWidget {
+  const WidgetDemoPage({super.key});
+
+  @override
+  State<WidgetDemoPage> createState() => _WidgetDemoPageState();
+}
+
+class _WidgetDemoPageState extends State<WidgetDemoPage> {
+    
+  final _controller = ExpansibleController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          
+          child: Expansible(
+            controller: _controller,
+            headerBuilder: (context, animation) {
+              return InkWell(
+                onTap: () {
+                  _controller.isExpanded
+                      ? _controller.collapse()
+                      : _controller.expand();
+                },
+                child: expansibleHeader(animation),
+              );
+            },
+
+            bodyBuilder: (BuildContext context, Animation<double> animation) {
+              return expansibleBody();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  
+  // The Expansible's Header widget  
+  Container expansibleHeader(Animation<double> animation) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      color: Colors.blue,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'Tap to Expand',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          RotationTransition(
+            turns: Tween<double>(begin: 0, end: 0.5).animate(animation),
+            child: const Icon(Icons.expand_more, color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  // The Expansible's Header widget  
+  Container expansibleBody() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      color: Colors.blue.shade50,
+      child: Column(
+        children: [
+          const Text('This is the expandable content.'),
+          const Text('This is the expandable content.'),
+          const Text('This is the expandable content.'),
+        ],
+      ),
+    );
+  }
+}
