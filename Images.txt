@@ -4,6 +4,17 @@ CHECK ALSO: Crop images.txt to crop and make image circular
 CHECK ALSO: Save images_videos.txt
 CHECK ALSO: File Downloader.txt
 
+NB:
+
+FadeImage is used to show a placeholder image while an image is loading from the internet.
+
+            FadeInImage(
+              placeholder: const AssetImage('assets/images/shoes_4.png'),
+              image: const NetworkImage(
+                'https://static.vecteezy.com/system/resources/thumbnails/007/073/820/small_2x/wooden-table-and-blur-of-beauty-sunset-sky-and-mountains-as-background-free-photo.jpg',
+              ),
+            )
+
 We can use either a network image, on an asset image
 
 

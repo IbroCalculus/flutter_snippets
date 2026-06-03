@@ -1,0 +1,188 @@
+dependencies:
+  geolocator: ^14.0.2
+
+------------------ AndroidManifest.xml ---------------------------
+
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
+------------------ lib/services/location_service.dart ---------------------------
+
+import 'package:geolocator/geolocator.dart';
+
+class LocationService {
+  /// Check permissions + request if needed
+  static Future<bool> handlePermission() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) return false;
+
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Get current location once
+  static Future<Position> getCurrentLocation() async {
+    return await Geolocator.getCurrentPosition(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+      ),
+    );
+  }
+
+  /// Live location stream
+  static Stream<Position> getLiveLocation() {
+    return Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 10,
+      ),
+    );
+  }
+}
+
+------------------ home_screen.dart ---------------------------
+import 'dart:async';
+import 'package:flutter/material.dart';
+import '../services/location_service.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String locationText = "Checking permission...";
+  String liveLocation = "";
+
+  StreamSubscription? subscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    /// Ask permission immediately when app starts
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initLocation();
+    });
+  }
+
+  Future<void> initLocation() async {
+    bool hasPermission = await LocationService.handlePermission();
+
+    if (!hasPermission) {
+      setState(() {
+        locationText = "Permission or service denied";
+      });
+      return;
+    }
+
+    final position = await LocationService.getCurrentLocation();
+
+    setState(() {
+      locationText =
+      "Lat: ${position.latitude}\nLng: ${position.longitude}";
+    });
+  }
+
+  Future<void> getLocation() async {
+    bool hasPermission = await LocationService.handlePermission();
+
+    if (!hasPermission) {
+      setState(() {
+        locationText = "Permission or service denied";
+      });
+      return;
+    }
+
+    final position = await LocationService.getCurrentLocation();
+
+    setState(() {
+      locationText =
+      "Lat: ${position.latitude}\nLng: ${position.longitude}";
+    });
+  }
+
+  /// LIVE TRACKING
+  void startLiveTracking() async {
+    bool hasPermission = await LocationService.handlePermission();
+
+    if (!hasPermission) return;
+
+    subscription?.cancel();
+
+    subscription = LocationService.getLiveLocation().listen((position) {
+      setState(() {
+        liveLocation =
+        "LIVE → Lat: ${position.latitude}, Lng: ${position.longitude}";
+      });
+    });
+  }
+
+  void stopLiveTracking() {
+    subscription?.cancel();
+    subscription = null;
+  }
+
+  @override
+  void dispose() {
+    subscription?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Geolocator Demo")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(locationText),
+            const SizedBox(height: 20),
+
+            Text(
+              liveLocation,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: getLocation,
+              child: const Text("Get Location"),
+            ),
+
+            const SizedBox(height: 10),
+
+            ElevatedButton(
+              onPressed: startLiveTracking,
+              child: const Text("Start Live Tracking"),
+            ),
+
+            const SizedBox(height: 10),
+
+            ElevatedButton(
+              onPressed: stopLiveTracking,
+              child: const Text("Stop Live Tracking"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

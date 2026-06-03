@@ -1,3 +1,41 @@
+NB: IntrinsicHeight: Wrapping a Row with this widget makes it take the height of its tallest child.
+    It gives all the row children same height, by stretching them to match the height of the maximum.
+
+    crossAxisAlignment: CrossAxisAlignment.stretch, is important for that.
+
+Similarly, IntrinsicWidth: which is used by Column.
+
+    ---------------- Example --------------------
+
+      IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Container(
+              color: Colors.red,
+              height: 50, // This child is short
+              child: const Center(child: Text("Short", style: TextStyle(color: Colors.white))),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.green,
+              height: 100, // This child is tall
+              child: const Center(child: Text("Tall", style: TextStyle(color: Colors.white))),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.blue,
+              height: 30, // This child is shorter
+              child: const Center(child: Text("Short", style: TextStyle(color: Colors.white))),
+            ),
+          ),
+        ],
+      ),
+    ),
+
 
  ================ Wrapping Widgets inside a row (Stack widgets horizontally) =============
 CHECK FOR SIMILAR USAGE IN Columns.txt

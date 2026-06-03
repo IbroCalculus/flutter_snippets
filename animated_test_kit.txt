@@ -1,0 +1,16 @@
+
+dependencies:
+  animated_text_kit: ^4.3.0
+
+
+----------------------------- EXAMPLE --------------------------------
+
+      child: AnimatedTextKit(
+          repeatForever: true,
+          animatedTexts: [
+            ColorizeAnimatedText('Hello, world 0!', textStyle: TextStyle(fontSize: 24), colors: [Colors.blue, Colors.red, Colors.green]),
+            // TypewriterAnimatedText('Hello, world 1!', textStyle: TextStyle(fontSize: 24),),
+            // ScaleAnimatedText('Hello, world 2!', textStyle: TextStyle(fontSize: 24),),
+            // BounceAnimatedText("Hello World 3!", textStyle: TextStyle(fontSize: 24),)
+          ],
+        ),

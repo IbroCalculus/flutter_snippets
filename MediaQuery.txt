@@ -1,0 +1,22 @@
+
+  @override
+  Widget build(BuildContext context) {
+
+    var mediaQuery = MediaQuery.of(context);
+    print('Width: ${mediaQuery.size.width}');
+    print('Height: ${mediaQuery.size.height}');
+
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Media Query Example'),
+      ),
+      body: Container(
+        width: mediaQuery.size.width * 0.5,
+        height: mediaQuery.size.height * 0.5,
+        color: Colors.blue,
+        child: const Center(
+          child: Text('50% of Screen'),
+        ),
+      ),
+    );
