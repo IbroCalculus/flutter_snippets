@@ -1,0 +1,10 @@
+dependencies:
+  wallpaper_manager_flutter: ^1.0.1
+
+
+<uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+-------------------------------------------------------
+CHECK: wallpaperly app code.
+
+

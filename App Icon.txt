@@ -27,4 +27,4 @@ flutter_launcher_icons:
 
 // ----- Run the commands ------------
 flutter pub get
-flutter pub run flutter_launcher_icons
+dart run flutter_launcher_icons
