@@ -1,57 +1,88 @@
-========================= Splash Screen UI =========================
-NB: Ignore some classes like MyText, these are custom, just get the idea of the ui for splash screen, especially the appBar and use of Stack in body container
+===================== Method 1: (Using an image on the splash screen) ========================
+dependencies:
+  flutter_native_splash: ^2.4.8
 
+-------------------------- pubspec.yaml --------------------------
+
+NB: flutter_native_splash: at the root, not under any dependencies.
+    MUST have android_12 section as shown to work for android 12+ devices.
+
+flutter_native_splash:
+  image: assets/images/splash_image.png
+  color: "#42a5f5"
+  android: true
+  fullscreen: true
+
+  android_12:
+    image: assets/images/splash_image.png
+    color: "#42a5f5"
+
+
+// ---------------------- Run the following commands ----------------------
+    flutter clean
+    flutter pub get
+    dart run flutter_native_splash:create
+    flutter run
+
+
+===================== METHOD 2 (Using a dedicated splash screen page) ===================
+
+------------------------------ pubspec.yaml --------------------------
+
+NB: Only the property, color: "#FFFFFF", is needed.
+
+flutter_native_splash:
+  color: "#FFFFFF"
+
+  android_12:
+    color: "#FFFFFF"
+
+cmd >
+  flutter clean
+  flutter pub get
+  dart run flutter_native_splash:create
+  flutter run
+
+---------------------------- splash_screen.dart (Create the splash screen) -----------------------------
+
+NB: I used lottie animation in this example. Configure to follow same.
+
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomePage()),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-
-// --- AppBar ---
-
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        toolbarHeight: 0,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.dark,
-          statusBarColor: Colors.black,
-        ),
-      ),
-
-// --- Body ---
-
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        alignment: Alignment.center,
-        child: Stack(
-          children: [
-            Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    Img.get("ic_social_tiktok.png"),
-                    color: Colors.white,
-                    width: 70,
-                    height: 70,
-                  ),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Text(
-                    "Tik tok",
-                    style:
-                        MyText.headline(context)!.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
-              ),
-            )
-          ],
+      backgroundColor: const Color(0xFF42A5F5),
+      body: Center(
+        child: Lottie.asset(
+          'assets/lottie/splash.json',
+          width: 200,
+          height: 200,
+          fit: BoxFit.contain,
         ),
       ),
     );
+  }
+}
 
-
- 

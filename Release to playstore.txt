@@ -1,3 +1,9 @@
+
+CHECK: _application_id.txt (To change appID. ie; from "com.example.my_app" to "com.mycompany.myapp")
+
+
+
+
 https://docs.flutter.dev/deployment/android
 
 --------- 1. Create keystore (If you don't have an existing one), else, skip and use the existing one --------------

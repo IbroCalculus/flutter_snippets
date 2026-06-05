@@ -1,3 +1,5 @@
+CHECK: Release to playstore.txt
+
 2 different methods.
 
 1. Using in app update functionality. Implement with the package (upgrade)

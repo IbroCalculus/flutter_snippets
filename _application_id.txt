@@ -1,0 +1,40 @@
+========= TO CHANGE APPLICATION ID and APPLICATION NAME ================
+ie; "com.example.my_app" to "com.mycompany.myapp"
+    and app name from "flutter_app" to "My Awesome App"
+
+
+================== Use Rename package ==================
+
+dependencies:
+  rename: ^3.1.0        ( flutter pub add rename)
+
+Global CMD > flutter pub global activate rename
+
+--------------------- Usage Help ----------------
+Project root CMD > rename help      
+    getAppName         Get app names for the targeted platforms
+    getBundleId        Get bundleId identifiers for the targeted platforms
+    setAppName         Set app name for the targeted platforms
+    setBundleId        Set bundleId identifier for the targeted platforms
+
+
+-------------------- Get App name and ID -------------
+
+Project root CMD > rename getAppName --targets android
+Project root CMD > rename getAppName --targets android,ios,macos,windows,linux
+
+
+Project root CMD > rename getBundleId --targets android
+Project root CMD > rename getBundleId --targets android,ios,macos,windows,linux
+
+
+--------------------- Set App name and ID -------------
+Project root CMD > rename setAppName --targets android --value "YourAppName"
+Project root CMD > rename setAppName --targets ios,android,macos,windows,linux --value "YourAppName"
+
+Project root CMD > rename setBundleId --targets android --value "com.example.bundleId"
+Project root CMD > rename setBundleId --targets ios,android,macos,windows,linux --value "com.example.bundleId"
+
+        
+
+NB: The android name/lable is set in: AndroidManifest;  <application android:label="My AppName">

@@ -1,0 +1,3 @@
+To rename application name, and also applicaton ID.
+
+CHECK: _application_id.txt

@@ -1,3 +1,5 @@
+CHECK: Release to playstore.txt
+
 ==== To build in debug mode =====
 - run the command;
 
