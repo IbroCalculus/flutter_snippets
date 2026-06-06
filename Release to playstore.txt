@@ -22,7 +22,8 @@ key.properties
 storePassword=my_pass1
 keyPassword=my_pass1
 keyAlias=upload
-storeFile=C:\\Users\\dummyuser\\Documents\\My documents\\Keystore file\\demo-keystore.jks
+storeFile=C:/Users/dummyuser/Documents/My documents/Keystore file/demo-keystore.jks
+# storeFile=C:\\Users\\dummyuser\\Documents\\My documents\\Keystore file\\demo-keystore.jks
 
 
 ------- 3. app/build.gradle.kts --------------
@@ -64,3 +65,88 @@ signingConfigs {
 cmd > flutter clean (To clear cache)
 cmd > flutter pub get
 cmd > flutter build appbundle --release (Or simply use the IDE)
+            OR 
+cmd > flutter build apk --release
+
+
+==================== MORE TO LEARN ==========================
+
+---------------- What is R8? ---------------
+R8 is Android's release optimizer. Think of it as a cleanup crew. It does four major things:
+
+1. Code shrinking: Removes code that is never used. Suppose your app imports a library containing 100 classes:
+class A, class B, class C,... class Z but you only use: A(), C(). R8 removes the unused classes.
+
+Result: Smaller APK/AAB, Faster downloads, Less memory usage.
+
+
+2. Resource shrinking: Removes unused resources. For example: Suppose your app contains:
+logo.png, old_logo.png, unused_background.jpg but only logo.png is actually used. The others can be removed.
+
+Result: Smaller app size.
+
+3. Obfuscation: It renames classes, methods, and fields to short meaningless names (like a, b, c):
+
+Real name: io.awesome.app.UserRepository
+Obfuscated name: a.b.c          (Someone decompiling your APK will see a.b.c)
+Result: Harder for hackers to reverse-engineer your code.
+
+Note: It does NOT encrypt your code. It merely makes reverse engineering harder.
+
+
+4. Optimization: R8 can rewrite code to make it more efficient.
+For example:
+
+Before:
+int sum(int a, int b) {
+    return a + b;
+}
+
+After:
+int sum(int a, int b) => a + b;
+
+Result: Better performance, Smaller binaries.
+
+
+---------------------------- NB --------------------------------
+
+For release builds, Android enables R8 by default.
+Effectively, it behaves similarly to:
+
+buildTypes {
+    release {
+        signingConfig = signingConfigs.getByName("release")
+
+        isMinifyEnabled = true                    // Enables code shrinking, Optimisation, and obfuscation.
+        isShrinkResources = true                  // Enables resource shrinking. Depends on minifyEnabled = true.
+    }
+}
+
+
+--------------- Enable it explicitly for readability and control --------------------
+
+buildTypes {
+    release {
+        signingConfig = signingConfigs.getByName("release")
+
+        isMinifyEnabled = true
+        isShrinkResources = true
+
+        proguardFiles(
+            getDefaultProguardFile("proguard-android-optimize.txt"),
+            "proguard-rules.pro"
+        )
+    }
+}
+
+
+--------------- Proguard ------------------
+Proguard is a legacy tool for code optimization and obfuscation. R8 is its modern successor. 
+They are often mentioned together because R8 is what Android now uses by default.
+
+For practical purposes in 2024:
+
+Proguard = The old tool.
+R8 = The current tool.
+
+They both use similar configuration files (proguard-rules.pro), but R8 is smarter, faster, and handles Kotlin/Flutter code better.
