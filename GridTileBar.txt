@@ -1,0 +1,64 @@
+GridTileBar is a helper widget used inside GridTile. It is usually used to create a clean top or bottom bar over an image, like a label or action strip.
+Think of it as: "A styled overlay bar for Grid tiles (title + icons)"
+
+
+-------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: SafeArea(child: GridTileBarWidget()));
+  }
+}
+
+class GridTileBarWidget extends StatelessWidget {
+  const GridTileBarWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      crossAxisCount: 2,
+      padding: const EdgeInsets.all(10),
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+      children: const [
+        TileItem(title: "Mountain", color: Colors.green),
+        TileItem(title: "Ocean", color: Colors.blue),
+        TileItem(title: "City", color: Colors.grey),
+        TileItem(title: "Desert", color: Colors.orange),
+      ],
+    );
+  }
+}
+
+class TileItem extends StatelessWidget {
+  final String title;
+  final Color color;
+
+  const TileItem({super.key, required this.title, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridTile(
+      footer: GridTileBar(
+        backgroundColor: Colors.black54,
+        title: Text(title),
+
+        leading: const Icon(Icons.photo),
+        trailing: const Icon(Icons.star_border),
+      ),
+
+      child: Container(
+        color: color,
+        child: const Center(
+          child: Icon(Icons.image, size: 40, color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+

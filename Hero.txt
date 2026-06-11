@@ -1,31 +1,75 @@
-================== FIRST SCREEN ===================
+Hero is a Flutter widget used for smooth screen-to-screen transitions of the same element.
+Think of it like: "This widget exists on Page A → smoothly transforms into Page B"
+
+Most common use:
+  image tap → full screen image transition
+  card → detail page animation
+
+Key rule
+  Both pages must have a Hero with the same tag
+
+--------------------------Example 1 (Just a container )--------------------------------------
 
 import 'package:flutter/material.dart';
-import 'package:flutter_testing/pages/second_screen.dart';
 
-class FirstScreen extends StatelessWidget {
-  const FirstScreen({super.key});
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('First Screen')),
+      appBar: AppBar(title: const Text('Hero Example')),
+      body: SafeArea(child: Center(child: HeroWidget())),
+    );
+  }
+}
+
+class HeroWidget extends StatelessWidget {
+  const HeroWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const DetailPage()),
+        );
+      },
+      child: Hero(
+        tag: 'imageHero',
+        child: Container(
+          width: 150,
+          height: 150,
+          color: Colors.blue,
+          child: const Center(
+            child: Text('Tap Me', style: TextStyle(color: Colors.white)),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DetailPage extends StatelessWidget {
+  const DetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Detail Page')),
       body: Center(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SecondScreen()),
-            );
-          },
-          child: Hero(
-            tag: 'hero-image1',					// There both share same tag name
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                'https://cdn.pixabay.com/photo/2024/11/05/05/38/japancontest-9175030_1280.jpg',
-                width: 150,
-                height: 150,
+        child: Hero(
+          tag: 'imageHero', // SAME TAG
+
+          child: Container(
+            width: 300,
+            height: 300,
+            color: Colors.blue,
+            child: const Center(
+              child: Text(
+                'Detail View',
+                style: TextStyle(color: Colors.white, fontSize: 22),
               ),
             ),
           ),
@@ -37,38 +81,69 @@ class FirstScreen extends StatelessWidget {
 
 
 
-================== SECOND SCREEN ===================
+--------------------------Example 2 (Using an image )--------------------------------------
 
 import 'package:flutter/material.dart';
 
-class SecondScreen extends StatelessWidget {
-  const SecondScreen({super.key});
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Second Screen')),
+      body: const Center(child: ShoePreview()),
+    );
+  }
+}
+
+class ShoePreview extends StatelessWidget {
+  const ShoePreview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const ShoeDetailPage()),
+        );
+      },
+      child: Hero(
+        tag: 'shoeHero',
+
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),          
+
+          child: Image.asset(
+            'assets/images/shoes_1.png',
+            width: 150,
+            height: 150,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShoeDetailPage extends StatelessWidget {
+  const ShoeDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Shoe Detail')),
+
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Hero(
-              tag: 'hero-image1',				// There both share same tag name
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  'https://cdn.pixabay.com/photo/2024/11/05/05/38/japancontest-9175030_1280.jpg',
-                  width: 500,
-                  height: 500,
-                ),
-              ),
-            ),
-            Text(
-              "Welcome to Second Screen",
-              style: TextStyle(fontSize: 24.0),
-            ),
-          ],
+        child: Hero(
+          tag: 'shoeHero',
+
+          child: Image.asset(
+            'assets/images/shoes_1.png',
+            width: 300,
+            height: 300,
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );

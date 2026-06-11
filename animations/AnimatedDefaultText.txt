@@ -1,0 +1,65 @@
+It smoothly animates changes in a TextStyle.
+
+Instead of text instantly changing like this: Small black text → BIG BLUE TEXT (instant)
+
+It becomes: Small black text → smooth transition → BIG BLUE TEXT
+
+--------------------------------------------------------------------------
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Animated Text Style')),
+      body: const SafeArea(
+        child: Center(child: AnimatedDefaultTextStyleWidget()),
+      ),
+    );
+  }
+}
+
+class AnimatedDefaultTextStyleWidget extends StatefulWidget {
+  const AnimatedDefaultTextStyleWidget({super.key});
+
+  @override
+  State<AnimatedDefaultTextStyleWidget> createState() => _AnimatedDefaultTextStyleWidgetState();
+}
+
+class _AnimatedDefaultTextStyleWidgetState extends State<AnimatedDefaultTextStyleWidget> {
+  
+  bool toggled = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 20,
+      children: [
+        
+        AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 500),
+
+          style: TextStyle(
+            fontSize: toggled ? 32 : 18,
+            color: toggled ? Colors.blue : Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+
+          child: const Text('Hello Flutter'),
+        ),
+
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              toggled = !toggled;
+            });
+          },
+          child: const Text('Animate Text'),
+        ),
+      ],
+    );
+  }
+}

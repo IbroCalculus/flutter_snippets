@@ -1,0 +1,67 @@
+Autocomplete is a Flutter widget that gives you search suggestions as you type.
+
+------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Autocomplete Example')),
+      body: const SafeArea(child: Center(child: AutoCompleteWidget())),
+    );
+  }
+}
+
+class AutoCompleteWidget extends StatelessWidget {
+  const AutoCompleteWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> countries = [
+      'Nigeria',
+      'Niger',
+      'Ghana',
+      'Kenya',
+      'South Africa',
+      'Egypt',
+      'Morocco',
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Autocomplete<String>(
+        optionsBuilder: (TextEditingValue value) {
+          if (value.text.isEmpty) {
+            return const Iterable<String>.empty();
+          }
+
+          return countries.where(
+            (country) =>
+                country.toLowerCase().contains(value.text.toLowerCase()),
+          );
+        },
+
+        onSelected: (String selection) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('You selected: $selection')));
+        },
+
+        fieldViewBuilder: (context, controller, focusNode, onSubmit) {
+          return TextField(
+            controller: controller,
+            focusNode: focusNode,
+            decoration: const InputDecoration(
+              hintText: 'Search country',
+              border: OutlineInputBorder(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

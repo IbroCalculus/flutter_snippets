@@ -1,79 +1,128 @@
 CHECK ALSO: PersistentFootButton.txt
 
 
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.black87,
+import 'package:flutter/material.dart';
 
-        notchMargin: 5.0,
-        shape: CircularNotchedRectangle(),		//These 2 lines are responsible for the the curve when you have a FAB. Without FAB, it is of no use.
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.home,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    "Home",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-            ),
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
 
-            Padding(padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.shop,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    "Shop",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-            ),
+class _DemoPageState extends State<DemoPage> {
+  int index = 0;
 
-            Padding(padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    "Fav",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-            ),
+  void updateIndex(int newIndex) {
+    setState(() {
+      index = newIndex;
+    });
+  }
 
-            Padding(padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.settings,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    "Settings",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: IndexedStackWidget(index: index),
       ),
+
+      bottomNavigationBar: BottomNavigationBarWidget(
+        currentIndex: index,
+        onTap: updateIndex,
+      ),
+    );
+  }
+}
+
+class BottomNavigationBarWidget extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onTap;
+
+  const BottomNavigationBarWidget({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: currentIndex,
+      onTap: onTap,
+
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          label: 'Search',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
+    );
+  }
+}
+
+
+
+class IndexedStackWidget extends StatelessWidget {
+  final int index;
+
+  const IndexedStackWidget({
+    super.key,
+    required this.index,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 300,
+      child: IndexedStack(
+        index: index,
+        children: const [
+          HomePage(),
+          SearchPage(),
+          ProfilePage(),
+        ],
+      ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Home Page', style: TextStyle(fontSize: 20)),
+    );
+  }
+}
+
+class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Search Page', style: TextStyle(fontSize: 20)),
+    );
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Profile Page', style: TextStyle(fontSize: 20)),
+    );
+  }
+}

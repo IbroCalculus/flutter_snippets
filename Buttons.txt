@@ -1,4 +1,5 @@
 CHECK ALSO; TextButton.txt
+CHECK ALSO: Ignore Pointer.txt (To disable button)
 
 
 - Text button

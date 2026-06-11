@@ -1,0 +1,84 @@
+
+NB: You can simply check GridTileBar instead. It also encompasses this GridTile.
+
+--------------------------------------------------------------------------------------------
+
+GridTile is a widget used inside a GridView to structure each grid item into parts like: header + main content + footer
+Think of it like:
+    ┌──────────────┐
+    │   header     │
+    ├──────────────┤
+    │ Child(image) │
+    ├──────────────┤
+    │   footer     │
+    └──────────────┘
+
+NB: GridTile is NOT used alone. It must be inside a GridView.
+
+-------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: SafeArea(child: GridTileWidget()));
+  }
+}
+
+class GridTileWidget extends StatelessWidget {
+  const GridTileWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      crossAxisCount: 2,
+      padding: const EdgeInsets.all(10),
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+
+      children: const [
+        GridTileItem(title: "Apple", color: Colors.red),
+        GridTileItem(title: "Banana", color: Colors.yellow),
+        GridTileItem(title: "Mango", color: Colors.orange),
+        GridTileItem(title: "Grape", color: Colors.purple),
+      ],
+    );
+  }
+}
+
+class GridTileItem extends StatelessWidget {
+  final String title;
+  final Color color;
+
+  const GridTileItem({super.key, required this.title, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridTile(
+      header: Container(
+        color: Colors.black.withValues(alpha: 0.6),
+        padding: const EdgeInsets.all(4),
+        child: Text(
+          "Header",
+          style: const TextStyle(color: Colors.white, fontSize: 12),
+        ),
+      ),
+
+      footer: Container(
+        color: Colors.black.withValues(alpha: 0.6),
+        padding: const EdgeInsets.all(6),
+        child: Text(title, style: const TextStyle(color: Colors.white)),
+      ),
+
+      child: Container(
+        color: color,
+        child: const Center(
+          child: Icon(Icons.image, size: 40, color: Colors.white),
+        ),
+      ),
+    );
+  }
+}

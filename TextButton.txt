@@ -1,5 +1,0 @@
-
-              TextButton(
-                  onPressed: (){},
-                  child: Text('Forgot password?')
-              )

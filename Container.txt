@@ -1,5 +1,6 @@
 
 CHECK ALSO: animations / Animated Container.txt
+CHECK ALSO: FractionallySizedBox.txt
 
 
 Container can contain multiple widgets. Similar to DIV in HTML

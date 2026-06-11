@@ -1,0 +1,111 @@
+IndexedStack is a widget that keeps multiple widgets alive but shows only one at a time.
+Think of it like: "A stack of screens — only one is visible, but the others stay in memory."
+
+Unlike Stack, which overlays widgets, IndexedStack:
+    keeps all children built
+    switches visibility using an index
+    does NOT rebuild hidden widgets
+
+--------------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: IndexedStackWidget()));
+  }
+}
+
+
+class IndexedStackWidget extends StatefulWidget {
+  const IndexedStackWidget({super.key});
+
+  @override
+  State<IndexedStackWidget> createState() => _IndexedStackWidgetState();
+}
+
+class _IndexedStackWidgetState extends State<IndexedStackWidget> {
+  
+  int index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 200,
+          child: IndexedStack(
+            index: index,
+            children: const [HomePage(), SearchPage(), ProfilePage()],
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() => index = 0);
+              },
+              child: const Text('Home'),
+            ),
+            const SizedBox(width: 10),
+            ElevatedButton(
+              onPressed: () {
+                setState(() => index = 1);
+              },
+              child: const Text('Search'),
+            ),
+            const SizedBox(width: 10),
+            ElevatedButton(
+              onPressed: () {
+                setState(() => index = 2);
+              },
+              child: const Text('Profile'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Home Page', style: TextStyle(fontSize: 20)),
+    );
+  }
+}
+
+class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Search Page', style: TextStyle(fontSize: 20)),
+    );
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Profile Page', style: TextStyle(fontSize: 20)),
+    );
+  }
+}
+

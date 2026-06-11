@@ -1,0 +1,60 @@
+AnimatedRotation is a Flutter widget that smoothly rotates a widget over time.
+Think of it like: "Rotate from 0° → 360° with animation"
+
+Key idea; It uses turns, not degrees
+1.0 = full rotation (360°)
+0.5 = half rotation (180°)
+
+-----------------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: AnimatedRotationWidget())),
+    );
+  }
+}
+
+class AnimatedRotationWidget extends StatefulWidget {
+  const AnimatedRotationWidget({super.key});
+
+  @override
+  State<AnimatedRotationWidget> createState() => _AnimatedRotationWidgetState();
+}
+
+class _AnimatedRotationWidgetState extends State<AnimatedRotationWidget> {
+  double turns = 0;
+
+  void rotate() {
+    setState(() {
+      turns += 0.25; // rotate 90 degrees each tap
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        AnimatedRotation(
+          turns: turns,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+
+          child: const Icon(Icons.refresh, size: 80, color: Colors.blue),
+        ),
+
+        const SizedBox(height: 20),
+
+        ElevatedButton(onPressed: rotate, child: const Text('Rotate')),
+      ],
+    );
+  }
+}
+
+

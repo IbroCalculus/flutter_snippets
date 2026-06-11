@@ -1,0 +1,44 @@
+FractionallySizedBox is a widget that sizes its child as a fraction of the available space.
+Think of it like: "Take 70% of the parent's width and 40% of its height."
+
+-------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: FractionallySizedBoxWidget(),
+        ),
+      ),
+    );
+  }
+}
+
+class FractionallySizedBoxWidget extends StatelessWidget {
+  const FractionallySizedBoxWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: 0.8,   // 80% of parent width
+      heightFactor: 0.3,  // 30% of parent height
+
+      child: Container(
+        color: Colors.blue,
+        child: const Center(
+          child: Text(
+            '80% width\n30% height',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
+      ),
+    );
+  }
+}

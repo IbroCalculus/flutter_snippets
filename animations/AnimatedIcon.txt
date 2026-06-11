@@ -1,0 +1,86 @@
+AnimatedIcon is a Flutter widget that animates between two icons using an animation controller.
+Think of it like: “Menu icon → X icon” (or any icon transition)
+But important rule: AnimatedIcon ONLY works with an AnimationController
+
+--------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Animated Icon Example')),
+      body: const SafeArea(child: Center(child: AnimatedIconWidget())),
+    );
+  }
+}
+
+
+
+class AnimatedIconWidget extends StatefulWidget {
+  const AnimatedIconWidget({super.key});
+
+  @override
+  State<AnimatedIconWidget> createState() => _AnimatedIconWidgetState();
+}
+
+class _AnimatedIconWidgetState extends State<AnimatedIconWidget> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  bool isOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+  }
+
+  void toggle() {
+    setState(() {
+      isOpen = !isOpen;
+
+      if (isOpen) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: toggle,
+      child: AnimatedIcon(
+        icon: AnimatedIcons.menu_close,
+        progress: _controller,
+        size: 80,
+        color: Colors.blue,
+      ),
+    );
+  }
+}
+
+/* OTHERS and more
+  AnimatedIcons.menu_close
+  AnimatedIcons.add_event
+  AnimatedIcons.play_pause
+  AnimatedIcons.ellipsis_search
+*/

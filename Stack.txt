@@ -1,4 +1,7 @@
 
+CHECK ALSO: IndexedStack.txt
+
+
       body: Stack(
         alignment: AlignmentDirectional.center,		// alignment: Alignment.center,
         // textDirection: TextDirection.rtl,	(ltr by default)

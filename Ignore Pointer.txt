@@ -1,0 +1,58 @@
+
+IgnorePointer is a Flutter widget that disables touch interactions for its child subtree.
+Think of it like: "This UI is visible, but the user cannot tap, scroll, or interact with it."
+
+--------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: IgnorePointerWidget()));
+  }
+}
+
+class IgnorePointerWidget extends StatefulWidget {
+  const IgnorePointerWidget({super.key});
+
+  @override
+  State<IgnorePointerWidget> createState() => _IgnorePointerWidgetState();
+}
+
+class _IgnorePointerWidgetState extends State<IgnorePointerWidget> {
+  bool ignore = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 10,
+      children: [
+        IgnorePointer(
+          ignoring: ignore,
+
+          child: ElevatedButton(
+            onPressed: () {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text('Button clicked!')));
+            },
+            child: const Text('Tap Me'),
+          ),
+        ),
+
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              ignore = !ignore;
+            });
+          },
+          child: Text(ignore ? 'Enable Tap' : 'Disable Tap'),
+        ),
+      ],
+    );
+  }
+}

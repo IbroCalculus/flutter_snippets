@@ -1,4 +1,6 @@
-CHECK ALSO: BottomNavigationBar2.txt (This uses the bottomAppBar widget)
+CHECK ALSO: BottomNavigationBar2.txt (Use this as a default template for your projects. Copy and paste)
+            BottomNavigationBar3.txt is for more insight, using IndexedStack(...) vs body: navPages[currentPageIndex]. IndexedStack is better.
+            
 CHECK ALSO: PersistentFootButton.txt
 
 NB: The best seem to be from flutter https://api.flutter.dev/flutter/material/NavigationBar-class.html. CHECK IT IN BottomNavigationBar3.txt
