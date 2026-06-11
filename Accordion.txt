@@ -1,1 +1,1 @@
-CHECK: Expansible.txt
+CHECK: Expansible.txt and ExpansionTile.txt

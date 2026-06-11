@@ -1,4 +1,17 @@
+
+CHECK ALSO: AppBar.txt
+
+
+PreferredSize is a Flutter layout widget used to explicitly tell a parent (usually an AppBar) how much space a widget wants to occupy.
+It does not change how a widget looks — it only communicates size preference to parent widgets that respect it.
+
+NB: By default, appbar height is 56.0. likewise the toolbar height. To change the height of the appBar, use PreferredSize.txt
+    appBar is the widget at the top. Toolbar is the content of the appBar. Check PreferredSize.txt for usage of Toolbar
+
 NB: The child can be any widget, not necessarily AppBar.
+
+
+-------------------------------------------------------------------
 
 appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),

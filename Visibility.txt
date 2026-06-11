@@ -1,0 +1,83 @@
+Visibility controls whether a widget is shown or hidden.
+
+
+--------------------------------------------------
+
+Visibility(
+  visible: isVisible,                        //   ( isVisible is boolean)
+  child: child,
+  replacement: const Text(                   // OPTIONAL (Shows when widget is hidden))
+            'Widget is hidden',
+          ),
+)
+
+
+--------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: VisibilityWidget())),
+    );
+  }
+}
+
+class VisibilityWidget extends StatefulWidget {
+  const VisibilityWidget({super.key});
+
+  @override
+  State<VisibilityWidget> createState() => _VisibilityWidgetState();
+}
+
+class _VisibilityWidgetState extends State<VisibilityWidget> {
+
+  bool isVisible = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 20,
+      children: [
+        Visibility(
+          visible: isVisible,
+          replacement: const Text(
+            'Widget is hidden',
+          ),
+          child: Container(
+            width: 200,
+            height: 120,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text(
+              'Hello Flutter!',
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+          ),
+        ),
+
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              isVisible = !isVisible;
+            });
+          },
+          child: Text(isVisible ? 'Hide Widget' : 'Show Widget'),
+        ),
+      ],
+    );
+  }
+}

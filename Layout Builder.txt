@@ -1,0 +1,87 @@
+
+CHECK ALSO: OrientationBuilder.txt
+
+NB ALSO: final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait; (To check orientation)
+
+
+
+Use LayoutBuilder to create responsive layouts. It is like the mediaQuery for flutter widgets. 
+It displays widgets based on the constraints given to it (ie width and height of the device).
+It rebuilds the widget tree when the constraints change. (ie from Landscape to Portrait)
+
+-------------------------------------------------
+
+LayoutBuilder(
+  builder: (context, constraints) {
+    if (constraints.maxWidth > 600) {
+      return Row(children: [LeftPanel(), RightPanel()]); // Tablet/Desktop
+    } else {
+      return Column(children: [TopPanel(), BottomPanel()]); // Mobile
+    }
+  },
+)
+
+
+
+-------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: LayoutBuilderWidget())),
+    );
+  }
+}
+
+class LayoutBuilderWidget extends StatelessWidget {
+  const LayoutBuilderWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+
+    var mediaQuery = MediaQuery.of(context);
+    var deviceWidth = mediaQuery.size.width;
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    print("Device width: $deviceWidth, In Portrait mode: $isPortrait");
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+
+        if (constraints.maxWidth > 600) {
+          return Container(
+            width: 300,
+            height: 150,
+            alignment: Alignment.center,
+            color: Colors.blue,
+            child: const Text(
+              'Tablet / Wide Screen',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          );
+        } else {
+          return Container(
+            width: 200,
+            height: 150,
+            alignment: Alignment.center,
+            color: Colors.green,
+            child: const Text(
+              'Mobile Screen',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          );
+        }
+      },
+    );
+  }
+}

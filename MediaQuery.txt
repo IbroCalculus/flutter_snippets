@@ -1,4 +1,9 @@
 
+CHECK ALSO: Layout Builder.txt (For responsive design)
+
+NB ALSO: final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait; (To check orientation)
+
+
   @override
   Widget build(BuildContext context) {
 

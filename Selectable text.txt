@@ -1,0 +1,36 @@
+SelectableText works like the normal Text widget, except that users can select, copy, and interact with the text.
+
+This is useful for displaying things like:
+    Email addresses
+    Promo codes
+    Error messages
+    Documentation
+    Quotes
+    Any text that users might want to copy
+
+----------------------------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: SelectableTextWidget())),
+    );
+  }
+}
+
+class SelectableTextWidget extends StatelessWidget {
+  const SelectableTextWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SelectableText(
+      'Long press or drag over this text to select and copy it.',
+      style: TextStyle(fontSize: 20),
+    );
+  }
+}

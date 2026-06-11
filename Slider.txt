@@ -1,0 +1,59 @@
+
+----------------------------------
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: SliderWidget())),
+    );
+  }
+}
+
+class SliderWidget extends StatefulWidget {
+  const SliderWidget({super.key});
+
+  @override
+  State<SliderWidget> createState() => _SliderWidgetState();
+}
+
+class _SliderWidgetState extends State<SliderWidget> {
+
+  double sliderValue = 50;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 20,
+        children: [
+          Text(
+            'Value: ${sliderValue.toStringAsFixed(0)}',
+            style: const TextStyle(fontSize: 24),
+          ),
+
+          Slider(
+            value: sliderValue,
+            min: 0,
+            max: 100,
+            divisions: 5,
+            label: sliderValue.toStringAsFixed(0),
+            activeColor: Colors.blue,
+            thumbColor: Colors.orange,
+            inactiveColor: Colors.grey,
+            onChanged: (value) {
+              setState(() {
+                sliderValue = value;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

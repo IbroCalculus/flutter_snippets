@@ -33,7 +33,9 @@ Stream<int> numberStream = Stream<int>.periodic(
 );
 
 
+
 // A simple custom StreamBuilder widget
+
 class StreamBuilderDemo extends StatelessWidget {
   const StreamBuilderDemo({super.key});
 
@@ -53,7 +55,7 @@ class StreamBuilderDemo extends StatelessWidget {
   }
 }
 
-NB: Add necessary else if statements to handle other connection states like done below for FutureBuilder example. Ask AI
+NB: Add necessary else if statements to handle other connection states like; waiting and done, similar to FutureBuilder example. Ask AI
 
 
 

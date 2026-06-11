@@ -1,0 +1,59 @@
+OrientationBuilder is used to build different UI layouts depending on device orientation:
+Portrait (vertical phone)
+Landscape (horizontal phone/tablet)
+
+It is a specialized version of LayoutBuilder, but instead of size constraints, it reacts to screen orientation changes.
+
+---------------------------------------------------------------------
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: OrientationBuilderWidget())),
+    );
+  }
+}
+
+class OrientationBuilderWidget extends StatelessWidget {
+  const OrientationBuilderWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        if (orientation == Orientation.portrait) {
+          return Container(
+            width: 200,
+            height: 200,
+            color: Colors.blue,
+            alignment: Alignment.center,
+            child: const Text(
+              'Portrait Mode',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          );
+        } else {
+          return Container(
+            width: 300,
+            height: 150,
+            color: Colors.green,
+            alignment: Alignment.center,
+            child: const Text(
+              'Landscape Mode',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          );
+        }
+      },
+    );
+  }
+}

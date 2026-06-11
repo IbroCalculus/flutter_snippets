@@ -1,0 +1,66 @@
+RadioListTile combines a Radio button and a ListTile into a single widget.
+It is useful when you want users to select one option from a list, such as choosing a gender, payment method, theme, or language.
+
+----------------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: SafeArea(child: RadioListTileWidget()));
+  }
+}
+
+class RadioListTileWidget extends StatefulWidget {
+  const RadioListTileWidget({super.key});
+
+  @override
+  State<RadioListTileWidget> createState() => _RadioListTileWidgetState();
+}
+
+class _RadioListTileWidgetState extends State<RadioListTileWidget> {
+  String selectedFruit = 'Apple';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      spacing: 20,
+      children: [
+
+        // Wrap your related buttons with a RadioGroup
+        RadioGroup<String>(
+          groupValue: selectedFruit,
+          onChanged: (value) {
+            setState(() {
+              selectedFruit = value!;
+            });
+          },
+          child: const Column(
+            children: [
+              RadioListTile<String>(
+                title: Text('Apple'),
+                subtitle: Text('A sweet red fruit'),
+                value: 'Apple',
+              ),
+              RadioListTile<String>(
+                title: Text('Banana'),
+                subtitle: Text('A long yellow fruit'),
+                value: 'Banana',
+              ),
+              RadioListTile<String>(
+                title: Text('Orange'),
+                subtitle: Text('A juicy citrus fruit'),
+                value: 'Orange',
+              ),
+            ],
+          ),
+        ),
+
+        Text('Selected: $selectedFruit', style: const TextStyle(fontSize: 18)),
+      ],
+    );
+  }
+}

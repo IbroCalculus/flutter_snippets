@@ -1,0 +1,139 @@
+
+CHECK ALSO Expansible.txt  (This example also contains Expansible for easy comparison between the two.)
+
+Same as accordion in web
+
+-------------------------------------------------
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: ExpansionTileWidget())),
+    );
+  }
+}
+
+class ExpansionTileWidget extends StatefulWidget {
+  const ExpansionTileWidget({super.key});
+
+  @override
+  State<ExpansionTileWidget> createState() => _ExpansionTileWidgetState();
+}
+
+class _ExpansionTileWidgetState extends State<ExpansionTileWidget> {
+    
+  final ExpansibleController _controller = ExpansibleController();       // This and the @override void dispose() are used for the Expansible
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // ─────────────────────────────
+        // 1. EXPANSION TILE (BUILT-IN)
+        // ─────────────────────────────
+        const Padding(
+          padding: EdgeInsets.all(16),
+          child: ExpansionTile(
+            title: Text('What is Flutter?'),
+            subtitle: Text('Tap to expand'),
+            children: [
+              Padding(
+                padding: EdgeInsets.all(12),
+                child: Text(
+                  'Flutter is an open-source UI toolkit '
+                  'for building natively compiled applications '
+                  'for mobile, web, and desktop from a single codebase.',
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // ─────────────────────────────
+        // 2. EXPANSION TILE (WITH ICON CONTROL)
+        // ─────────────────────────────
+        ExpansionTile(
+          leading: const Icon(Icons.security),
+          trailing: const Icon(Icons.arrow_drop_down),
+          title: const Text('Privacy'),
+          children: [
+            ListTile(title: const Text('Change password'), onTap: () {}),
+            ListTile(
+              title: const Text('Two-factor authentication'),
+              onTap: () {},
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 20),
+
+        // ─────────────────────────────
+        // 3. EXPANSIBLE (CONTROLLER-BASED)
+        // ─────────────────────────────
+        Expansible(
+          controller: _controller,
+          headerBuilder: (context, animation) {
+            return InkWell(
+              onTap: () {
+                _controller.isExpanded
+                    ? _controller.collapse()
+                    : _controller.expand();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                color: Colors.deepPurple,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'What is Expansible?',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    RotationTransition(
+                      turns: Tween<double>(
+                        begin: 0,
+                        end: 0.5,
+                      ).animate(animation),
+                      child: const Icon(Icons.expand_more, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+
+          bodyBuilder: (context, animation) {
+            return SizeTransition(
+              sizeFactor: animation,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                color: Colors.deepPurple.shade50,
+                child: const Text(
+                  'This is a controller-driven expandable widget.\n'
+                  'It gives full control over animation and state.',
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+

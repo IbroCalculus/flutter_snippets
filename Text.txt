@@ -1,4 +1,7 @@
 
+CHECK ALSO: Selectable text.txt - This allows highlighting and copy text, which Text() widget does not support.
+
+
             // fontWeight: FontWeight.bold,
             fontWeight: FontWeight.w100,
 

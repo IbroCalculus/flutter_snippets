@@ -1,3 +1,6 @@
+
+Similarly, CHECK: TabPageSelector.txt. It selects with indicators
+
 ===================== USING DefaultTabController ===========================
 
 NB: This also enables swiping  between tabs

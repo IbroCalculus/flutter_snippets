@@ -1,0 +1,76 @@
+The Stepper widget is useful when you want to guide users through a sequence of steps, such as registration forms, checkout processes, or setup wizards.
+A Stepper typically needs to keep track of the current step, so it's usually implemented as a StatefulWidget.
+
+
+-------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: SafeArea(child: StepperWidget()));
+  }
+}
+
+class StepperWidget extends StatefulWidget {
+  const StepperWidget({super.key});
+
+  @override
+  State<StepperWidget> createState() => _StepperWidgetState();
+}
+
+class _StepperWidgetState extends State<StepperWidget> {
+
+  int currentStep = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stepper(
+      type: StepperType.horizontal,         // Default is vertical
+      currentStep: currentStep,
+
+      onStepContinue: () {
+        if (currentStep < 2) {
+          setState(() {
+            currentStep++;
+          });
+        }
+      },
+
+      onStepCancel: () {
+        if (currentStep > 0) {
+          setState(() {
+            currentStep--;
+          });
+        }
+      },
+
+      onStepTapped: (step) {
+        setState(() {
+          currentStep = step;
+        });
+      },
+      
+      steps: const [
+        Step(
+          title: Text('Account'),
+          content: Text('Create your account information.'),
+          isActive: true,
+        ),
+        Step(
+          title: Text('Address'),
+          content: Text('Enter your address details.'),
+          isActive: true,
+        ),
+        Step(
+          title: Text('Confirm'),
+          content: Text('Review and submit.'),
+          isActive: true,
+        ),
+      ],
+    );
+  }
+}

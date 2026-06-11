@@ -1,0 +1,69 @@
+AnimatedOpacity is used when you want a widget to fade in or fade out smoothly by animating its opacity value.
+
+----------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: AnimatedOpacityWidget()));
+  }
+}
+
+class AnimatedOpacityWidget extends StatefulWidget {
+  const AnimatedOpacityWidget({super.key});
+
+  @override
+  State<AnimatedOpacityWidget> createState() => _AnimatedOpacityWidgetState();
+}
+
+class _AnimatedOpacityWidgetState extends State<AnimatedOpacityWidget> {
+
+  bool isVisible = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 20,
+      children: [
+
+        AnimatedOpacity(
+          opacity: isVisible ? 1.0 : 0.0,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeInOut,
+          child: Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            alignment: Alignment.center,
+            child: const Text(
+              'Flutter',
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            ),
+          ),
+        ),
+
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              isVisible = !isVisible;
+            });
+          },
+          child: Text(isVisible ? 'Fade Out' : 'Fade In'),
+        ),
+      ],
+    );
+  }
+}

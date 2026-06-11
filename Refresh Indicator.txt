@@ -1,4 +1,9 @@
 
+RefreshIndicator provides the familiar pull-to-refresh behavior that you see in many mobile apps.
+When the user drags the list downward from the top, a loading indicator appears and an asynchronous callback is executed.
+Since the data changes after refreshing, it is usually implemented as a StatefulWidget.
+
+--------------------------------------------------------------
 
       body: RefreshIndicator(
         color: Colors.white,
@@ -10,44 +15,63 @@
 
           });
         },
+        child: ListView.builder(
+          itemCount: 20,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text("Item $index"),
+            );
+          },
+        ),
+
 )
 
 
 ============================================================
 
-class RefreshDemo extends StatefulWidget {
-  const RefreshDemo({super.key});
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
 
   @override
-  _RefreshDemoState createState() => _RefreshDemoState();
+  Widget build(BuildContext context) {
+    return const Scaffold(body: SafeArea(child: RefreshIndicatorWidget()));
+  }
 }
 
-class _RefreshDemoState extends State<RefreshDemo> {
-  List<String> items = List.generate(20, (index) => "Item $index");
+class RefreshIndicatorWidget extends StatefulWidget {
+  const RefreshIndicatorWidget({super.key});
 
-  Future<void> _refresh() async {
+  @override
+  State<RefreshIndicatorWidget> createState() => _RefreshIndicatorWidgetState();
+}
+
+class _RefreshIndicatorWidgetState extends State<RefreshIndicatorWidget> {
+
+  List<String> items = List.generate(10, (index) => 'Item ${index + 1}');
+
+  Future<void> refreshItems() async {
+    // Simulate a network request
     await Future.delayed(const Duration(seconds: 2));
+
     setState(() {
-      items = List.generate(20, (index) => "Refreshed Item $index");
+      items = List.generate(10, (index) => 'Refreshed Item ${index + 1}');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Pull to Refresh Demo"),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(items[index]),
-            );
-          },
-        ),
+    return RefreshIndicator(
+      onRefresh: refreshItems,
+      child: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: CircleAvatar(child: Text('${index + 1}')),
+            title: Text(items[index]),
+          );
+        },
       ),
     );
   }

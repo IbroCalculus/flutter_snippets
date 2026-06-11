@@ -1,0 +1,49 @@
+
+RotatedBox rotates its child by 90-degree increments during the layout phase.
+This is different from Transform.rotate, which rotates during the painting phase.
+Use RotatedBox when you want the rotated widget to take up the correct amount of space in the layout.
+
+Quarter turns values
+0	0°
+1	90° clockwise
+2	180°
+3	270° clockwise
+4	360° (same as 0°)
+
+-------------------------------------------------
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: RotatedBoxWidget())),
+    );
+  }
+}
+
+class RotatedBoxWidget extends StatelessWidget {
+  const RotatedBoxWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return RotatedBox(
+      quarterTurns: 1,
+      child: Container(
+        width: 150,
+        height: 80,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Text(
+          'Flutter',
+          style: TextStyle(color: Colors.white, fontSize: 24),
+        ),
+      ),
+    );
+  }
+}

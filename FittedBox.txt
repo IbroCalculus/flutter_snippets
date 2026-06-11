@@ -1,0 +1,44 @@
+
+FittedBox is a layout widget that scales and positions its child to fit within the available space.
+Think of it as: "Shrink or grow this widget so it fits inside its parent without overflow."
+
+It is commonly used when:
+    Text is too large for a container
+    You want icons or images to scale responsively
+    You want to avoid overflow errors without manually calculating sizes
+
+----------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(child: Center(child: FittedBoxWidget())),
+    );
+  }
+}
+
+class FittedBoxWidget extends StatelessWidget {
+  const FittedBoxWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 200,
+      height: 80,
+      color: Colors.blue,
+      child: const FittedBox(
+        child: Text('Hello Flutter FittedBox', style: TextStyle(fontSize: 30)),
+      ),
+    );
+  }
+}
