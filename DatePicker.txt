@@ -1,1 +1,85 @@
-CHECK: Form Builder4 - DateRangePicker.txt
+CHECK ALSO: DateTimePicker.txt
+CHECK ALSO: DateRangePicker.txt
+
+CHECK ALSO: Form Builder4 - DateRangePicker.txt
+
+----------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: DatePickerWidget(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// ----------------------------- DatePickerWidget -----------------------------
+
+
+class DatePickerWidget extends StatefulWidget {
+  const DatePickerWidget({super.key});
+
+  @override
+  State<DatePickerWidget> createState() => _DatePickerWidgetState();
+}
+
+class _DatePickerWidgetState extends State<DatePickerWidget> {
+  DateTime? selectedDate;
+
+  Future<void> pickDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton.icon(
+          onPressed: pickDate,
+          icon: const Icon(Icons.calendar_month),
+          label: const Text("Pick Date"),
+        ),
+
+        const SizedBox(height: 20),
+
+        Text(
+          selectedDate == null
+              ? "No date selected"
+              : "Selected: ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
+    );
+  }
+}
+

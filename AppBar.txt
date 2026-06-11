@@ -1,4 +1,11 @@
+
+CHECK ALSO: PreferredSize.txt: This is used to set the size of the appBar.
+
 NB: Check Popup Menu.txt if desire to add a popup menu to the appBar (Collapsed menu items, as is referred to in android).
+
+
+NB: By default, appbar height is 56.0. likewise the toolbar height. To change the height of the appBar, use PreferredSize.txt
+    appBar is the widget at the top. Toolbar is the content of the appBar. Check PreferredSize.txt for usage of Toolbar
 
     return MaterialApp(
         home: Scaffold(

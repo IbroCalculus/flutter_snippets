@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: AnimatedContainerWidget(),
+            // child: AnimatedCounterWidget(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// ----------------------- Animated Container Widget --------------------------
+
+
+class AnimatedContainerWidget extends StatefulWidget {
+  const AnimatedContainerWidget({super.key});
+
+  @override
+  State<AnimatedContainerWidget> createState() =>
+      _AnimatedContainerWidgetState();
+}
+
+class _AnimatedContainerWidgetState extends State<AnimatedContainerWidget> {
+  bool toggled = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          toggled = !toggled;
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+
+        width: toggled ? 200 : 120,
+        height: toggled ? 200 : 120,
+
+        decoration: BoxDecoration(
+          color: toggled ? Colors.blue : Colors.red,
+          borderRadius: BorderRadius.circular(toggled ? 40 : 10),
+        ),
+
+        child: const Center(
+          child: Text(
+            "Tap Me",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// ----------------------- Animated Counter ------------------------
+
+class AnimatedCounterWidget extends StatefulWidget {
+  const AnimatedCounterWidget({super.key});
+
+  @override
+  State<AnimatedCounterWidget> createState() => _AnimatedCounterWidgetState();
+}
+
+class _AnimatedCounterWidgetState extends State<AnimatedCounterWidget> {
+  int count = 0;
+
+  void increment() {
+    setState(() {
+      count++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      count--;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 350),
+          transitionBuilder: (child, animation) {
+            return ScaleTransition(
+              scale: animation,
+              child: FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+            );
+          },
+          child: Text(
+            "$count",
+            key: ValueKey(count),
+            style: const TextStyle(
+              fontSize: 60,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FloatingActionButton(
+              heroTag: "minus",
+              onPressed: decrement,
+              child: const Icon(Icons.remove),
+            ),
+            const SizedBox(width: 15),
+            FloatingActionButton(
+              heroTag: "plus",
+              onPressed: increment,
+              child: const Icon(Icons.add),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

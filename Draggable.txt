@@ -1,0 +1,99 @@
+------------- draggble_widget.dart -----------------
+NB: You can simple paste this code and call in main.dart file (home: DraggableWidget(),) and observe.
+
+
+import 'package:flutter/material.dart';
+
+class DraggableWidget extends StatefulWidget {
+  const DraggableWidget({super.key});
+
+  @override
+  State<DraggableWidget> createState() => _DraggableWidgetState();
+}
+
+class _DraggableWidgetState extends State<DraggableWidget> {
+
+  Offset _offset = Offset(50, 50); // Initial position
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(),
+
+
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              Container(                            // This is just another widget to make the stack. 
+                color: Colors.green,
+              ),
+              
+              Positioned(                           // this is the widget that will be draggable.
+                left: _offset.dx,
+                top: _offset.dy,
+                child: LongPressDraggable(
+      
+                  // What the user sees while dragging
+                  feedback: Material(
+                    elevation: 4.0,
+                    shape: CircleBorder(),
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.blue[300],
+                    ),
+                  ),
+      
+                  // What's shown at original position while dragging
+                  childWhenDragging: Opacity(
+                    opacity: 0.3,
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.green,
+                    ),
+                  ),
+      
+                  // The actual widget
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    color: Colors.red,
+                    child: Center(
+                      child: Text('Hold & Drag', style: TextStyle(color: Colors.white, fontSize: 14.0, )),
+                    ),
+                  ),
+      
+                  // Callback when dragging ends
+                  onDragEnd: (details) {
+                    // Convert global offset to local Stack coordinates
+                    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+                    final localOffset = renderBox.globalToLocal(details.offset);
+      
+                    setState(() {
+                      // Center the widget on the finger (feedback is 40x40, so subtract half)
+                      _offset = Offset(
+                        localOffset.dx - 20, // 20 = feedback radius
+                        localOffset.dy - 20,
+                      );
+      
+                      // Optional: Clamp to stay within bounds
+                      _offset = Offset(
+                        _offset.dx.clamp(0, constraints.maxWidth - 100),
+                        _offset.dy.clamp(0, constraints.maxHeight - 100),
+                      );
+                    });
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+
+
+    );
+
+  }
+}

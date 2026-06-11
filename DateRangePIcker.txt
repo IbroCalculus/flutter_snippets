@@ -1,0 +1,85 @@
+
+----------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: DateRangePickerWidget(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// ----------------------------- DateRangePickerWidget -----------------------------
+
+class DateRangePickerWidget extends StatefulWidget {
+  const DateRangePickerWidget({super.key});
+
+  @override
+  State<DateRangePickerWidget> createState() => _DateRangePickerWidgetState();
+}
+
+class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
+  DateTimeRange? selectedRange;
+
+  Future<void> pickDateRange() async {
+    final DateTimeRange? picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      initialDateRange: selectedRange ??
+          DateTimeRange(
+            start: DateTime.now(),
+            end: DateTime.now().add(const Duration(days: 3)),
+          ),
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedRange = picked;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton.icon(
+          onPressed: pickDateRange,
+          icon: const Icon(Icons.date_range),
+          label: const Text("Pick Date Range"),
+        ),
+
+        const SizedBox(height: 20),
+
+        Text(
+          selectedRange == null
+              ? "No range selected"
+              : "Start: ${selectedRange!.start.day}/${selectedRange!.start.month}/${selectedRange!.start.year}\n"
+              "End: ${selectedRange!.end.day}/${selectedRange!.end.month}/${selectedRange!.end.year}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
+    );
+  }
+}

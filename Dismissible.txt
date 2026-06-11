@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: DismissibleWidget(),
+        ),
+      ),
+    );
+  }
+}
+
+
+// ------------------- Dismissible Widget --------------------
+
+class DismissibleWidget extends StatefulWidget {
+  const DismissibleWidget({super.key});
+
+  @override
+  State<DismissibleWidget> createState() => _DismissibleWidgetState();
+}
+
+class _DismissibleWidgetState extends State<DismissibleWidget> {
+
+  List<String> items = ["Item 1", "Item 2", "Item 3", "Item 4"];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+
+        return Dismissible(
+          key: ValueKey(item), // 🔥 must be unique
+          direction: DismissDirection.endToStart,
+
+          background: Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 20),
+            color: Colors.red,
+            child: const Icon(Icons.delete, color: Colors.white),
+          ),
+
+          onDismissed: (direction) {
+            setState(() {
+              items.removeAt(index);
+            });
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("$item dismissed")),
+            );
+          },
+
+          child: Card(
+            child: ListTile(
+              title: Text(item),
+              leading: const Icon(Icons.drag_handle),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

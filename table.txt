@@ -1,0 +1,189 @@
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: TableWidgetView(),
+          // child: DataTableWidgetView(),
+        ),
+      ),
+    );
+  }
+}
+
+
+// -------------------------------- Table --------------------------------
+
+class TableWidgetView extends StatelessWidget {
+  const TableWidgetView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Table(
+      border: TableBorder.all(
+        color: Colors.black,
+        width: 1,
+      ),
+
+      // Controls the width of each column
+      columnWidths: const {
+        0: FixedColumnWidth(60),    // fixed width column
+        1: FlexColumnWidth(),       // takes up all the remaining space
+        2: IntrinsicColumnWidth(),  // sizes itself based on its content.
+      },
+
+      // Controls the vertical alignment of cells
+      defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+
+      children: const [
+        // Header Row
+        TableRow(
+          decoration: BoxDecoration(
+            color: Colors.grey,
+          ),
+          children: [
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text(
+                'ID',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text(
+                'Name',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text(
+                'Age',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+
+        // Row 1
+        TableRow(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('1'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('Ibrahim'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('17'),
+            ),
+          ],
+        ),
+
+        // Row 2
+        TableRow(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('2'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('Aisha'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('21'),
+            ),
+          ],
+        ),
+
+        // Row 3
+        TableRow(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('3'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('David'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('19'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+
+// -------------------------------- Datatable (Basic, use AI to enhance. ie; pagination etc) --------------------------------
+
+class DataTableWidgetView extends StatelessWidget {
+  const DataTableWidgetView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: DataTable(
+        border: TableBorder.all(color: Colors.black12),
+
+        columns: const [
+          DataColumn(label: Text('ID')),
+          DataColumn(label: Text('Name')),
+          DataColumn(label: Text('Age')),
+          DataColumn(label: Text('Role')),
+        ],
+
+        rows: const [
+          DataRow(
+            cells: [
+              DataCell(Text('1')),
+              DataCell(Text('Ibrahim')),
+              DataCell(Text('17')),
+              DataCell(Text('Developer')),
+            ],
+          ),
+          DataRow(
+            cells: [
+              DataCell(Text('2')),
+              DataCell(Text('Aisha')),
+              DataCell(Text('21')),
+              DataCell(Text('Designer')),
+            ],
+          ),
+          DataRow(
+            cells: [
+              DataCell(Text('3')),
+              DataCell(Text('David')),
+              DataCell(Text('19')),
+              DataCell(Text('Student')),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+

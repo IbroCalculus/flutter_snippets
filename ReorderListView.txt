@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+
+  List<int> items = List.generate(30, (index) => index);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        
+        child: ReorderableListView(
+          scrollDirection: Axis.vertical,
+          children: List.generate(items.length, (index) {
+            return ListTile(
+                key: Key('$index'),
+                tileColor: items[index].isOdd ? Colors.blue : Colors.green,
+                title: Text("Item ${items[index] + 1}"),
+                trailing: const Icon(Icons.drag_handle),
+            );
+          },
+          ),
+          onReorderItem: (oldIndex, newIndex) {
+            setState(() {
+              if (oldIndex < newIndex) {
+                newIndex -= 1;
+              }
+              final item = items.removeAt(oldIndex);
+              items.insert(newIndex, item);
+            });
+          },
+        ),
+
+      ),
+    );
+  }
+}

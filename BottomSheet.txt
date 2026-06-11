@@ -1,3 +1,6 @@
+CHECK ALSO: MaterialBanner.txt
+CHECK ALSO: DraggableScrollableSheet.txt
+
 
 NB: StatefulBuilder used in the example 2 below. This is used to control the state of the bottom sheet, different from the state of the widget.
     CHECK: StatefulBuilder.txt for more on that.

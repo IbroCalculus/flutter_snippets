@@ -1,41 +1,57 @@
----------- Created as a widget -----------
+A widget that shows a small dropdown menu when you tap it, usually used in the AppBar or as a trailing icon.
+It can be used anywhere, not only in the AppBar.
 
-  Widget buildPopupMenuButton() {
-    return PopupMenuButton<String>(
-      onSelected: (String choice) {
-        // Handle the choice selected from the popup menu
-        if (choice == 'Option 1') {
-          // Perform action for Option 1
-          print('Option 1 selected');
-          Fluttertoast.showToast(msg: "Option 1 selected");
-        } else if (choice == 'Option 2') {
-          // Perform action for Option 2
-          print('Option 2 selected');
-          Fluttertoast.showToast(msg: "Option 2 selected");
-        }
-      },
-      itemBuilder: (BuildContext context) {
-        return <PopupMenuEntry<String>>[
-          PopupMenuItem<String>(
-            value: 'Option 1',
-            child: Text('Option 1'),
-          ),
-          PopupMenuItem<String>(
-            value: 'Option 2',
-            child: Text('Option 2'),
-          ),
-        ];
-      },
+----------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatelessWidget {
+  const DemoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Popup Menu Example'),
+        actions: [
+          IconButton(onPressed: (){}, icon: const Icon(Icons.person)),
+          const PopUpMenuButtonWidget(),                                  // USED HERE AS WELL
+        ],
+      ),
+      body: const SafeArea(
+        child: Center(child: PopUpMenuButtonWidget()),                    // USED HERE AS WELL
+      ),
     );
   }
+}
 
+class PopUpMenuButtonWidget extends StatelessWidget {
+  const PopUpMenuButtonWidget({super.key});
 
-------- Use within appBar (It can be used anywhere, not only within appBar) -------
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      onSelected: (value) {
+        // Handle selection
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('You selected: $value')),
+        );
+      },
 
-      appBar: AppBar(
-        title: Text("Testing Activity!"),
-        actions: [buildPopupMenuButton()],
-      ),
-
-
-- To Use within the Scaffold body, just call the method buildPopupMenuButton().
+      itemBuilder: (context) => const [
+        PopupMenuItem(
+          value: 'profile',
+          child: Text('Profile'),
+        ),
+        PopupMenuItem(
+          value: 'settings',
+          child: Text('Settings'),
+        ),
+        PopupMenuItem(
+          value: 'logout',
+          child: Text('Logout'),
+        ),
+      ],
+    );
+  }
+}

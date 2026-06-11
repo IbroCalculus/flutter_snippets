@@ -1,3 +1,7 @@
+
+CHECK ALSO: animations / Animated Container.txt
+
+
 Container can contain multiple widgets. Similar to DIV in HTML
 
 - Contents within the widget can be aligned. CHECK: Alignment.txt

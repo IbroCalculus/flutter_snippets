@@ -6,7 +6,7 @@ CHECK ALSO: File Downloader.txt
 
 NB:
 
-FadeImage is used to show a placeholder image while an image is loading from the internet.
+FadeInImage is used to show a placeholder image while an image is loading from the internet.
 
             FadeInImage(
               placeholder: const AssetImage('assets/images/shoes_4.png'),

@@ -1,0 +1,100 @@
+Flutter does not have a built-in single showDateTimePicker(). 
+So a DateTime picker is built by combining showDatePicker() and showTimePicker(). Then you merge both into one DateTime.
+
+---------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: DateTimePickerWidget(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// ----------------------------- DateTimePickerWidget -----------------------------
+
+class DateTimePickerWidget extends StatefulWidget {
+  const DateTimePickerWidget({super.key});
+
+  @override
+  State<DateTimePickerWidget> createState() => _DateTimePickerWidgetState();
+}
+
+class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
+  DateTime? selectedDateTime;
+
+  Future<void> pickDateTime() async {
+    // 1. Pick Date
+    final DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (date == null) return;
+
+    // 2. Pick Time
+    final TimeOfDay? time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (time == null) return;
+
+    // 3. Combine Date + Time
+    final DateTime combinedDateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+
+    setState(() {
+      selectedDateTime = combinedDateTime;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton.icon(
+          onPressed: pickDateTime,
+          icon: const Icon(Icons.event),
+          label: const Text("Pick Date & Time"),
+        ),
+
+        const SizedBox(height: 20),
+
+        Text(
+          selectedDateTime == null
+              ? "No date & time selected"
+              : "Selected: ${selectedDateTime.toString()}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
+    );
+  }
+}

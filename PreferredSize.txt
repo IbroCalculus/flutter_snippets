@@ -1,0 +1,13 @@
+NB: The child can be any widget, not necessarily AppBar.
+
+appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100),
+        child: AppBar(
+          backgroundColor: Colors.deepPurple,
+          foregroundColor: Colors.white, // Color for title and icons
+          elevation: 0,
+          toolbarHeight: 20,
+          centerTitle: false,
+          title: const Text('PreferredSize Example',),
+        ),
+      ),

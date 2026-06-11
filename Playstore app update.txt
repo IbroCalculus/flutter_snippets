@@ -27,6 +27,20 @@ CHECK: Release to playstore.txt
         body: SingleChildScrollView( ...
 
 
+----------------- E.g: in main.dart -----------------
+
+    return MaterialApp(
+      title: 'RatePulse',
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: themeMode,
+      home: UpgradeAlert(
+              child: const HomePage(),
+            ),
+    )
+
+
 ------- Checking for updates with ie a button click ------------
 
 void checkForUpdates() async {

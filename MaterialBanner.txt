@@ -1,0 +1,28 @@
+This is like bottom sheet, but from the top.
+
+
+  void _showMaterialBanner() {
+
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      MaterialBanner(
+        padding: EdgeInsets.all(16),
+        content: Text("Subscribe"),
+        leading: Icon(Icons.info),
+        elevation: 5,
+        forceActionsBelow: false,
+        backgroundColor: Colors.blue,
+        actions: [
+          TextButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+            },
+            child: Text("DISMISS"),
+          ),
+        ],
+      ),
+    );
+    
+  }
+
+
+  

@@ -1,0 +1,91 @@
+For zooming and panning, we use the InteractiveViewer widget 
+
+-----------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(child: InteractiveWidget()),
+        // child: InteractiveWidget2(),
+      ),
+    );
+  }
+}
+
+
+class InteractiveWidget extends StatelessWidget {
+  const InteractiveWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return InteractiveViewer(
+      boundaryMargin: const EdgeInsets.all(10),
+      minScale: 0.5,
+      maxScale: 4,
+
+      onInteractionStart: (details) {
+        print("Interaction Started");
+      },
+      onInteractionUpdate: (details) {
+        print("Scale: ${details.scale}");
+        print("Focal point: ${details.focalPoint}");
+        print("Local focal point: ${details.localFocalPoint}");
+      },
+      onInteractionEnd: ((details) {
+        print("Interaction Ended");
+      }),
+
+      child: Container(         // The child can be any widget
+        decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 2)),
+        width: 300,
+        height: 300,
+        child: Image.network(
+          "https://picsum.photos/600",
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+
+  }
+}
+
+
+class InteractiveWidget2 extends StatelessWidget {
+  const InteractiveWidget2({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InteractiveViewer(
+      boundaryMargin: const EdgeInsets.all(100),
+      minScale: 0.5,
+      maxScale: 4.0,
+      child: Center(
+        child: Container(
+          width: 300,
+          height: 300,
+          color: Colors.blue,
+          child: const Center(
+            child: Text(
+              "Pinch & Drag Me",
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

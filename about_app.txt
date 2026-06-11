@@ -1,0 +1,50 @@
+
+----------------- Using showAboutDialog -------------------
+
+void _showAboutDialog() {
+    showAboutDialog(
+      context: context,
+      applicationIcon: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image.asset(
+          'assets/icon/icon.jpg',                               // Remember to register in pubspec.yaml
+          width: 48,
+          height: 48,
+        ),
+        // child: CircleAvatar(radius: 20),),
+      ),
+      // applicationIcon: FlutterLogo(),
+      applicationName: "Flutter Demo",
+      applicationVersion: "1.0.0",
+      applicationLegalese: "© 2021 <NAME>",
+      children: [
+        Text("This is a demo app for Flutter."),Text("Line 2"), Text("Line 3")
+      ],
+    );
+  }
+
+
+----------------- Use AboutListTile -------------------
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          
+          child: AboutListTile(            
+            icon: Icon(Icons.info),
+            applicationIcon: FlutterLogo(),
+            applicationName: "Flutter Demo",
+            applicationVersion: "1.0.0",
+            applicationLegalese: "© 2026 <NAME>",
+            aboutBoxChildren: [Text("This is a demo app for Flutter."), Text("Line 2"), Text("Line 3")],
+          ),
+          
+        ),
+      ),
+    );
+  }
+}
+

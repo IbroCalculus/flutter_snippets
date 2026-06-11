@@ -1,0 +1,95 @@
+Flutter does not provide a built-in showTimeRangePicker(), unlike showDateRangePicker().
+So a Time Range Picker is custom-built by combining showTimePicker() (start time) and showTimePicker() (end time)
+Then storing both in a single model.
+
+----------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: TimeRangePickerWidget(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+// ----------------------------- TimeRangePickerWidget -----------------------------
+
+class TimeRangePickerWidget extends StatefulWidget {
+  const TimeRangePickerWidget({super.key});
+
+  @override
+  State<TimeRangePickerWidget> createState() => _TimeRangePickerWidgetState();
+}
+
+class _TimeRangePickerWidgetState extends State<TimeRangePickerWidget> {
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+
+  Future<void> pickTimeRange() async {
+    // 1. Pick Start Time
+    final TimeOfDay? pickedStart = await showTimePicker(
+      context: context,
+      initialTime: startTime ?? TimeOfDay.now(),
+    );
+
+    if (pickedStart == null) return;
+
+    // 2. Pick End Time
+    final TimeOfDay? pickedEnd = await showTimePicker(
+      context: context,
+      initialTime: endTime ?? pickedStart,
+    );
+
+    if (pickedEnd == null) return;
+
+    setState(() {
+      startTime = pickedStart;
+      endTime = pickedEnd;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton.icon(
+          onPressed: pickTimeRange,
+          icon: const Icon(Icons.schedule),
+          label: const Text("Pick Time Range"),
+        ),
+
+        const SizedBox(height: 20),
+
+        Text(
+          (startTime == null || endTime == null)
+              ? "No time range selected"
+              : "Start: ${startTime!.format(context)}\n"
+              "End: ${endTime!.format(context)}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
+    );
+  }
+}

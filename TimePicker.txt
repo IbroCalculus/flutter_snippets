@@ -1,1 +1,83 @@
-CHECK: Form Builder4 - DateRangePicker.txt
+CHECK ALSO: DateTimePicker.txt
+CHECK ALSO: TimeRangePicker.txt
+
+CHECK ALSO:: Form Builder4 - DateRangePicker.txt
+----------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: TimePickerWidget(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+// ----------------------------- TimePickerWidget -----------------------------
+
+
+class TimePickerWidget extends StatefulWidget {
+  const TimePickerWidget({super.key});
+
+  @override
+  State<TimePickerWidget> createState() => _TimePickerWidgetState();
+}
+
+class _TimePickerWidgetState extends State<TimePickerWidget> {
+  TimeOfDay? selectedTime;
+
+  Future<void> pickTime() async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedTime = picked;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton.icon(
+          onPressed: pickTime,
+          icon: const Icon(Icons.access_time),
+          label: const Text("Pick Time"),
+        ),
+
+        const SizedBox(height: 20),
+
+        Text(
+          selectedTime == null
+              ? "No time selected"
+              : "Selected: ${selectedTime!.format(context)}",
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
+    );
+  }
+}

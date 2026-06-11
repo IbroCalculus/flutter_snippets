@@ -1,0 +1,126 @@
+
+
+---------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: DateTimeRangePickerWidget(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+// ----------------------------- DateTimeRangePickerWidget -----------------------------
+
+class DateTimeRangePickerWidget extends StatefulWidget {
+  const DateTimeRangePickerWidget({super.key});
+
+  @override
+  State<DateTimeRangePickerWidget> createState() =>
+      _DateTimeRangePickerWidgetState();
+}
+
+class _DateTimeRangePickerWidgetState extends State<DateTimeRangePickerWidget> {
+  DateTime? startDateTime;
+  DateTime? endDateTime;
+
+  Future<void> pickDateTimeRange() async {
+    // 1. Pick START DATE
+    final startDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (startDate == null) return;
+
+    // 2. Pick START TIME
+    final startTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (startTime == null) return;
+
+    final start = DateTime(
+      startDate.year,
+      startDate.month,
+      startDate.day,
+      startTime.hour,
+      startTime.minute,
+    );
+
+    // 3. Pick END DATE
+    final endDate = await showDatePicker(
+      context: context,
+      initialDate: startDate,
+      firstDate: startDate,
+      lastDate: DateTime(2100),
+    );
+
+    if (endDate == null) return;
+
+    // 4. Pick END TIME
+    final endTime = await showTimePicker(
+      context: context,
+      initialTime: startTime,
+    );
+
+    if (endTime == null) return;
+
+    final end = DateTime(
+      endDate.year,
+      endDate.month,
+      endDate.day,
+      endTime.hour,
+      endTime.minute,
+    );
+
+    setState(() {
+      startDateTime = start;
+      endDateTime = end;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton.icon(
+          onPressed: pickDateTimeRange,
+          icon: const Icon(Icons.date_range),
+          label: const Text("Pick DateTime Range"),
+        ),
+
+        const SizedBox(height: 20),
+
+        Text(
+          (startDateTime == null || endDateTime == null)
+              ? "No range selected"
+              : "Start: ${startDateTime.toString()}\nEnd: ${endDateTime.toString()}",
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
