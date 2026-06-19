@@ -1,0 +1,56 @@
+import 'dart:isolate';
+import 'package:flutter/material.dart';
+
+class IsolatesPage extends StatefulWidget {
+  const IsolatesPage({super.key});
+
+  @override
+  State<IsolatesPage> createState() => _IsolatesPageState();
+}
+
+class _IsolatesPageState extends State<IsolatesPage> {
+
+  String result = "Press the button";
+
+  Future<void> calculateInBackground() async {
+    setState(() {
+      result = "Calculating...";
+    });
+
+    final receivePort = ReceivePort();
+    await Isolate.spawn(calculateSum, receivePort.sendPort);
+    final sum = await receivePort.first;
+
+    setState(() {
+      result = "Sum = $sum";
+    });
+    receivePort.close();
+  }
+
+  static void calculateSum(SendPort sendPort) {
+    int total = 0;
+    for (int i = 0; i < 1000000000; i++) {
+      total += i;
+    }
+    sendPort.send(total);
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      
+      body: SafeArea(
+        child: Center(
+          child: Text(result, style: const TextStyle(fontSize: 20)),
+        ),
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: calculateInBackground,
+        child: const Icon(Icons.play_arrow),
+      ),
+    );
+  }
+}

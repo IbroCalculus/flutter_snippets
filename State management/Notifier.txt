@@ -1,3 +1,51 @@
+
+A notifier is simply an object that can tell listeners Something changed.
+
+Flutter provides several notifier classes:
+  Listenable
+  ChangeNotifier
+  ValueNotifier<T>
+
+====================== 1. ChangeNotifier ======================
+
+ChangeNotifier is the general-purpose notifier.
+
+class CounterNotifier extends ChangeNotifier {
+  int count = 0;
+
+  void increment() {
+    count++;
+    notifyListeners();
+  }
+}
+
+NB: notifyListeners(): Does not tell listeners what changed. It only says: "Something changed. Rebuild." The listener then reads the latest state.
+
+
+
+======================= 2. ValueNotifier ======================
+
+ValueNotifier is a specialized ChangeNotifier. Instead of storing arbitrary state, it stores exactly one value.
+
+    final counter = ValueNotifier<int>(0);
+
+-------------- Increment -----------
+counter.value++;
+
+-------------- Read -----------
+counter.value
+
+-------------- Listen -----------
+ValueListenableBuilder(
+  valueListenable: counter,
+  builder: (context, value, child) {
+    return Text("$value");
+  },
+)
+
+NB: ValueNotifier is a ChangeNotifier
+
+
 ========== Preferably, create a file for the notifier instance (ie notifiers.dart) ==================
 
 import 'package:flutter/material.dart';

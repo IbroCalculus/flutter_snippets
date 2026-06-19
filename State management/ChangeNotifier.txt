@@ -1,0 +1,85 @@
+ChangeNotifier is Flutter's simplest built-in state management mechanism.
+
+-------------------------- counter_notifier.dart --------------------------
+
+import 'package:flutter/material.dart';
+
+class CounterNotifier extends ChangeNotifier {
+  int _count = 0;
+  int get count => _count;
+
+  void increment() {
+    _count++;
+    notifyListeners();
+  }
+
+  void decrement() {
+    _count--;
+    notifyListeners();
+  }
+
+  void reset() {
+    _count = 0;
+    notifyListeners();
+  }
+}
+
+
+
+-------------------------- counter_page.dart --------------------------
+
+import 'package:flutter/material.dart';
+import 'package:flutter_general_practice/notifiers/counter_notifier.dart';
+
+class CounterPage extends StatefulWidget {
+  const CounterPage({super.key});
+
+  @override
+  State<CounterPage> createState() => _CounterPageState();
+}
+
+class _CounterPageState extends State<CounterPage> {
+  
+  final counterNotifier = CounterNotifier();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              
+              ListenableBuilder(
+                listenable: counterNotifier,
+                builder: (context, child) {
+                  return Text("${counterNotifier.count}");
+                },
+              ),
+              
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 10,
+                children: [
+                  ElevatedButton(
+                    onPressed: counterNotifier.increment,
+                    child: Text("Increment"),
+                  ),
+                  ElevatedButton(
+                    onPressed: counterNotifier.decrement,
+                    child: Text("Decrement"),
+                  ),
+                  ElevatedButton(
+                    onPressed: counterNotifier.reset,
+                    child: Text("Reset"),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

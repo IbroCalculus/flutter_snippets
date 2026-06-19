@@ -1,88 +1,108 @@
+Slivers in Flutter are scrollable building blocks used inside a CustomScrollView. They let you build advanced scroll effects like collapsible app bars, lazy lists, and pinned headers.
 
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            expandedHeight: 200.0,
-            floating: false,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('Sliver ScrollView Example'),
-              background: Image.network(
-                'https://via.placeholder.com/350x200',
-                fit: BoxFit.cover,
+--------------------------------------------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(child: SliverWidget()),
+        // child: Center(child: SliverWidget2()),
+      ),
+    );
+  }
+}
+
+class SliverWidget extends StatelessWidget {
+  const SliverWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        // 1. Collapsing AppBar
+        SliverAppBar(
+          expandedHeight: 200,
+          pinned: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: const Text("Sliver Demo"),
+            background: Container(
+              color: Colors.blue,
+              child: const Center(
+                child: Icon(Icons.flutter_dash, size: 80, color: Colors.white),
               ),
             ),
           ),
+        ),
 
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return ListTile(
-                  title: Text('Item $index'),
-                );
-              },
-              childCount: 20, // Number of list items
-            ),
-          ),
+        // 2. List of items
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return ListTile(
+              leading: const Icon(Icons.star),
+              title: Text("Item $index"),
+            );
+          }, childCount: 30),
+        ),
+      ],
+    );
+  }
+}
 
-          SliverGrid(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 150.0,
-            ),
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return Container(
-                  color: Colors.teal,
-                  alignment: Alignment.center,
-                  child: Text('Grid Item $index'),
-                );
-              },
-              childCount: 10, // Number of grid items
-            ),
-          ),
-        ],
-      ),
+class SliverWidget2 extends StatelessWidget {
+  const SliverWidget2({super.key});
 
-=======================================================================================
-
-      body: CustomScrollView(
-        slivers: <Widget>[
-          const SliverAppBar(
-            pinned: true,
-            expandedHeight: 250.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('Demo'),
-            ),
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        const SliverAppBar(
+          pinned: true,
+          expandedHeight: 250.0,
+          flexibleSpace: FlexibleSpaceBar(title: Text('Demo')),
+        ),
+        SliverGrid(
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200.0,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+            childAspectRatio: 4.0,
           ),
-          SliverGrid(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200.0,
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
-              childAspectRatio: 4.0,
-            ),
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.teal[100 * (index % 9)],
-                  child: Text('Grid Item $index'),
-                );
-              },
-              childCount: 20,
-            ),
-          ),
-          SliverFixedExtentList(
-            itemExtent: 50.0,
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.lightBlue[100 * (index % 9)],
-                  child: Text('List Item $index'),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return Container(
+              alignment: Alignment.center,
+              color: Colors.teal[100 * (index % 9)],
+              child: Text('Grid Item $index'),
+            );
+          }, childCount: 20),
+        ),
+        SliverFixedExtentList(
+          itemExtent: 50.0,
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return Container(
+              alignment: Alignment.center,
+              color: Colors.lightBlue[100 * (index % 9)],
+              child: Text('List Item $index'),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+}

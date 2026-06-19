@@ -2,6 +2,7 @@
 CHECK ALSO: ReoderListView.txt 
 CHECK ALSO: ListBuilder.txt
 CHECK ALSO: ListWheelScrollView.txt
+CHECK ALSO: Sliver.txt
 
 
 There's static listview, as well as dynamic listview.

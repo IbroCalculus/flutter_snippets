@@ -1,0 +1,80 @@
+Two categories of progress indicators:
+  1. Indeterminate
+  2. Determinate
+
+NB: There are good packages for showing progress indicators. ie; flutter_easyloading
+
+----------- 1. Indeterminate Progress Indicater (Circular and Linear) ------------
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(child: IndeterminateProgressIndicatorWidget()),
+      ),
+    );
+  }
+
+
+class IndeterminateProgressIndicatorWidget extends StatelessWidget {
+  const IndeterminateProgressIndicatorWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CircularProgressIndicator();
+    // return const LinearProgressIndicator();
+  }
+}
+
+
+----------- 2. Determinate Progress Indicater (Circular and Linear) ------------
+
+import 'package:flutter/material.dart';
+
+class DemoPage extends StatefulWidget {
+  const DemoPage({super.key});
+
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+
+  double progressValue = 0.0;
+
+  Future<void> updateProgress() async {
+    for (int i = 0; i <= 100; i++) {
+      await Future.delayed(const Duration(milliseconds: 10));
+      setState(() {
+        progressValue = i / 100;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(child: DeterminateProgressIndicatorWidget(value: progressValue)),
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: updateProgress, child: Icon(Icons.add),),
+    );
+  }
+
+}
+
+class DeterminateProgressIndicatorWidget extends StatelessWidget {
+  final double value;
+
+  const DeterminateProgressIndicatorWidget({super.key, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return LinearProgressIndicator(value: value);
+    // return CircularProgressIndicator(value: value);
+  }
+}
+
+
+
+

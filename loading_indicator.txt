@@ -1,4 +1,7 @@
 
+CHECK ALSO: Progress Indicator.txt
+
+
 bool isLoading = false;
 
  child: isLoading == true  ? CircularProgressIndicator() : Container(...)
