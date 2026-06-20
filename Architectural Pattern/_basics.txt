@@ -21,7 +21,9 @@ It defines:
 
 Think of it as a blueprint for structuring software.
 
-=================== Common Architectural Patterns ==============
+=================== Common Architectural Patterns (Code design patterns) ==============
+
+
     Pattern	                        Meaning
     MVC	                            Model View Controller
     MVVM	                        Model View ViewModel
