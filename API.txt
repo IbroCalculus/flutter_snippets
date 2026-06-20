@@ -24,7 +24,7 @@ The basic example here is without a model class using http package.
 
 ===================== USING HTTP PACKAGE =============================
 
---------------------- 1. GET request ---------------------
+--------------------- 1a. GET Request (Raw JSON) ---------------------
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -55,6 +55,74 @@ import 'package:http/http.dart' as http;
       print('Error: $error');
     }
   }
+
+
+--------------------- 1b. GET Request (Using Model Class) ---------------------
+
+---------------- model/post.dart ----------------
+class Post {
+  final int userId;
+  final int id;
+  final String title;
+  final String body;
+
+  Post({
+    required this.userId,
+    required this.id,
+    required this.title,
+    required this.body,
+  });
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': userId,
+      'id': id,
+      'title': title,
+      'body': body,
+    };
+  }
+}
+
+---------------- home_page/post.dart ----------------
+
+Future<void> getApiData() async {
+  const String apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+
+  try {
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData =
+          jsonDecode(response.body);
+
+      final List<Post> posts =
+          jsonData.map((e) => Post.fromJson(e)).toList();
+
+      print("Number of posts: ${posts.length}");
+
+      for (final post in posts) {
+        print("Title: ${post.title}");
+        print("Body: ${post.body}");
+        print("---");
+      }
+    } else {
+      print(
+        "Failed to load data. Status code: ${response.statusCode}",
+      );
+    }
+  } catch (e) {
+    print("Error: $e");
+  }
+}
 
 
 --------------------- 2. POST request ---------------------

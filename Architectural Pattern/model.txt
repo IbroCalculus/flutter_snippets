@@ -1,0 +1,28 @@
+
+========================= WHAT IS A MODEL? =========================
+A Model represents data in your application. Think of a model as a blueprint that describes what a particular piece of data looks like.
+
+For example, suppose an API returns:
+    {
+        "id": 1,
+        "title": "Flutter Architecture",
+        "body": "Learning Clean Architecture"
+    }
+
+In Flutter, we don't want to pass raw JSON maps everywhere. Instead, we create a model:
+
+    class PostModel {
+        final int id;
+        final String title;
+        final String body;
+
+        PostModel({
+            required this.id,
+            required this.title,
+            required this.body,
+        });
+    }
+
+
+Now instead of dealing with: response['title'] throughout the app, 
+we can use: post.title which is safer and easier to understand.

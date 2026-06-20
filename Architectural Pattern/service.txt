@@ -1,0 +1,46 @@
+
+========================= WHAT IS A MODEL? =========================
+
+A Service is responsible for talking to external systems such as: APIs, Databases, Authentication providers, Local storage
+A service answers the question; "Where do I get the data from?"
+
+In other words;
+
+A Service is a class whose job is to communicate with external systems.
+Examples: REST APIs, GraphQL APIs, Firebase, SQLite, Hive, SharedPreferences, Authentication providers
+
+A service answers: "How do I get or send data?"
+
+------------ Example ---------------
+Suppose your API endpoint is: https://api.example.com/books
+    A service might look like:
+
+    class BookService {
+        Future<List<BookModel>> getBooks() async {
+            // Call API
+        }
+    }
+
+Notice its responsibility:
+
+    Make HTTP requests
+    Receive responses
+    Convert responses into models
+    Return data
+
+
+--------------Typical Service Example --------------
+
+    class BookService {
+        Future<List<BookModel>> getBooks() async {
+            final response = await http.get(
+                Uri.parse(
+                    'https://api.example.com/books',
+                ),
+            );
+
+            // Convert response to models
+
+            return books;
+        }
+    }

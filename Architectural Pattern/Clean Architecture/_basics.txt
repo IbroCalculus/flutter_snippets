@@ -1,0 +1,59 @@
+
+In Flutter Clean Architecture, there are 3 main layers: Data, Domain (business) and Presentation layer.
+    Presentation layer is where the UI is defined. 
+    Domain (business) layer is where the business logic is defined.
+    Data layer is where the data access logic is defined.
+
+Presentation Layer
+    Screens
+    Widgets
+    Riverpod providers/notifiers
+    UI state
+
+Domain Layer
+    Entities
+    Repository contracts (abstract classes)
+    Use cases
+
+Data Layer
+    API calls
+    Local database
+    Models
+    Repository implementations
+
+
+Presentation layer --->     Domain (Business) layer     <---    Data layer.
+
+    Presentation depends on Domain
+    Data depends on Domain
+    Domain depends on nothing
+
+    In other words, Presentation knows domain. Domain knows nothing outside of itself. Data knows domain
+
+The Domain layer sits in the middle and is the most important layer.
+
+
+------------------ Summary -------------------
+
+In Flutter Clean Architecture, there are three layers: Presentation, Domain, and Data. The Presentation layer depends on the Domain layer. The Data layer also depends on the Domain layer. The Domain layer depends on neither Presentation nor Data. Communication flows from Presentation → Domain → Data and results flow back, but the code dependencies point inward toward the Domain layer. This arrangement follows the Dependency Inversion Principle by making both high-level and low-level modules depend on abstractions defined in the Domain layer.
+
+
+------------------ Folder  Structure ------------------
+Each of the layers folder consists of 3 folders.
+
+1. Presentation folder:
+    Widgets         (e.g: BookCard, BookTile, CustomButton)
+    Providers       (e.g: If using provider; books_provider.dart, auth_provider.dart. Similar if using BloC;  books_bloc.dart, auth_bloc.dart)
+    Pages           (e.g: BooksPage, BookDetailsPage, LoginPage)
+
+2. Domain folder:
+    Entities
+    UseCases
+    Repositories
+
+3. Data folder:
+    Datasources
+    Repositories
+    Models
+
+

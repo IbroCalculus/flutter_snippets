@@ -1,0 +1,7 @@
+
+================== WHAT IS SCREEN? ============================
+
+The Screen is the part the user actually sees and interacts with.
+Examples: HomeScreen, LoginScreen, BookListScreen, ProfileScreen, SettingsScreen
+
+A Screen's responsibility is to display data and capture user interactions.
