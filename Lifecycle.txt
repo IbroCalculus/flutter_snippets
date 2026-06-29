@@ -1,3 +1,37 @@
+================= What is a Lifecycle? ==================
+A lifecycle is simply the sequence of stages a widget goes through from creation to destruction.
+
+
+================= 2. StatelessWidget Lifecycle ==================
+Create Widget -> build() -> Displayed -> Removed
+
+There is no: initState(), dispose(), setState(). Because StatelessWidgets don't hold mutable state.
+
+================= 3. StatefulWidget Lifecycle ==================
+This is where lifecycle becomes important.
+
+The most common lifecycle flow is:
+
+createState()
+      ↓
+initState()
+      ↓
+didChangeDependencies()
+      ↓
+build()
+      ↓
+(setState)
+      ↓
+build()
+      ↓
+(setState)
+      ↓
+build()
+      ↓
+dispose()
+
+---------------------------------
+
 8 stages of Lifecycle in flutter
 
 - createState()
