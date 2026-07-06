@@ -1,1 +1,73 @@
-CHECK: Flutter Secured Storage.txt
+CHECK: Flutter Secure Storage.txt
+
+================ What is secure storage =====================
+Secure storage is a way of storing sensitive data so that it is encrypted and protected from unauthorized access.
+Think of it as the difference between leaving cash on a table versus putting it in a locked safe.
+
+
+================ Normal storage vs Secure storage =====================
+
+---- Normal storage ---
+
+If you save data using something like:
+    shared_preferences (Flutter)
+    a plain text file
+    a regular database without encryption
+
+the data is often stored in plain text or in a form that's relatively easy to read if someone gains access to the device.
+
+For example:
+
+{
+  "username": "ibrahim",
+  "password": "123456"
+}
+
+Anyone with sufficient access to the device could potentially read it.
+
+
+---- Secure storage ---
+
+With secure storage, the data is encrypted before it's stored.
+    Instead of: password = 123456
+    it might look something like: A8fJ2#Kd9LxPq7...
+
+Only your app (through the operating system's secure storage mechanisms) can decrypt and retrieve the original value.
+
+
+================ Where is secure storage kept? =====================
+
+Flutter itself doesn't provide secure storage, but plugins expose the secure storage facilities built into each platform.
+On:
+    Android: Uses the Android Keystore together with encrypted storage.
+    iOS: Uses the Keychain.
+    Windows: Uses the Credential Manager or other platform-specific secure mechanisms.
+    macOS: Uses the Keychain.
+    Linux: Typically integrates with the system's secret service (such as Secret Service API/libsecret).
+These are operating-system features specifically designed for storing secrets.
+
+
+================ What should go in secure storage? ================ 
+Good candidates include:
+    Authentication tokens (JWTs)
+    OAuth access tokens
+    Refresh tokens
+    API keys (with caveats—client apps can't fully protect embedded secrets)
+    Encryption keys
+    Session IDs
+    Sensitive user information that must be stored locally
+
+
+================ What should NOT go in secure storage? ================ 
+Don't use it for ordinary application data like:
+    Theme preference
+    Username (if not sensitive)
+    Shopping cart items
+    Todo lists
+    Cached images
+    General app settings
+These are better stored in normal local storage because secure storage is intended for secrets.
+
+
+================ Secure storage in Flutter ================ 
+A common plugin is flutter_secure_storage. (CHECK: Flutter Secure Storage.txt)
