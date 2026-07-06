@@ -1,0 +1,195 @@
+
+CHECK ALSO: Packages & Plugins.txt
+
+
+In Dart, code organization is built around three nesting layers: Files, Libraries, and Packages.
+
+===================== DEFINITIONS ==========================
+------------- 1. File ------------
+A file is simply main.dart, <FILENAME>.dart, pubspec.yaml, pubspec.lock, etc
+
+------------- 2. Library ------------
+In Dart, every single .dart file is secretly a library, even if you don't explicitly say so. A library is Dart's way of bundling code together to manage what is private and what is public.
+While a library is usually just one file, Dart allows a single library to span across multiple files using the part and part of keywords.
+
+  ------------ part and part of keywords ----------
+  Imagine a main file (auth_library.dart) and a second file (auth_helpers.dart). We want them to act like they are the exact same file.
+
+  // === FILE 1: auth_library.dart ===
+  // This file defines the library boundary.
+  library my_auth_system; 
+
+  // We tell Dart that the helper file is physically separate, 
+  // but logically "part" of this file.
+  part 'auth_helpers.dart'; 
+
+  class AuthService {
+    void login() {
+      // Look! We are calling a private function from a completely different file.
+      // This ONLY works because they share the same library.
+      _logSecretCryptoData(); 
+    }
+  }
+
+  // === FILE 2: auth_helpers.dart ===
+  // We tell Dart: "I am not a standalone library. 
+  // I am a piece of the my_auth_system library."
+  part of my_auth_system; 
+
+  // This is a private function. Standalone files couldn't see this.
+  void _logSecretCryptoData() {
+    print("Processing cryptographic handshake...");
+  }
+
+  NB: When you write library my_auth_system; at the very top of a file, you are giving that specific library a formal name.
+
+  SUMMARY OF PART/ PART OF:
+  // In the main file (ie main_auth.dart):
+  library my_auth_system; // 1. Give the library a name
+  part 'helpers.dart';    // 2. Pull in a sibling file
+
+  // In helpers.dart:
+  part of my_auth_system; // 3. Refer back to that exact name
+
+  ------------------------- The above method (pointing to library name is the old way. Nowadays, library name is not needed)
+  // In the main file (ie main_auth.dart):
+  part 'helpers.dart';    // 2. Pull in a sibling file
+
+  // In helpers.dart:
+  part of 'main_auth.dart'; // 3. Refer back to that exact name
+
+
+
+
+------------- 3. Package ------------
+A package is a complete, standalone directory that contains a pubspec.yaml file. It is a bundle of libraries, assets, and configuration files that can be shared with others or reused across different projects.
+When you download a tool like http or shared_preferences from pub.dev (the Dart package registry), you are downloading a package.
+
+Inside a Dart Package
+A typical package structure looks like this:
+  pubspec.yaml: The ID card of the package. It defines the package name, version, and dependencies (other packages it needs).
+  lib/: The core folder. Only code inside the lib/ folder can be imported by other files or projects.
+  lib/src/: By convention, developers put "internal" implementation details here. Code in src/ shouldn't be imported directly by outsiders.
+
+
+When you want to use code from a library inside your package, you use an import statement at the top of your file:
+  // Importing a built-in Dart library
+  import 'dart:math'; 
+
+  // Importing a library from an external Package you downloaded
+  import 'package:http/http.dart'; 
+
+  // Importing a local file/library within your own project
+  import 'database.dart';
+
+
+
+------------- 4. Plugins ------------
+What is a Plugin?
+
+A plugin is a special kind of package that also contains platform-specific code.
+Besides Dart code, it includes native code written in:
+  Kotlin / Java (Android)
+  Swift / Objective-C (iOS)
+  C++ (Windows)
+  C++ (Linux)
+  Objective-C/Swift (macOS)
+  JavaScript (Web)
+A plugin allows your Flutter app to communicate with the operating system.
+
+
+
+
+----------------- Common Dart libraries -----------------
+
+===================== 1. 'dart:core' (For core dart functionality) =====================
+
+===================== 2. 'dart:math' (For math operations) =====================
+
+===================== 3. 'dart:convert' (For encoding and decoding) =====================
+
+import 'dart:convert';
+
+void main() {
+  
+  Map<String, dynamic> user  = {
+    'name': 'Mike',
+    'age': 20,
+    'is_admin': true,
+  };
+
+  String jsonString = jsonEncode(user);
+  print("Encoded data: $jsonString");
+
+  print("---------------------------------------");
+
+  Map<String, dynamic> decoded = jsonDecode(jsonString);
+  print("Decoded data: $decoded");
+}
+
+===================== 4. 'dart:io' (For file mainpulation) =====================
+
+For interacting with the OS and performing input/output operations.
+It gives access to things outside the program itself, such as: Files, Directories, Terminal input/output, Sockets, HTTP servers, OS infromation, etc.
+
+NB: This does not work on flutter web because browsers do not provide direct access to the OS.
+
+--------- i. Reading user input from terminal ----------
+import 'dart:io';
+
+void main() {
+  stdout.write("Enter your name: ");
+  String name = stdin.readLineSync() ?? "";
+
+  print("Hello $name");
+}
+
+
+--------- ii. Working with files ----------
+
+Can Create, Read, Write, Delete files
+
+import 'dart:io';
+
+void main() async {
+  File file = File('test.txt');
+
+  await file.writeAsString('Hello Dart');
+
+  String content = await file.readAsString();
+
+  print(content);
+}
+
+--------- iii. Working with directories ----------
+
+import 'dart:io';
+
+void main() {
+  Directory dir = Directory('my_folder');
+
+  if (!dir.existsSync()) {
+    dir.createSync();
+  }
+
+  print("Folder created");
+}
+
+--------- iv. Making HTTP requests (low-level) ----------
+
+NB: http or dio package is preferred for making HTTP requests
+
+import 'dart:io';
+
+void main() async {
+  HttpClient client = HttpClient();
+
+  HttpClientRequest request =
+      await client.getUrl(Uri.parse('https://example.com'));
+
+  HttpClientResponse response = await request.close();
+
+  print(response.statusCode);
+}
+
+--------- v. Running system commands ----------

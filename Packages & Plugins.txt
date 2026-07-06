@@ -1,0 +1,135 @@
+
+NB: You can also check: Platform Channels.txt
+NB: In Dart and Flutter, every plugin is a package, but not every package is a plugin.
+NB: Federated Plugins (This is a modern plugin structure where each platform specific code is in a separate package. Ask AI)
+
+=================== What is a Package? ===================
+
+A package is simply a reusable collection of Dart code.
+It may contain:
+    Classes
+    Functions
+    Widgets
+    Extensions
+    Utilities
+    Models
+    Business logic
+A package does not need access to native device features.
+Think of it as a library you can import.
+
+The http package contains only Dart code. It doesn't need Android or iOS code.
+Examples of packages: http, intl, provider, flutter_bloc, dio, collection.      All of these are pure Dart/Flutter code.
+
+
+---------------- How package installation works ----------------
+
+When you run flutter pub add camera (or flutter pub get), the package code is only downloaded to one single place on your machine: that global central cache folder.
+ie; C:\Users\ibrahimsuleiman\AppData\Local\Pub\Cache\hosted\pub.dev\camera-0.12.0+1
+
+Flutter does this to save disk space and time. If you have 5 different Flutter projects on your laptop that all use camera-0.12.0+1, Flutter only downloads it once to your global Pub\Cache.
+
+
+------------------ The 3-Step Lifecycle of flutter pub add ------------------
+
+Step 1: The Download
+Flutter downloads the zipped package source files straight from pub.dev and extracts them into your central cache directory:
+C:\Users\ibrahimsuleiman\AppData\Local\Pub\Cache\hosted\pub.dev\camera-0.12.0+1\
+
+Step 2: Modifying Your App
+It adds the line camera: ^0.12.0+1 to your local project's pubspec.yaml dependencies list.
+
+Step 3: Creating the Local Map (.dart_tool/package_config.json)
+Instead of copying megabytes of native Android, iOS, and Dart source code directly into your project folder, Flutter creates a hidden map file inside your project at:
+    <your_project_folder>/.dart_tool/package_config.json
+
+If you open that hidden JSON file, you will find an entry that looks like this:
+    {
+    "name": "camera",
+    "rootUri": "file:///C:/Users/ibrahimsuleiman/AppData/Local/Pub/Cache/hosted/pub.dev/camera-0.12.0+1",
+    "packageUri": "lib/",
+    "languageVersion": "3.2"
+    }
+
+------------------- How Your Project Uses It -------------------
+
+When you write code (import 'package:camera/camera.dart';): VS Code or Android Studio looks at that hidden package_config.json file, sees the pointer path, and pulls up the autocompletion and code syntax straight from your global Pub\Cache folder.
+
+When you build the app (flutter run): The Flutter build tools read that same pointer file to find the native Android/iOS source code in your global cache, compiling it directly into your final app binary.
+
+Your project folder stays lightweight, while your global cache acts as the shared warehouse for all your Flutter projects!
+
+
+
+=================== What is a Plugin? ===================
+
+A plugin is a special kind of package that also contains platform-specific code.
+Besides Dart code, it includes native code written in:
+    Kotlin / Java (Android)
+    Swift / Objective-C (iOS)
+    C++ (Windows)
+    C++ (Linux)
+    Objective-C/Swift (macOS)
+    JavaScript (Web)
+A plugin allows your Flutter app to communicate with the operating system.
+
+In other words; A plugin is a package that provides a platform-specific implementation of a Dart package.
+
+--- E.g: ---
+camera: ^0.11.0
+
+
+
+-------- Why do plugins need native code? ---------
+Because Dart cannot directly access hardware.
+For example:
+    Dart cannot directly:
+        Open the camera
+        Read GPS
+        Scan fingerprints
+        Turn on Bluetooth
+        Access NFC
+        Read contacts
+        Vibrate the phone
+
+Instead,
+    Flutter App
+        ↓
+    Plugin (Dart)
+        ↓
+    Platform Channels
+        ↓
+    Native Android/iOS code
+        ↓
+    Phone hardware
+
+Examples of plugins: camera, image_picker, shared_preferences, path_provider, google_maps_flutter, firebase_core, permission_handler
+These all interact with the operating system.
+
+
+---------- Folder structure -----------
+PACKAGE: 
+my_package/
+    lib/
+        my_package.dart
+    pubspec.yaml
+Notice there's no Android or iOS folders.
+
+
+PLUGIN (ie: camera-0.12.0+1):
+NB: This package is found in windows at: C:\Users\ibrahimsuleiman\AppData\Local\Pub\Cache\hosted\pub.dev\camera-0.12.0+1
+
+
+NB: This might not be the exact structure now. Might use Federated plugin structure.
+my_plugin/
+    lib/
+    android/
+    ios/
+    linux/
+    windows/
+    macos/
+    web/
+    pubspec.yaml
+
+The extra platform folders indicate native implementations.
+
+
