@@ -1,0 +1,81 @@
+
+============== Imperative vs Declarative frameworks ==============
+Broadly speaking, UI frameworks are often described as imperative or declarative (reactive).
+    Flutter is declarative and reactive.
+
+People often use "reactive" and "declarative" interchangeably when talking about Flutter, although they're not exactly the same thing.
+
+--------- 1. Imperative UI -------------
+
+In an imperative framework, you tell the UI exactly how to change.
+Imagine you have a label displaying a counter.
+    Initially:
+        Counter: 0
+
+When the user clicks a button, you might write:
+        counter++;
+        label.setText(counter.toString());
+
+Example of imperative frameworks are: Java Swing, JavaFX, etc.
+
+---------- 2. Declarative (Reactive) UI -------
+
+Flutter takes a different approach.
+Instead of saying:
+    "Change this button."
+
+You say:
+    "Here is the current state."
+
+E.g:
+    bool isLoading = true;
+
+
+Your UI is written like this:
+    isLoading
+        ? CircularProgressIndicator()
+        : ElevatedButton(...)
+
+Example of declarative frameworks are: Flutter, SwiftUI, React, Angular, etc.
+
+By definition: A Declarative (reactive) framework is one where: The UI automatically reacts to changes in data (state).
+Instead of telling the UI exactly how to update, you simply update the data, and Flutter figures out what parts of the UI need rebuilding.
+
+
+===================== Declarative vs Reactive =====================
+Although they are used interchangeably, they are not the same thing.
+
+1. Declarative: You tell the system what you want, and the system figures out how to make it happen. 
+    In other words: You describe what you want, not how to build it.
+
+E.g:
+@override
+Widget build(BuildContext context) {
+  return Text("Hello");
+}
+
+You're saying: "I want a Text widget displaying 'Hello'."
+You are not telling Flutter: Create a text object, Set its font, Position it, Draw it on the screen. Flutter handles all of that. 
+So declarative is about describing the desired result.
+
+
+2. Reactive: You tell the system how to make it happen, and the system figures out what you want.
+   Reactive programming means: The UI automatically responds to changes in data (state).
+
+E.g:
+    int counter = 0;
+
+Your UI: Text("$counter")
+
+When:
+        setState(() {
+            counter++;
+        });
+
+Flutter rebuilds automatically. The UI reacts.
+So reactive is about automatic updates when state changes.
+
+Flutter is both declarative and reactive. Flutter is a reactive framework. It uses a declarative syntax to describe the UI.
+E.g:
+    Text("$counter")        // Declarative for Text field, which is a widget, and reactive for $counter is a variable.
+

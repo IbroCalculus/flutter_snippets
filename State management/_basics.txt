@@ -1,7 +1,45 @@
+====================== STATE ================
 
-State refers to data that can change during the lifecycle of an app or widget.
+State refers to any data that can change during the lifecycle of an app or widget and whose changes should be reflected in the UI.
+State is data that changes over time and affects what the user sees or how the app behaves.
+
+As a rule of thumb:
+    If changing a value should change what the user sees, it's state.
+    If changing a value should change what the app does, it's also state.
+
+
+======================== STATE MANAGEMENT ========================
 
 State management is how Flutter handles and maintains state. ie; changes in an app, such as UI updates, user interactions, and data modifications.
+
+--- The analogy of state management ---
+
+State changes
+       │
+       ▼
+Flutter is notified
+       │
+       ▼
+Relevant widgets rebuild
+       │
+       ▼
+User sees the updated UI
+
+That middle step—notifying Flutter—is what state management is fundamentally about.
+
+
+------------------- Proper defintion of state management --------------
+
+State management is the process of storing state, updating state, and notifying Flutter so the appropriate parts of the UI rebuild when that state changes.
+
+Notice there are three responsibilities, not just one:
+    Store the state.
+    Update the state.
+    Notify Flutter that the state changed.
+
+Every state management solution—whether it's setState, Provider, Riverpod, BLoC, MobX, Redux, or anything else—solves these same three problems. They just do it in different ways and with different trade-offs.
+
+
 
 ======================= Types of State in Flutter: =======================
 

@@ -1,0 +1,89 @@
+
+  intl: ^0.20.3
+
+--------------------------
+  The intl package is Flutter/Dart's internationalization and localization library. It is used for formatting data in different locale.
+
+--------------------------
+
+import 'package:intl/intl.dart';
+
+void main() {
+  scientificNumber();
+}
+
+
+// ---------- 1. Date formatting ------------
+void formatDate() {
+  DateTime now = DateTime.now();
+  String formatted = DateFormat('dd-MM-yyyy').format(now);
+  print('Simple Date: $formatted');
+  String fullDate = DateFormat('EEEE, MMM d, yyyy').format(now);
+  print('Full Date: $fullDate');
+}
+
+
+// ---------- 2. Date and time formatting ------------
+void formatDateTime() {
+  DateTime now = DateTime.now();
+  String formatted = DateFormat('dd MMM yyyy, hh:mm a').format(now);
+  print(formatted);
+}
+
+
+// ---------- 3. Number formatting (CHECK ALSO: 5. Percentage formatting ) ------------
+void formatNumber() {
+  int number = 1000000000;
+  String formatted = NumberFormat.decimalPattern().format(number);
+  print(formatted);
+
+  String formatted2 = NumberFormat.decimalPattern('IN').format(number);
+  print(formatted2);
+}
+
+
+// ---------- 4. Currency formatting (CHECK ALSO: 7. Compact Currency formatting) ------------
+void formatCurrency() {
+  double amount = 2500000.5;
+  String formatted = NumberFormat.currency(symbol: "₦", decimalDigits: 4).format(amount);
+  print(formatted);
+
+  String formatted2 = NumberFormat.currency(locale: 'de_DE').format(amount);
+  print(formatted2);
+}
+
+
+// ---------- 5. Percentage formatting ------------
+void formatPercentage() {
+  double value = 0.154;
+  String formatted = NumberFormat.percentPattern().format(value);
+  print(formatted);
+}
+
+
+// ---------- 6. Compact Number formatting ------------
+void formatCompactNumber() {
+  print(NumberFormat.compact().format(1500));
+  print(NumberFormat.compact().format(2000000));
+  print(NumberFormat.compact().format(3200000000));
+}
+
+
+// ---------- 7. Compact Currency formatting ------------
+void compactCurrency() {
+  double amount = 4500000;
+  String compactCurrencyValue = NumberFormat.compactCurrency(symbol: "₦", decimalDigits: 2).format(amount);
+  print(compactCurrencyValue);
+}
+
+
+// ---------- 8. Scientific Notation formatting ------------
+void scientificNumber() {
+  double amount = 1234;
+  String formatted = NumberFormat.scientificPattern().format(amount);
+  print(formatted);
+
+  print(NumberFormat.scientificPattern('en_US').format(amount));
+  print(NumberFormat.scientificPattern('de_DE').format(amount));
+  print(NumberFormat.scientificPattern('fr_FR').format(amount));
+}

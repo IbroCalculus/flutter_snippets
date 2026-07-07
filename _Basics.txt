@@ -1,4 +1,7 @@
 
+CHECK ALSO: Reactive framework.txt
+
+
 ============== CREATING A NEW PROJECT ==============
  - Clear all text and start with empty main function
  - Go to folder "test" and delete the "widget_test.dat" file to do away with the error shown
