@@ -1,3 +1,33 @@
+
+CHECK: Async State management down this file 
+
+With Riverpod:
+    State changes
+          ↓
+    Provider updates
+          ↓
+    ref.watch() detects change
+          ↓
+    Widget rebuilds
+
+
+====================== RIVERPOD THEORY ======================
+--------------- Why Riverpod, since Provider works? ---------------
+Riverpod was created to solve the problem of Provider.
+
+1. Riverpod removes dependency on build context
+    context.watch<UserProvider>()           // Provider
+    ref.watch(userProvider)                 // Riverpod   (No BuildContext)
+
+2. It catches runtime errors (Ask AI)
+3. Uses ProviderScope which is effiecient equivalent of MultiProvider.
+
+4. ref.watch()
+   ref.read()
+   Consumer (or ConsumerWidget)
+
+
+
 Two methods to create providers in riverpod:
 Riverpod.txt, the manual method
 Riverpod2.txt, modern Riverpod code-generation approach
@@ -124,3 +154,17 @@ class HomePage extends ConsumerWidget {           	            // NB: THIS now e
 
 
 
+
+
+========================== Async State management (Riverpod) ======================
+
+------------ The lifecycle ---------
+fetch()
+     ↓
+AsyncNotifier
+     ↓
+AsyncValue.loading
+     ↓
+UI
+
+------------------------------------

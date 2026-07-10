@@ -1,0 +1,33 @@
+
+================= The Lifecycle of a Stateful Widget =================
+
+Because the State object lives a long time, it has a lifecycle. You must understand these methods:
+
+    createState(): (In the Widget) Flutter calls this to create the State object.
+
+    initState(): (In the State) Called exactly once. Use this to set up initial data, start animations, or subscribe to streams.
+    
+    build(): (In the State) Called many times. This draws the UI. It runs initially, and again every time setState() is called.
+    
+    didUpdateWidget(): (In the State) Called when the parent widget rebuilds and passes new properties to this widget.
+    
+    dispose(): (In the State) Called exactly once when the widget is removed from the screen forever. Use this to cancel timers, close controllers, or unsubscribe from streams to prevent memory leaks.
+
+
+----------------------------------------------------------
+
+import 'package:flutter/material.dart';
+
+class CounterPage extends StatefulWidget {
+  const CounterPage({super.key});
+
+  @override
+  State<CounterPage> createState() => _CounterPageState();
+}
+
+class _CounterPageState extends State<CounterPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}

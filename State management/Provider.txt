@@ -1,3 +1,104 @@
+
+CHECK: Async State management down this file 
+
+With Provider:
+
+      State changes
+            ↓
+      notifyListeners()
+            ↓
+      Provider notifies Flutter
+            ↓
+      Listening widgets rebuild
+
+
+
+====================== PROVIDER THEORY ======================
+
+Instead of storing shared state inside a parent widget and manually passing it down...
+Provider stores it in a place where any descendant widget can access it. Provider is for shared state, not every piece of state.
+
+Think of it like this:
+
+                Provider
+                   │
+          ┌────────┼────────┐
+          │        │        │
+      CartIcon  ProductCard  CheckoutPage
+
+
+NB: Provider provides anything, not only state.
+
+Instead of saying: "Provider is a state management library."
+A proper definition would be: Provider is a dependency injection and state propagation library that makes objects available to widgets lower in the widget tree.  
+
+
+-------------- What is ChangeNotfier? ---------------------
+CHECK: ChangeNotifier.txt
+
+
+--------------- How a widget accesses a provider? ------------------
+There are three ways:
+1. context.watch<T>(): Watch the value of a provider and rebuild when the value changes. ie; for listening to state changes.
+2. context.read<T>(): Read the value of a provider without listening to it. To perform action. ie; for method calling.
+3. context.select<T>():  Select a part of a provider. ie; for listening to a part of a provider.
+4. Selector<T, R>:  It is equivalent to Consumer<T, R> equivalent to context.select<T, R>().
+
+----------- Understanding context.select<T>() (alternative to context.watch<T>()) and  Selector<T, R> ----------
+NB: Perhpas ask AI to explain this.
+
+Imaging this class. Suppose the widget is interested in only the name State.
+
+class User extends ChangeNotifier {
+    String name = "Ibrahim";
+    int age = 30;
+    bool isPremium = false;
+}
+
+using context.select<T>():
+
+    context.select<User, String>(
+        (user) => user.name,
+    );
+
+using Selector:
+
+    Selector<UserProvider, String>(
+    selector: (_, provider) => provider.name,
+    builder: (_, name, __) {
+        return Text(name);
+    },
+)
+
+Now, only changes to the name property will trigger the build method. Not the age or isPremium.
+This is for performance optimization.
+
+
+4. Using Provider.of<T>(context): This is the old way.  
+5. Using Consumer<T>(builder: (context, T value, child) {}): Using Consumer widget.
+6. Using Selector<T, R>(selector: (context, T value) => R value, builder: (context, R value, child) {}): This is the old way.
+
+
+------------------------- Consumer ----------------
+
+This creates a smaller rebuild boundary. This WILL NOT rebuild the entire widget tree.
+
+            Consumer<AppProvider>(
+              builder: (context, provider, child) {
+                return Text("${provider.counter}");
+              },
+            ),
+
+NB: A well-designed widget tree often eliminates the need for Consumer.
+    Extracting a widget into its own class and using .watch() is a better option than Consumer.
+
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
 provider: ^6.1.2
 
 ==== Using A Simple Counter Application for Demonstration ======
@@ -97,4 +198,49 @@ void main() {
 
 
 
+========================== Async State management (Provider) ======================
 
+------------ The lifecycle ---------
+    fetch()
+        ↓
+    Loading
+        ↓
+    notifyListeners()
+        ↓
+        UI
+
+------------------------------------
+
+class ProductProvider extends ChangeNotifier {
+
+  List<Product> products = [];
+  bool isLoading = false;
+  String? error;
+  
+  Future<void> fetchProducts() async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      products = await api.getProducts();
+    } catch (e) {
+      error = e.toString();
+    }
+
+    isLoading = false;
+    notifyListeners();
+  } 
+
+}
+------------- UI ----------
+
+if (provider.isLoading) {
+  return CircularProgressIndicator();
+}
+
+if (provider.error != null) {
+  return Text(provider.error!);
+}
+
+return ListView(...);

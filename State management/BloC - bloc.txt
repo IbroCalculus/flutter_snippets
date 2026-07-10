@@ -1,4 +1,16 @@
 
+CHECK: Async State management down this file 
+
+With bloc:
+      Event
+            ↓
+      Bloc processes event
+            ↓
+      New State
+            ↓
+      BlocBuilder rebuilds
+
+
 ================ CODE IMPLEMENTATION (A basic counter) Using Bloc technique ================
 
   flutter_bloc: ^9.1.1
@@ -157,3 +169,15 @@ return MaterialApp(
   ),
 );
 
+
+
+========================== Async State management (Bloc) ======================
+
+------------ The lifecycle ---------
+fetch()
+     ↓
+emit(LoadingState)
+     ↓
+    UI
+
+------------------------------------

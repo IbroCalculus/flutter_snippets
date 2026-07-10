@@ -1,4 +1,8 @@
+
+======================= What is ChangeNotifier? =======================
 ChangeNotifier is Flutter's simplest built-in state management mechanism.
+Think of ChangeNotifier as a class whose job is: "Tell anyone who's interested that something has changed." 
+
 
 -------------------------- counter_notifier.dart --------------------------
 

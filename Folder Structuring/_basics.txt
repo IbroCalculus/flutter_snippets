@@ -1,0 +1,76 @@
+
+================== What is Folder Structuring =================
+Folders are simply a way of saying: "Things that belong together should stay together."
+
+==================== What Problem Do Folders Solve? ===============
+Findability, Readability, Maintainability, Team collection (every team work independently on their own folders), Scalablity.
+
+================== What Makes a Good Folder Structure? =============
+Easy to understand, Easy to navigate, Easy to scale, Predictable, Consistent, 
+
+
+========= Important Principle ========
+
+A folder is not for files that look alike. It is for files that serve the same purpose.
+
+For example
+These all look different:
+    login_screen.dart
+    login_provider.dart
+    login_repository.dart
+    login_api.dart
+But they all belong to the login feature, so a feature-based architecture may place them together.
+
+Likewise:
+    home_screen.dart
+    profile_screen.dart
+    settings_screen.dart
+These are different screens, but they all share the same responsibility of presenting UI, so a layer-based architecture may group them together.
+This is why different projects can have different folder structures—and still all be correct.
+
+NB: There is no best folder structure. A folder structure is a design decision
+
+======== Key Takeaways ===========
+    Folder structures improve organization, not functionality.
+    A good structure makes code easier to find, understand, maintain, and extend.
+    There is no universal "best" folder structure.
+    The right structure depends on the project's size, complexity, and team.
+    Think in terms of responsibilities and relationships, not just folders.
+
+
+==================== 3 Main type of folder structure ==========================
+1. Feature-First Architecture: ie; login, profile, settings, etc
+
+        lib/
+        ├── features/
+        │   ├── authentication/
+        │   ├── payments/
+        │   └── profile/
+
+        This project is organized by features.
+
+
+
+2. Layer-Based Architecture: ie; screens, services, models, providers, apis, etc
+
+        lib/
+        ├── screens/
+        ├── widgets/
+        ├── models/
+        ├── services/
+        └── providers/
+        
+        This project is organized by responsibility (layers).
+
+
+3. Feature-First combined with Clean Architecture.
+
+        lib/
+        ├── core/
+        ├── features/
+        │   ├── login/
+        │   │   ├── presentation/
+        │   │   ├── domain/
+        │   │   └── data/
+
+        This is Feature-First combined with Clean Architecture.

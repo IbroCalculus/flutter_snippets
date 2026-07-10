@@ -1,4 +1,14 @@
 
+CHECK: Async State management down this file 
+
+With Cubit:
+    emit(NewState)
+          ↓
+    BlocBuilder receives state
+          ↓
+    Widget rebuilds
+
+
 ================ CODE IMPLEMENTATION (A basic counter) Using Bloc technique ================
 
   flutter_bloc: ^9.1.1
@@ -123,3 +133,14 @@ home: MultiBlocProvider(
 ),
 
 
+
+========================== Async State management (Cubit) ======================
+
+------------ The lifecycle ---------
+fetch()
+     ↓
+emit(LoadingState)
+     ↓
+    UI
+
+------------------------------------

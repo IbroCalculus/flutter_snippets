@@ -1,3 +1,7 @@
+
+CHECK ALSO: Stateful Widget.txt for lifecycle
+
+
 ====================== STATE ================
 
 State refers to any data that can change during the lifecycle of an app or widget and whose changes should be reflected in the UI.
@@ -31,13 +35,42 @@ That middle step—notifying Flutter—is what state management is fundamentally
 ------------------- Proper defintion of state management --------------
 
 State management is the process of storing state, updating state, and notifying Flutter so the appropriate parts of the UI rebuild when that state changes.
+State management is not a package. It's the discipline of deciding where state lives and how it flows through your widget tree. Provider, Riverpod, Bloc, etc., are just tools that help implement those ideas in larger applications.
 
 Notice there are three responsibilities, not just one:
     Store the state.
     Update the state.
     Notify Flutter that the state changed.
 
-Every state management solution—whether it's setState, Provider, Riverpod, BLoC, MobX, Redux, or anything else—solves these same three problems. They just do it in different ways and with different trade-offs.
+
+Every state management solution, whether it's: setState, Provider, Riverpod, BLoC, MobX, Redux, or anything else, solves these same three problems. They just do it in different ways and with different trade-offs.
+State management libraries like Provider, Riverpod, etc exists to help with state management and avoid problems such as prop drilling.
+
+
+The core mechanism behind local state management in Flutter is:
+    State changes.
+    Flutter is notified.
+    Flutter rebuilds.
+    The UI reflects the new state.
+
+The only difference between these approaches is how Flutter gets notified.
+
+
+----------------------- A Common Misconception -----------------------
+
+Many beginners think state management is about packages like: Provider, Riverpod, BLoC, GetX. It is not.
+Those are tools for state management. State management itself is a concept.
+
+It's similar to transportation:
+    Transportation is the concept.
+    Cars, buses, trains, and airplanes are different implementations.
+
+Likewise:
+    State management is the concept.
+    setState, Provider, Riverpod, and BLoC are different implementations.
+
+
+
 
 
 
@@ -45,6 +78,7 @@ Every state management solution—whether it's setState, Provider, Riverpod, BLo
 
 ------ 1. Ephemeral State or Local State (aslo called UI State) ------
 This is state that exists only within a single widget and does not need to be shared widely.
+Local state is state that belongs to a single widget (or a small part of the widget tree) and is only needed there.
 
 Examples:
     Whether a checkbox is checked
@@ -53,9 +87,7 @@ Examples:
     Animation progress
     TextField input
 
-Usually managed with:
-    StatefulWidget
-    setState()
+They are usually managed with StatefulWidget and setState()
 
 Example:
 
@@ -67,21 +99,41 @@ Example:
 
 ------ 2.App State (Shared/Global State) ------
 This is state shared across multiple parts of the app.
+Shared state is state that is needed by multiple widgets, multiple screens, or different parts of the app.
 
 Examples:
     Logged-in user
     Shopping cart
-    Theme mode
+    App Theme mode (light/dart)
     Notifications
     API data
     Authentication state
 
-Usually managed with state management solutions like:
-    Provider
-    Riverpod
-    Bloc
-    GetX
-    Redux
+They are usually managed with state management solutions like:Provider, Riverpod, Bloc, GetX, Redux.
+
+
+NB: There are also two other types of states:
+    1. Temporary state: which is state that is only needed for a short period while the user is interacting with the UI. 
+    Once the interaction ends, the state is usually discarded. 
+    E.g: password visibility toggle, expansion tile, selected tab, etc.
+
+
+    2. App state: App state is information that should continue to exist because the app depends on it, often across multiple screens or even across app launches.
+    
+    Compare to:
+    Local state: State that is only needed by a single widget or screen.
+    Global state: State that is needed by multiple widgets or screens.
+
+    Local vs Shared asks: Who needs this state?
+    Temporary vs App asks: How long should this state live?
+
+
+
+==================== Lifting State Up =======================
+It is a state management pattern where the state is lifted up to the nearest common ancestor of the components that need it.
+In other words, it is a common rule in flutter which states that if multiple child widgets need the same piece of state, move the state to their nearest common parent.
+
+
 
 Popular State Management Approaches:
 
