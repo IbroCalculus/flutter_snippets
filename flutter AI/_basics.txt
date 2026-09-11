@@ -1,0 +1,4 @@
+AI packages:
+
+firebase_ai -> Talk to model
+flutter_ai_toolkit -> build AI Chat experience
